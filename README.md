@@ -48,5 +48,3 @@ search iptable
 [13] python pypi
 输入0则全部打开，输入编号则打开的搜索引擎:
 ```
-
-<++>
