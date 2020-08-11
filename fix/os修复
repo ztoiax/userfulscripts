@@ -1,0 +1,354 @@
+#!/bin/bash
+# create log file folder
+
+test -e /var/log/ecsanalyse || mkdir -p /var/log/ecsanalyse;
+datetime=$(date +%Y%m%d-%H-%M-%S-%N)
+log_filename=ecs_analyse_${datetime}.log
+log_file=/var/log/ecsanalyse/$log_filename
+
+#set var
+regionId=$(curl -s http://100.100.100.200/latest/meta-data/region-id)
+mount_dir=/mnt
+disk_vdb=$(blkid |grep -v vda | awk -F : '{print $1}')
+fstab=/mnt/etc/fstab
+grub_f=/mnt/boot/grub/grub.cfg
+grub2_f=/mnt/boot/grub2/grub.cfg
+selinux_config_file=/mnt/etc/selinux/config
+sysctl_config_file=/mnt/etc/sysctl.conf
+rc_local_file=/mnt/etc/rc.local
+sshdconfig_file=/mnt/etc/ssh/sshd_config
+passfile=/mnt/etc/passwd
+passbakfile="/mnt/etc/passwd-"
+shadowfile=/mnt/etc/shadow
+shadowbakfile="/mnt/etc/shadow-"
+system_user=(root daemon nobody dbus polkitd sshd messagebus)
+system_dir=(/mnt/bin /mnt/sbin /mnt/usr/bin /mnt/usr/sbin /mnt/lib /mnt/lib64 /mnt/usr/lib /mnt/usr/lib64 /mnt/etc /mnt/boot /mnt/var /mnt/var)
+###change new instance root passwd to rand passwd
+newpw=$(openssl rand -base64 10)
+echo root:${newpw}|chpasswd
+echo "The new instance passwd is ${newpw}" >>$log_file 2>&1
+
+###define upload log function
+function upload_log(){
+    cd /var/log/ecsanalyse;
+    test -e ossutil64 || wget http://gosspublic.alicdn.com/ossutil/1.6.10/ossutil64 && chmod 755 /var/log/ecsanalyse/ossutil64;
+    /var/log/ecsanalyse/ossutil64 -i your_ak -k your_sk -e oss-cn-beijing.aliyuncs.com cp -f $log_file oss://public-beijing/ooslogs/
+
+}
+
+###yuanyuan checkdisk and mount disk
+function check_vdb_is_exist()
+{
+if [ ! -n "$disk_vdb" ]
+then
+   echo "Disk can not find in this system ,exit " >>$log_file 2>&1
+   upload_log
+   exit
+fi
+}
+
+
+function mount_disk()
+{
+    test -e $mount_dir || mkdir  -p $mount_dir
+    if mountpoint -q $mount_dir;then umount $mount_dir;fi
+    mount $disk_vdb  $mount_dir  >>$log_file 2>&1
+}
+
+function get_disk_usage()
+{
+    disk_usage=$(df -h $mount_dir | tail -n 1 | awk '{print $5}')
+    disk_inode_usage=$(df -i $mount_dir | tail -n 1| awk '{print $5}')
+    echo "disk space usage: $disk_usage" >>$log_file 2>&1
+    echo "disk inode usage: $disk_inode_usage" >>$log_file 2>&1
+}
+
+function repair_fs()
+{
+    if grep -qs "$mount_dir" /proc/mounts
+    then
+       echo "Check MNT dir is mounted,umount it" >>$log_file 2>&1
+       umount  $mount_dir
+    fi
+
+    fs_type=$(blkid | grep -v vda )
+    if [[ "$fs_type" =~ "ext" ]]
+    then
+       if  [[ "$(tune2fs -l $disk_vdb|grep state)" =~ "clean" ]]
+          then
+              echo "Extfs is clean ,dont need fsck" >>$log_file 2>&1
+          else
+              echo "This line means that the file system need fsck锛宨ts ext" >>$log_file 2>&1
+              fsck  -y $disk_vdb >>$log_file 2>&1
+       fi
+    else
+        echo "This line means that the file system is xfs " >>$log_file 2>&1
+        xfs_repair $disk_vdb >>$log_file 2>&1
+    fi
+}
+
+function  main(){
+check_vdb_is_exist
+repair_fs
+mount_disk && get_disk_usage
+}
+
+###muyuan Check the existence of system important directories
+function check_sys_important_dir(){
+    for important_dir in ${system_dir[@]}
+    do
+        if [ ! -e $important_dir ]
+        then
+        echo "This sys dir or link $important_dir does not exist " >> $log_file 2>&1
+        fi
+    done
+    echo "Check the existence of system important directories...done"  >> $log_file 2>&1
+}
+###install dos2unix
+function install_dos2unix(){
+    if ! which dos2unix ;then
+        yum -y install dos2unix >> $log_file 2>&1
+        sleep 5s
+        dos2unix ${passfile} >> $log_file 2>&1
+        dos2unix ${shadowfile} >> $log_file 2>&1
+    else
+        dos2unix ${passfile} >> $log_file 2>&1
+        dos2unix ${shadowfile} >> $log_file 2>&1
+    fi
+}
+###check / 777
+function check_rootdir_permission(){
+    for dirfile in $( ls -l /mnt |grep rwxrwx|egrep -v "\->|tmp"|awk '{print "/mnt/"$NF}');
+        do 
+            if [ -d "$dirfile" ] 
+                then 
+                echo "This dir ${dirfile} permission is 777,chmod to 755" >> $log_file 2>&1
+                chmod -R 755 ${dirfile} >> $log_file 2>&1
+                else 
+                echo "This file ${dirfile} permission is 777,chmod to 644" >> $log_file 2>&1
+                chmod 644 ${dirfile} >> $log_file 2>&1
+            fi 
+        done
+        echo "Check /mnt dir permission 777 ...done " >> $log_file 2>&1
+}
+###check ssh 777
+function check_ssh_permission(){
+    for sshfile in $(ls -l  /mnt/etc/ssh | grep rwxrwx | awk '{print "/mnt/etc/ssh/"$NF}')
+        do
+            if [ "${sshfile##*.}"x = "pub"x  ] || [[ "${sshfile}"x =~ "_config"x ]] || [[ "${sshfile}"x =~ "moduli"x ]] 
+                then
+                echo "Change file ${sshfile} permission to 644" >> $log_file 2>&1
+                chmod 644 ${sshfile} >> $log_file 2>&1
+                else
+                echo "Change file ${sshfile} permission to 600" >> $log_file 2>&1
+                chmod 600 ${sshfile} >> $log_file 2>&1
+            fi
+        done
+    echo "Check /mnt/etc/ssh dir permission 777 ...done "  >> $log_file 2>&1
+}
+###change empty_sshd permission
+function check_empty_sshd(){
+    if [ -d /mnt/var/empty/sshd ];then
+    echo "change empty_sshd permission to 711"  >> $log_file 2>&1
+    chmod 711 /mnt/var/empty/sshd;else
+    echo "This system does not have dir /var/empty/sshd"  >> $log_file 2>&1
+    fi
+}
+###check selinux
+function disable_selinux(){
+    if [ -e ${selinux_config_file} ];then
+        echo "anon selinux and add a new disable line "  >>$log_file 2>&1
+        sed -i 's/^SELINUX=/#SELINUX=/g' ${selinux_config_file}
+        sed -i '/^#SELINUX=/a\SELINUX=disabled' ${selinux_config_file}
+    else
+        echo "this os does not have selinux config file" >>$log_file 2>&1
+    fi
+
+}
+###check sysctl
+function disable_sysctl(){
+    if [[ ${sysctl_line_count} -ge 50 ]]; then
+        echo "sysctl.conf line count ge 100,so anon all line" >>$log_file 2>&1
+        sed -i 's/^/#/g' ${sysctl_config_file} 
+    else
+        echo "check and anon nr_hugepages" >>$log_file 2>&1
+        sed -i 's/^vm.nr_hugepages/#vm.nr_hugepages/g' ${sysctl_config_file} 
+        echo "check and anon min_free_kbytes" >>$log_file 2>&1
+        sed -i 's/^vm.min_free_kbytes/#vm.min_free_kbytes/g' ${sysctl_config_file} 
+    fi
+}
+###check rc.local
+function disable_rc_local(){
+    if [ -e ${rc_local_file} ];then
+        echo "anon rc_local line"  >>$log_file 2>&1
+        sed -i 's/^/#/g' ${rc_local_file}
+    else
+        echo "This instance does not have rc_local files" >>$log_file 2>&1
+    fi
+}
+
+###check system release
+function check_os_type(){
+    if [ -e /mnt/etc/os-release ];then
+        os_type_1=$(grep -i "^ID=" /mnt/etc/os-release |awk -F "=" '{print tolower($NF)}'|tr -d "\"")
+        echo "This instance os_type is ${os_type_1}"  >> $log_file 2>&1
+    else
+        os_type_2=$(head -n 1 /mnt/etc/issue.net |awk '{print  tolower($1)}')
+        echo "may be,this instance is ${os_type_2} " >> $log_file 2>&1
+    fi 
+}
+###Check passwd 
+function check_system_username(){
+    if [ -e "${passfile}" ] && [ -s "${passfile}" ] ;then
+        echo "passwd file is not zero,start check username"  >> $log_file 2>&1
+        echo -e "##########\n#please note \n#centos & redhat does not have messagebus user  \n#ubuntu & debian does not have dbus & polkitd user\n##########" >> $log_file 2>&1
+        for c_user in ${system_user[@]}
+        do
+            if ! egrep -qs "^${c_user}" ${passfile} ;then
+                echo "This account ${c_user} not in ${passfile}" >> $log_file 2>&1
+                grep  ^${c_user} ${passbakfile} >> ${passfile}
+                if [ $? -eq 0 ];then
+                echo "${passbakfile} has this account ${c_user},Restore the account to ${passfile}" >> $log_file 2>&1
+                else
+                echo "${passbakfile} does not have this account ${c_user},can not restore from the bakfile" >> $log_file 2>&1
+                fi
+            else
+                echo "This account ${c_user} is ok" >> $log_file 2>&1
+            fi
+        done
+    elif [ -e "${passbakfile}" ] && [ -s "${passbakfile}" ]; then
+        echo "File ${passfile} size is zero or not exists锛宐cakup to passwd.bak and use ${passbakfile} restore" >> $log_file 2>&1
+        mv ${passfile} ${passfile}.bak
+        cp ${passbakfile} ${passfile}
+    else
+        echo "The ${passbakfile} file not exists or size is zero" >> $log_file 2>&1
+    fi
+}
+###check shadow
+function check_root_pass_shadow(){
+    echo "anon root in passwd & shadow and add new root no passwd " >> $log_file 2>&1
+    sed -i 's/^root/#root/g' ${passfile}
+    sed -i 's/^root/#root/g' ${shadowfile} 
+    echo "root:x:0:0:root:/root:/bin/bash" >> ${passfile} 
+    echo "root::18340:0:99999:7:::" >> ${shadowfile}
+
+}
+###shibin check uuid fstab
+function annotation_datadisk(){
+    base_l="`cat ${fstab} | sed '/^$/d' |grep -v "#" | grep -v swap | grep -w -v /`"
+    echo "In fun [annotation_datadisk]: " >> $log_file 2>&1 
+    echo "${base_l}" | while read line; do
+	echo "blanking [ $line ]" >>  $log_file 2>&1
+        sed  -i "s#$line#\#$line#g" $fstab
+    done
+}
+
+function replace_sysdisk_by_diskname(){
+    echo "In fun [replace_sysdisk_by_diskname]: " >> $log_file 2>&1 
+    sys_disk="`cat $fstab | sed '/^$/d'| grep -w  /`"
+    line_r="/dev/vda1       /       ext4    defaults    1 1"
+    if [ "$sys_disk" != "" ]; then
+	echo "Setting [ $sys_disk ] as [ $line_r ]" >> $log_file 2>&1
+        sed -i "s#$sys_disk#$line_r#g" $fstab
+    fi
+}
+function reset_grub_by_diskname(){
+    echo "In fun [reset_grub_by_diskname]: " >> $log_file 2>&1 
+    uuid="`blkid |grep vdb| awk '{print $2}'| sed 's/\"//g'`"
+    if [ -f ${grub2_f} ]; then
+	echo "cp ${grub2_f} ${grub2_f}_${datetime}" >> $log_file 2>&1
+        cp ${grub2_f} ${grub2_f}_${datetime}
+        sed -i "s#$uuid#/dev/vda1#g" ${grub2_f}
+    elif [ -f ${grub_f} ]; then
+        cp ${grub_f} ${grub_f}_${datetime}
+        sed -i "s#$uuid#/dev/vda1#g" ${grub_f}
+    fi
+
+}
+function backup_fstab(){
+    echo "In fun [backup_fstab]" >> $log_file 2>&1
+    echo  " cp ${fstab} ${fstab}_${datetime}" >> $log_file 2>&1 
+    cp ${fstab} ${fstab}_${datetime}
+}
+###nvshen check sshdcofig
+function check_sshdconfig()
+{
+    echo "check PermitRootLogin and change to yes" >>$log_file 2>&1
+    sed -i 's/^PermitRootLogin.*$/PermitRootLogin yes/' ${sshdconfig_file}
+    echo "check AllowUsers AllowGroups DenyUsers DenyGroups and Comment out" >>$log_file 2>&1
+    sed -i 's/^AllowUsers.*$/#AllowUsers/' ${sshdconfig_file}
+    sed -i 's/^AllowGroups.*$/#AllowGroups/' ${sshdconfig_file}
+    sed -i 's/^DenyUsers.*$/#DenyUsers/' ${sshdconfig_file}
+    sed -i 's/^DenyGroups.*$/#DenyGroups/' ${sshdconfig_file}
+    echo "check LoginGraceTime and cahnge to 100s" >>$log_file 2>&1
+    sed -i 's/^LoginGraceTime.*$/LoginGraceTime 100/' ${sshdconfig_file}
+}
+
+###start check
+echo "mount bad sysdisk to mnt" >> $log_file 2>&1
+main
+###set var sysctl line count
+sysctl_line_count=$(awk 'END{print NR}' /mnt/etc/sysctl.conf)
+echo "Check sysdisk mount ready" >> $log_file 2>&1
+mountpoint /mnt >> $log_file 2>&1
+if [ $? -ne 0 ]
+    then
+    echo "The /mnt dir  does not ready mount" >> $log_file 2>&1
+    else
+    echo "The /mnt dir mount ready ,start check..." >> $log_file 2>&1
+    echo "Start...Check the existence of system important directories" >> $log_file 2>&1
+    check_sys_important_dir >>$log_file 2>&1
+    sleep 3s
+    echo "Check /mnt dir permission 777 and change it " >> $log_file 2>&1
+    check_rootdir_permission >>$log_file 2>&1
+    sleep 3s
+    echo "Check /mnt/etc/ssh dir permission 777 and change it" >> $log_file 2>&1
+    check_ssh_permission >>$log_file 2>&1
+    sleep 3s
+    echo "backup  fstab " >> $log_file 2>&1
+    backup_fstab >>$log_file 2>&1
+    sleep 3s
+    echo "replace fstab sysdisk  " >> $log_file 2>&1
+    replace_sysdisk_by_diskname >>$log_file 2>&1
+    sleep 3s
+    echo "anon datadisk in fstab " >> $log_file 2>&1
+    annotation_datadisk >>$log_file 2>&1
+    sleep 3s
+    echo "replace uuid in grub " >> $log_file 2>&1
+    reset_grub_by_diskname >>$log_file 2>&1
+    sleep 3s
+    echo "check and disable selinux"  >>$log_file 2>&1
+    disable_selinux >>$log_file 2>&1
+    sleep 3s
+    echo "check and disable sysctl var set"  >>$log_file 2>&1
+    disable_sysctl >>$log_file 2>&1
+    sleep 3s
+    echo "anon rc_local all line"  >>$log_file 2>&1
+    disable_rc_local
+    sleep 3s
+    echo "check sshd_config"  >>$log_file 2>&1
+    check_sshdconfig
+    sleep 3s
+    echo "check empty sshd dir and change dir permission to 711" >>$log_file 2>&1
+    check_empty_sshd
+    sleep 3s
+    echo "Check instance os_type" >>$log_file 2>&1
+    check_os_type
+    sleep 3s
+    echo "install dos2unix " >>$log_file 2>&1
+    install_dos2unix
+    sleep 3s
+    echo "Check passwd file" >>$log_file 2>&1
+    check_system_username
+    sleep 3s
+    echo "Check shadow file" >>$log_file 2>&1
+    check_root_pass_shadow
+fi
+# script end------------
+sleep 30s
+
+# upload logs to OSS
+cd /var/log/ecsanalyse;
+test -e ossutil64 || wget http://gosspublic.alicdn.com/ossutil/1.6.10/ossutil64 && chmod 755 /var/log/ecsanalyse/ossutil64;
+/var/log/ecsanalyse/ossutil64 -i your_ak -k your_sk -e oss-cn-beijing.aliyuncs.com cp -f $log_file oss://public-beijing/ooslogs/
+
