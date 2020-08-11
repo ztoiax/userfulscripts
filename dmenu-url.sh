@@ -11,6 +11,12 @@
     name[10]="[10]vim set config"
     name[11]="[11]dwm"
     name[12]="[12]git guide"
+    name[13]="[13]bash ruanyif"
+    name[14]="[14]bash IBM"
+    name[15]="[15]openstack 官方"
+    name[16]="[16]openstack 百家号"
+
+
     lengh=${#name[*]}
 
     url[1]="https://linux.cn/article-9515-1.html?pr"
@@ -25,16 +31,15 @@
     url[10]="https://www.shortcutfoo.com/blog/top-50-vim-configuration-options/"
     url[11]="http://www.glinkus.com/2020/07/12/Dwm%E7%9A%84%E7%AE%80%E5%8D%95%E4%BB%8B%E7%BB%8D/"
     url[12]="https://www.progit.cn/"
+    url[13]="https://wangdoc.com/bash/intro.html"
+    url[14]="https://developer.ibm.com/zh/tutorials/l-lpic1-map/"
+    url[15]="https://www.rdoproject.org/install/packstack/"
+    url[16]="https://baijiahao.baidu.com/s?id=1617520630408423500&wfr=spider&for=pc%20in%205%20mins"
 
-    bashurl[1]="https://wangdoc.com/bash/intro.html"
-    bashurl[2]="https://developer.ibm.com/zh/tutorials/l-lpic1-map/"
-
-    bashname[1]="ruanyif"
-    bashname[2]="IBM"
     for ((i=0; i<$lengh; i=i+1));do
         engine="$engine${name[$i]}\n"
     done
-    n=$(echo -e $engine | dmenu -p 'engine' -l 15)
+    n=$(echo -e $engine | dmenu -p 'url' -l 15)
 
     for ((i=0; i<$lengh; i=i+1));do
         if [ "$n" == "${name[$i]}" ];then
