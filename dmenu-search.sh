@@ -16,6 +16,7 @@
     name[14]="[14]Linux中国"
     name[15]="[15]Python Pypi"
     name[16]="[16]Bilibli"
+    name[16]="[17]Zhihu"
     lengh=${#name[*]}
 
     search[0]="https://github.com/search?utf8=✓&q="
@@ -35,6 +36,7 @@
     search[14]="https://www.baidu.com/s?wd=site:linux.cn "
     search[15]="https://pypi.org/search/?q="
     search[16]="https://search.bilibili.com/all?keyword="
+    search[17]="https://www.zhihu.com/search?type=content&q="
 
     for ((i=0; i<$lengh; i=i+1));do
         engine="$engine${name[$i]}\n"
