@@ -9,13 +9,13 @@ fio
 
 #第三方
 #综合
-netdata
+sysstat
+dstat #结合了vmstat，iostat，ifstat，netstat以及更多的信息
 phoronix
 atop
 htop
 gtop
 bashtop
-dstat
 #cpu
 s-tui
 #io

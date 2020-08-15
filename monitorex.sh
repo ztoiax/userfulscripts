@@ -12,6 +12,8 @@ ll /proc/$pid/task/*/fd/ | wc -l
 ethtool -l eth0 | grep Combined
 
 #CPU
+#获取保留两位小数的 CPU 占用率：
+top -b -n1 | grep ^%Cpu | awk '{printf("Current CPU Utilization is : %.2f%"), 100-$8}'
 #每秒刷新一次 cpu 序号为 5,7,1,3 核心的 cpu 使用率
 sar -P 5,7,1,3 1
 #每秒刷新所有核心

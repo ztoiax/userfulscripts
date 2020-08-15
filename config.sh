@@ -34,10 +34,19 @@ let g:mapleader = ","
 set smartcase              "小写包含大写
 set lazyredraw             "不要在宏和脚本执行期间更新屏幕。
 set cursorlin              "突出显示当前在光标下的行。
-set number                 "显示行号\n
-set ignorecase             "不区分大小写\n
-set list                   "开启空格字符\n
-set path+=**               "find 子目录\n
+set number                 "显示行号
+set norelativenumber       "相对行号
+set cursorline             "突出显示当前在光标下的行。
+set wrap                   "自动折行，即太长的行分成几行显示
+set showmatch              "自动高亮对应的另一个圆括号、方括号和大括号。
+set showcmd                "显示输入key
+set undofile               "保留撤销历史。
+set autochdir              "自动切换工作目录
+set autoread               "文件发生外部改变就会发出提示
+set ignorecase             "不区分大小写
+set list                   "开启空格字符
+set listchars=tab:»·,trail:· "空格显示为·
+set path+=**               "find 子目录
 set clipboard+=unnamedplus "直接复制剪切板
 "分屏
 noremap <Tab> :wincmd w <cr>

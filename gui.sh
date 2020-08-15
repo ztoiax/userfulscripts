@@ -1,6 +1,6 @@
 #!/bin/bash
 echo "gtk-key-theme-name = Emacs" >> ~/.config/gtk-3.0/settings.ini
-awesome(){
+awesomechar(){
 #beautiful char
 $install figlet
 }
@@ -11,6 +11,13 @@ noto-fonts-emoji
 libxft-bgra
 #font
 yay -S nerd-fonts-source-code-pro
+cd ~/.local/share/fonts && sudo curl -fLo "Droid Sans Mono for Powerline Nerd Font Complete.otf" https://github.com/ryanoasis/nerd-fonts/raw/master/patched-fonts/DroidSansMono/complete/Droid%20Sans%20Mono%20Nerd%20Font%20Complete.otf
+}
+
+zathura(){
+#pdf
+$install zathura
+$install zathura-pdf-poppler
 }
 
 rimefctixinstall(){

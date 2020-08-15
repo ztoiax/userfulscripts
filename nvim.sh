@@ -1,6 +1,7 @@
-#!/bin/bash
+#!/symotion-prefix)bin/bash
 mynvimconfig(){
     #provider
+    pip3 install pysdl2
     pip3 install pynvim
     pip3 install neovim-remote
     sudo cnpm install -g neovim

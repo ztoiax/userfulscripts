@@ -6,6 +6,13 @@ $install how2
 $install tldr
 }
 
+ohterinstall(){
+$install netease-cloud-music
+$install baidupcs-go
+yay -S lanzou-gui   #蓝奏云
+yay -S timeshift    #backup
+}
+
 ranger(){
 $install ranger-git
 $install ffmpegthumbnailer ueberzug
@@ -99,7 +106,7 @@ curl -o /etc/yum.repos.d/epel.repo http://mirrors.aliyun.com/repo/epel-7.repo
 
 # base
 baseinstall(){
-$install alsa-utils
+$install alsa-utils ntfs-3g
 $install git wget make nodejs subversion
 $install python2 python3 python-pip python3-pip
 $install bat silversearcher-ag
@@ -107,6 +114,12 @@ $install tree
 pip3 install ranger-fm
 
 npm install -g cnpm --registry=https://registry.npm.taobao.org
+
+#Mount Android
+yay -S simple-mtpfs
+sudo simple-mtpfs --device 1 /mnt/android/
+sudo fusermount -u /mnt/android
+
 # time
 # sudo timedatectl set-local-rtc true
 }

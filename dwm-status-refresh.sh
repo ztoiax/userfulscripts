@@ -41,7 +41,7 @@ print_volume() {
 	volume="$(amixer get Master | tail -n1 | sed -r 's/.*\[(.*)%\].*/\1/')"
 	if test "$volume" -gt 0
 	then
-		echo -e "\uE05D${volume}"
+		echo -e " ${volume}"
 	else
 		echo -e "Mute"
 	fi
@@ -59,22 +59,22 @@ print_temp(){
 
 #!/bin/bash
 
-# get_time_until_charged() {
+get_time_until_charged() {
 
-# 	# parses acpitool's battery info for the remaining charge of all batteries and sums them up
-# 	sum_remaining_charge=$(acpitool -B | grep -E 'Remaining capacity' | awk '{print $4}' | grep -Eo "[0-9]+" | paste -sd+ | bc);
+ 	# parses acpitool's battery info for the remaining charge of all batteries and sums them up
+ 	sum_remaining_charge=$(acpitool -B | grep -E 'Remaining capacity' | awk '{print $4}' | grep -Eo "[0-9]+" | paste -sd+ | bc);
 
-# 	# finds the rate at which the batteries being drained at
-# 	present_rate=$(acpitool -B | grep -E 'Present rate' | awk '{print $4}' | grep -Eo "[0-9]+" | paste -sd+ | bc);
+ 	# finds the rate at which the batteries being drained at
+ 	present_rate=$(acpitool -B | grep -E 'Present rate' | awk '{print $4}' | grep -Eo "[0-9]+" | paste -sd+ | bc);
 
-# 	# divides current charge by the rate at which it's falling, then converts it into seconds for `date`
-# 	seconds=$(bc <<< "scale = 10; ($sum_remaining_charge / $present_rate) * 3600");
+ 	# divides current charge by the rate at which it's falling, then converts it into seconds for `date`
+ 	seconds=$(bc <<< "scale = 10; ($sum_remaining_charge / $present_rate) * 3600");
 
-# 	# prettifies the seconds into h:mm:ss format
-# 	pretty_time=$(date -u -d @${seconds} +%T);
+ 	# prettifies the seconds into h:mm:ss format
+ 	pretty_time=$(date -u -d @${seconds} +%T);
 
-# 	echo $pretty_time;
-# }
+ 	echo $pretty_time;
+ }
 
 get_battery_combined_percent() {
 
@@ -102,20 +102,20 @@ get_battery_charging_status() {
 
 
 print_bat(){
-	#hash acpi || return 0
-	#onl="$(grep "on-line" <(acpi -V))"
-	#charge="$(awk '{ sum += $1 } END { print sum }' /sys/class/power_supply/BAT*/capacity)%"
-	#if test -z "$onl"
-	#then
-		## suspend when we close the lid
-		##systemctl --user stop inhibit-lid-sleep-on-battery.service
-		#echo -e "${charge}"
-	#else
-		## On mains! no need to suspend
-		##systemctl --user start inhibit-lid-sleep-on-battery.service
-		#echo -e "${charge}"
-	#fi
-	#echo "$(get_battery_charging_status) $(get_battery_combined_percent)%, $(get_time_until_charged )";
+	hash acpi || return 0
+	onl="$(grep "on-line" <(acpi -V))"
+	charge="$(awk '{ sum += $1 } END { print sum }' /sys/class/power_supply/BAT*/capacity)%"
+	if test -z "$onl"
+	then
+		# suspend when we close the lid
+		#systemctl --user stop inhibit-lid-sleep-on-battery.service
+		echo -e "${charge}"
+	else
+		# On mains! no need to suspend
+		#systemctl --user start inhibit-lid-sleep-on-battery.service
+		echo -e "${charge}"
+	fi
+	echo "$(get_battery_charging_status) $(get_battery_combined_percent)%, $(get_time_until_charged )";
 	echo "$(get_battery_charging_status) $(get_battery_combined_percent)%, $(get_time_until_charged )";
 }
 
@@ -130,6 +130,13 @@ show_record(){
 	echo " $size $(basename $rp)"
 }
 
+show_diskidle(){
+    df -h / | awk 'NR==2 {print $4}'
+}
+
+show_cpuusage(){
+    top -b -n1 | grep ^%Cpu | awk '{printf("%.2f%"), 100-$8}'
+}
 
 LOC=$(readlink -f "$0")
 DIR=$(dirname "$LOC")
@@ -156,7 +163,7 @@ get_bytes
 vel_recv=$(get_velocity $received_bytes $old_received_bytes $now)
 vel_trans=$(get_velocity $transmitted_bytes $old_transmitted_bytes $now)
 
-xsetroot -name "  💿 $(print_mem)M ⬇️ $vel_recv ⬆️ $vel_trans $(dwm_alsa) [ $(print_bat) ]$(show_record) $(print_date) "
+xsetroot -name "  $(show_cpuusage)  $(print_mem)M ﰬ $vel_recv ﰵ $vel_trans $(dwm_alsa) $(show_diskidle) $(print_volume) $(print_date) "
 
 # Update old values to perform new calculations
 old_received_bytes=$received_bytes

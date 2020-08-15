@@ -15,7 +15,9 @@
     name[14]="[14]bash IBM"
     name[15]="[15]openstack 官方"
     name[16]="[16]openstack 百家号"
-
+    name[17]="[17]vim ruanyif"
+    name[18]="[18]vim插件推荐"
+    name[19]="[19]分布式架构演变"
 
     lengh=${#name[*]}
 
@@ -35,6 +37,9 @@
     url[14]="https://developer.ibm.com/zh/tutorials/l-lpic1-map/"
     url[15]="https://www.rdoproject.org/install/packstack/"
     url[16]="https://baijiahao.baidu.com/s?id=1617520630408423500&wfr=spider&for=pc%20in%205%20mins"
+    url[17]="http://www.ruanyifeng.com/blog/2018/09/vimrc.html"
+    url[18]="https://zhuanlan.zhihu.com/p/58816186"
+    url[19]="https://segmentfault.com/a/1190000018626163"
 
     for ((i=0; i<$lengh; i=i+1));do
         engine="$engine${name[$i]}\n"
