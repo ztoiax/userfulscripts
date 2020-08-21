@@ -33,6 +33,9 @@ iostat -d 3 -k -x -t 30
 #每隔 3 秒采集一次进程io,一共采集 30 次
 sudo iotop -b -o -d 3 -t -qqq -n 30
 sudo iotop -b -o -d 1 -qqq |awk '{ print $0"\t" strftime("%Y-%m-%d-%H:%M:%S",systime()) } '
+#硬盘温度
+sudo hddtemp SATA:/dev/sda
+sudo nvme smart-log /dev/nvme0 | grep temperature
 #IO性能测试
 fio -direct=1 -iodepth=128 -rw=randwrite -ioengine=libaio -bs=1k -size=1G -numjobs=1 -runtime=1000 -group_reporting -filename=iotest -name=Rand_
 

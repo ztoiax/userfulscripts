@@ -1,9 +1,10 @@
 #!/symotion-prefix)bin/bash
 mynvimconfig(){
     #provider
-    pip3 install pysdl2
-    pip3 install pynvim
-    pip3 install neovim-remote
+    pip  install pysdl2
+    pip  install pynvim
+    pip  install neovim-remote
+    pip  install pygments
     sudo cnpm install -g neovim
     #clip
     $install xclip

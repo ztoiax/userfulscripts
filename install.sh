@@ -140,7 +140,7 @@ sudo apt-get -y install alacritty				#终端模拟器
 sudo apt-get -y install compton					#透明效果
 sudo apt-get -y install ranger					#文件浏览器
 sudo apt-get -y install cmatrix					#黑客帝国效果
-sudo apt-get -y install screenfetch				#系统信息显示
+sudo apt-get -y install neofetch				#系统信息显示
 sudo apt-get -y install xdotool                 #鼠标模拟
 #pip
 pip install tldr

@@ -4,14 +4,14 @@
     name[2]="[2]Bind"
     name[3]="[3]Baidu"
     name[4]="[4]IBM developer"
-    name[5]="[5]华为技术支持"
+    name[5]="[5]Huawei"
     name[6]="[6]Gitbook"
     name[7]="[7]阿里云社区"
     name[8]="[8]Archwiki"
-    name[9]="[9]简书"
+    name[9]="[9]jianshu"
     name[10]="[10]夸克"
-    name[11]="[11]华三技术支持"
-    name[12]="[12]思科"
+    name[11]="[11]H3C"
+    name[12]="[12]Cisco"
     name[13]="[13]Pkgs"
     name[14]="[14]Linux中国"
     name[15]="[15]Python Pypi"
@@ -19,6 +19,9 @@
     name[17]="[17]Zhihu"
     name[18]="[18]Douban"
     name[19]="[19]Linux command"
+    name[20]="[20]Weibo"
+    name[21]="[21]Youtube"
+    name[22]="[22]Reddit"
     lengh=${#name[*]}
 
     search[0]="https://github.com/search?utf8=✓&q="
@@ -41,6 +44,9 @@
     search[17]="https://www.zhihu.com/search?type=content&q="
     search[18]="https://www.douban.com/search?source=suggest&q="
     search[19]="https://man.linuxde.net/"
+    search[20]="https://s.weibo.com/weibo/"
+    search[21]="https://www.youtube.com/results?search_query="
+    search[22]="https://www.reddit.com/search/?q="
 
     for ((i=0; i<$lengh; i=i+1));do
         engine="$engine${name[$i]}\n"

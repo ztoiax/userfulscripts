@@ -133,9 +133,14 @@ show_record(){
 show_diskidle(){
     df -h / | awk 'NR==2 {print $4}'
 }
-
 show_cpuusage(){
     top -b -n1 | grep ^%Cpu | awk '{printf("%.2f%"), 100-$8}'
+}
+show_cputhermal(){
+    sensors | awk 'NR==24 {print $2}'
+}
+show_nvmethermal(){
+    sensors | awk 'NR==39 {print $2}'
 }
 
 LOC=$(readlink -f "$0")
@@ -163,7 +168,7 @@ get_bytes
 vel_recv=$(get_velocity $received_bytes $old_received_bytes $now)
 vel_trans=$(get_velocity $transmitted_bytes $old_transmitted_bytes $now)
 
-xsetroot -name "  $(show_cpuusage)  $(print_mem)M ﰬ $vel_recv ﰵ $vel_trans $(dwm_alsa) $(show_diskidle) $(print_volume) $(print_date) "
+xsetroot -name "  $(show_cpuusage) $(show_cputhermal)  $(print_mem)M ﰬ $vel_recv ﰵ $vel_trans $(dwm_alsa) $(show_diskidle) $(show_nvmethermal) $(print_volume) $(print_date) "
 
 # Update old values to perform new calculations
 old_received_bytes=$received_bytes

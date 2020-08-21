@@ -1,16 +1,77 @@
 #!/bin/bash
 # set -x
+
+# $install tlp #它能帮你的设备省点电
+fcitx(){
+cat >> ~/.xprofile << "EOF"
+# 设置中文界面
+export LANG=zh_CN.UTF-8
+export LANGUAGE=zh_CN:en_US
+# fcitx
+export GTK_IM_MODULE=fcitx
+export QT_IM_MODULE=fcitx
+export XMODIFIERS="@im=fcitx"
+
+export QT4_IM_MODULE=fcitx
+export QT5_IM_MODULE=fcitx
+export QT_IM_MODULE=fcitx
+EOF
+
+cat >> /etc/locale.conf << "EOF"
+# 设置中文界面
+#这个变量的值会覆盖掉所有未设置的 LC_* 变量的值.
+LANG=zh_CN.UTF-8
+EOF
+# 立即启用
+unset LANG
+source /etc/profile.d/locale.sh
+}
+
+net(){
+$install proxychains
+$install prettyping
+}
+code(){
+$install sourcetrail
+$install vscode
+}
+kvm(){
+$install qemu
+$install virt-manager
+$install dnsmasq ebtables dmidecode ovmf
+systemctl enable libvirtd
+systemctl start libvirtd
+#开启日志
+systemctl enable virtlogd.service
+systemctl start virtlogd.service
+}
+hackintosh(){
+    git clone https://github.com/foxlet/macOS-Simple-KVM.git
+    cd macOS-Simple-KVM
+    ./jumpstart.sh --mojave
+}
 char(){
 $install thefuck
 $install how2
 $install tldr
+$install diff-so-fancy
+$install csvkit #https://csvkit.readthedocs.io/en/1.0.3/
+$install fd     #instead find
+$install entr   #事件监控
+$install pet    #CLI Snippet Manager
+yay -S ripgrep-all
 }
 
-ohterinstall(){
+otherinstall(){
 $install netease-cloud-music
 $install baidupcs-go
 yay -S lanzou-gui   #蓝奏云
 yay -S timeshift    #backup
+yay -S zfs-linux
+yay -S procdump
+yay -S qt-scrcpy
+$install bleachbit  #清理垃圾
+$install filelight  #树目录大小
 }
 
 ranger(){
@@ -87,7 +148,7 @@ sshclient(){
     echo "ssh免密码登录正在安装"
     read -p "enter serverip: " serverip
     ssh-keygen -t rsa
-    # scp ~/.ssh/id_rsa.pub root@$serverip:/root/.ssh/
+    # scp ~/.ssh/id_rsa.pub root@$serverip:/root/.ssh/authorized_keys
     ssh-copy-id $serverip
 }
 epelinstall(){
@@ -111,6 +172,8 @@ $install git wget make nodejs subversion
 $install python2 python3 python-pip python3-pip
 $install bat silversearcher-ag
 $install tree
+$install dunst #notifications
+$install kdeconnect
 pip3 install ranger-fm
 
 npm install -g cnpm --registry=https://registry.npm.taobao.org
@@ -124,10 +187,6 @@ sudo fusermount -u /mnt/android
 # sudo timedatectl set-local-rtc true
 }
 
-# extra
-extra(){
-rimeinstall
-}
 nvim(){
 if [ $release == 7 ]; then
     echo "正在安装neovim"

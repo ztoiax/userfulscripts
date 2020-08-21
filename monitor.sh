@@ -18,11 +18,22 @@ gtop
 bashtop
 #cpu
 s-tui
+sensors #温度
 #io
+ncdu
 iozone
+hddtemp #sata硬盘温度
+nvme-cli #可nvme温度等
 #net
 #https://linux.cn/article-5461-weixin.html
+prettyping
 iperf
 netperf
 bmon
 pktstat
+
+#gui
+#cpu
+psenstor #温度
+#disk
+gnome-disk-utility

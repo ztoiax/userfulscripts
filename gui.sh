@@ -1,8 +1,10 @@
 #!/bin/bash
 echo "gtk-key-theme-name = Emacs" >> ~/.config/gtk-3.0/settings.ini
+
 awesomechar(){
-#beautiful char
-$install figlet
+$install figlet                 #beautiful char
+$install cmatrix				#黑客帝国效果
+$install neofetch				#系统信息显示
 }
 
 font(){
@@ -73,6 +75,10 @@ yay -S flat-remix
 }
 
 xorginstall(){
+#notifications
+$install dunst
+#notifications process
+$install noti
 #screen-recorder
 $install deepin-screen-recorder
 #set termianl colorscheme from wallpaper

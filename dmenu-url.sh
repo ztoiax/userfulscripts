@@ -18,6 +18,7 @@
     name[17]="[17]vim ruanyif"
     name[18]="[18]vim插件推荐"
     name[19]="[19]分布式架构演变"
+    name[20]="[20]awesome soft"
 
     lengh=${#name[*]}
 
@@ -40,7 +41,7 @@
     url[17]="http://www.ruanyifeng.com/blog/2018/09/vimrc.html"
     url[18]="https://zhuanlan.zhihu.com/p/58816186"
     url[19]="https://segmentfault.com/a/1190000018626163"
-
+    url[20]="https://linux.cn/article-10171-1.html"
     for ((i=0; i<$lengh; i=i+1));do
         engine="$engine${name[$i]}\n"
     done

@@ -10,6 +10,7 @@ echo 'LANG=en_US.UTF-8' > /etc/locale.conf
 echo "LC_ALL=en_US.utf-8" >> /etc/environment
 pacman -Sy dhcpcd
 pacman -Sy networkmanager
+pacman -Sy pacman-contrib #paccache
 systemctl enable dhcpcd
 systemctl enable NetworkManager
 pacman -Sy zsh fish git wget bash-completion go base-devel python-pip the_silver_searcher inetutils
@@ -68,7 +69,7 @@ echo -e $hosts >> /etc/hosts
 
 nvidia(){
 #https://computingforgeeks.com/easiest-way-to-install-nvidia-3d-graphics-acceleration-driver-on-archlinux/
-pacman -S nvidia
+pacman -S nvidia nvidia-settings
 #Once installed, confirm that the nouveau module is blacklisted.
 cat /usr/lib/modprobe.d/nvidia.conf
 }
