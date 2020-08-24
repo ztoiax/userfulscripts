@@ -19,6 +19,7 @@
     name[18]="[18]vim插件推荐"
     name[19]="[19]分布式架构演变"
     name[20]="[20]awesome soft"
+    name[21]="[21]rime"
 
     lengh=${#name[*]}
 
@@ -42,6 +43,7 @@
     url[18]="https://zhuanlan.zhihu.com/p/58816186"
     url[19]="https://segmentfault.com/a/1190000018626163"
     url[20]="https://linux.cn/article-10171-1.html"
+    url[21]="https://github.com/LEOYoon-Tsaw/Rime_collections/blob/master/Rime_description.md"
     for ((i=0; i<$lengh; i=i+1));do
         engine="$engine${name[$i]}\n"
     done

@@ -2,19 +2,11 @@
 # set -x
 
 # $install tlp #它能帮你的设备省点电
-fcitx(){
+chinese(){
 cat >> ~/.xprofile << "EOF"
 # 设置中文界面
 export LANG=zh_CN.UTF-8
 export LANGUAGE=zh_CN:en_US
-# fcitx
-export GTK_IM_MODULE=fcitx
-export QT_IM_MODULE=fcitx
-export XMODIFIERS="@im=fcitx"
-
-export QT4_IM_MODULE=fcitx
-export QT5_IM_MODULE=fcitx
-export QT_IM_MODULE=fcitx
 EOF
 
 cat >> /etc/locale.conf << "EOF"
@@ -23,6 +15,7 @@ cat >> /etc/locale.conf << "EOF"
 LANG=zh_CN.UTF-8
 EOF
 # 立即启用
+sudo locale-gen
 unset LANG
 source /etc/profile.d/locale.sh
 }
@@ -54,12 +47,19 @@ char(){
 $install thefuck
 $install how2
 $install tldr
-$install diff-so-fancy
 $install csvkit #https://csvkit.readthedocs.io/en/1.0.3/
-$install fd     #instead find
 $install entr   #事件监控
 $install pet    #CLI Snippet Manager
 yay -S ripgrep-all
+}
+instead(){
+# https://linux.cn/article-4042-1.html
+$install advcp             #cp mv
+$install silversearcher-ag #grep
+$install dfc               #df
+$install bat               #cat
+$install diff-so-fancy     #git diff
+$install fd                #find
 }
 
 otherinstall(){
@@ -71,6 +71,7 @@ yay -S zfs-linux
 yay -S procdump
 yay -S qt-scrcpy
 $install bleachbit  #清理垃圾
+$install d-feet     #调试dbus
 $install filelight  #树目录大小
 }
 
@@ -170,7 +171,6 @@ baseinstall(){
 $install alsa-utils ntfs-3g
 $install git wget make nodejs subversion
 $install python2 python3 python-pip python3-pip
-$install bat silversearcher-ag
 $install tree
 $install dunst #notifications
 $install kdeconnect

@@ -23,7 +23,7 @@ function get_velocity {
 
 	timediff=$(($now - $old_time))
 	velKB=$(echo "1000000000*($value-$old_value)/1024/$timediff" | bc)
-	if test "$velKB" -gt 1024
+	if [[ "$velKB" -gt 1024 ]]
 	then
 		echo $(echo "scale=2; $velKB/1024" | bc)MB/s
 	else
@@ -153,7 +153,7 @@ export IDENTIFIER="unicode"
 #. "$DIR/dwmbar-functions/dwm_battery.sh"
 #. "$DIR/dwmbar-functions/dwm_mail.sh"
 #. "$DIR/dwmbar-functions/dwm_backlight.sh"
-. "$DIR/dwmbar-functions/dwm_alsa.sh"
+# . "$DIR/dwmbar-functions/dwm_alsa.sh"
 #. "$DIR/dwmbar-functions/dwm_pulse.sh"
 #. "$DIR/dwmbar-functions/dwm_weather.sh"
 #. "$DIR/dwmbar-functions/dwm_vpn.sh"
@@ -168,7 +168,7 @@ get_bytes
 vel_recv=$(get_velocity $received_bytes $old_received_bytes $now)
 vel_trans=$(get_velocity $transmitted_bytes $old_transmitted_bytes $now)
 
-xsetroot -name "  $(show_cpuusage) $(show_cputhermal)  $(print_mem)M ﰬ $vel_recv ﰵ $vel_trans $(dwm_alsa) $(show_diskidle) $(show_nvmethermal) $(print_volume) $(print_date) "
+xsetroot -name "  $(show_cpuusage) $(show_cputhermal)  $(print_mem)M ﰬ $vel_recv ﰵ $vel_trans  $(show_diskidle) $(show_nvmethermal) $(print_volume) $(print_date) "
 
 # Update old values to perform new calculations
 old_received_bytes=$received_bytes

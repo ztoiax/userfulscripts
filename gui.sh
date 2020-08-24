@@ -41,6 +41,34 @@ chmod a+x ./install.sh
 ./install.sh
 }
 
+fcitx5(){
+yay -S fcitx5-git fcitx5-rime-git fcitx5-gtk-git fcitx5-chinese-addons-git fcitx5-configtool fcitx5-qt4-git
+yay -S fcitx5-pinyin-moegirl-rime fcitx5-pinyin-zhwiki #萌娘百科，中文维基百科词库
+yay -S kcm-fcitx5-git #kde
+yay -S fcitx5-material-color#皮肤
+
+cat >> ~/.pam_environment << "EOF"
+INPUT_METHOD  DEFAULT=fcitx5
+GTK_IM_MODULE DEFAULT=fcitx5
+QT_IM_MODULE  DEFAULT=fcitx5
+XMODIFIERS    DEFAULT=\@im=fcitx5
+EOF
+
+cat > ~/.config/fcitx5/conf/classicui.conf << "EOF"
+# 垂直候选列表
+Vertical Candidate List=False
+
+# 按屏幕 DPI 使用
+PerScreenDPI=True
+
+# Font (设置成你喜欢的字体)
+Font="思源黑体 CN Medium 16"
+
+# 主题
+Theme=Material-Color-Brown
+EOF
+}
+
 rimeibusinstall(){
 $install ibus ibus-clutter ibus-gtk ibus-gtk3 ibus-qt4
 $install ibus-rime
@@ -50,6 +78,11 @@ $install librime-data-pinyin-simp
 $install librime-data-jyutping
 ibus restart
 ibus engine rime
+}
+
+surf(){
+$install gcr
+$install webkit2gtk
 }
 
 sddminstall(){
