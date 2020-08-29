@@ -60,6 +60,7 @@ $install dfc               #df
 $install bat               #cat
 $install diff-so-fancy     #git diff
 $install fd                #find
+$install cfdisk            #fdisk
 }
 
 otherinstall(){
@@ -151,19 +152,6 @@ sshclient(){
     ssh-keygen -t rsa
     # scp ~/.ssh/id_rsa.pub root@$serverip:/root/.ssh/authorized_keys
     ssh-copy-id $serverip
-}
-epelinstall(){
-if rpm -q epel-release; then
-    echo "epel已安装"
-    return
-fi
-echo "正在安装epel"
-yum install -y epel-release
-mv /etc/yum.repos.d/epel.repo /etc/yum.repos.d/epel.repo.backup
-mv /etc/yum.repos.d/epel-testing.repo /etc/yum.repos.d/epel-testing.repo.backup
-curl -o /etc/yum.repos.d/epel.repo http://mirrors.aliyun.com/repo/epel-7.repo
-# yum clean all
-# yum makecache
 }
 
 # base

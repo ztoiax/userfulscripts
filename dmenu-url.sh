@@ -20,8 +20,17 @@
     name[19]="[19]分布式架构演变"
     name[20]="[20]awesome soft"
     name[21]="[21]rime"
-
-    lengh=${#name[*]}
+    name[22]="[22]rime2"
+    name[23]="[23]zabbix"
+    name[24]="[24]regular"
+    name[25]="[25]马哥linux"
+    name[26]="[26]mutivim"
+    name[27]="[27]mutibash"
+    name[28]="[28]mutigit"
+    name[29]="[29]markdown in vim"
+    name[30]="[30]这才是真正的Git——Git内部原理揭秘！"
+    name[31]="[31]这才是真正的Git——Git实用技巧"
+    name[32]="[32]bash腾讯技术"
 
     url[1]="https://linux.cn/article-9515-1.html?pr"
     url[2]="http://ranger.github.io/"
@@ -44,7 +53,16 @@
     url[19]="https://segmentfault.com/a/1190000018626163"
     url[20]="https://linux.cn/article-10171-1.html"
     url[21]="https://github.com/LEOYoon-Tsaw/Rime_collections/blob/master/Rime_description.md"
-    for ((i=0; i<$lengh; i=i+1));do
+    url[22]="https://github.com/rime/home/wiki/RimeWithSchemata"
+    url[23]="https://linux.cn/article-4305-weixin.html"
+    url[24]="https://www.regular-expressions.info/quickstart.html"
+    url[25]="https://www.magedu.com/74163.html?linux_wenzhang_zhihu_jinke_tiaocaobibei40ti_33967414"
+    url[29]="https://www.zhihu.com/search?type=content&q=markdown%20vim"
+    url[30]="https://zhuanlan.zhihu.com/p/96631135"
+    url[31]="https://zhuanlan.zhihu.com/p/192961725"
+    url[32]="https://zhuanlan.zhihu.com/p/123989641"
+    lengh=${#name[*]}
+    for ((i=1; i<=$lengh; i=i+1));do
         engine="$engine${name[$i]}\n"
     done
     n=$(echo -e $engine | dmenu -p 'url' -l 15)
@@ -52,6 +70,23 @@
     for ((i=0; i<$lengh; i=i+1));do
         if [ "$n" == "${name[$i]}" ];then
                 xdg-open "${url[$i]}" &> /dev/null
+                break
+        elif [ "$n" == "${name[26]}" ];then
+                xdg-open "${url[10]}" &> /dev/null
+                xdg-open "${url[17]}" &> /dev/null
+                xdg-open "${url[18]}" &> /dev/null
+                xdg-open "${url[29]}" &> /dev/null
+                break
+        elif [ "$n" == "${name[27]}" ];then
+                xdg-open "${url[13]}" &> /dev/null
+                xdg-open "${url[14]}" &> /dev/null
+                xdg-open "${url[32]}" &> /dev/null
+                break
+        elif [ "$n" == "${name[28]}" ];then
+                xdg-open "${url[7]}" &> /dev/null
+                xdg-open "${url[12]}" &> /dev/null
+                xdg-open "${url[30]}" &> /dev/null
+                xdg-open "${url[31]}" &> /dev/null
                 break
         fi
     done

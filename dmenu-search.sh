@@ -22,7 +22,9 @@
     name[20]="[20]Weibo"
     name[21]="[21]Youtube"
     name[22]="[22]Reddit"
-    lengh=${#name[*]}
+    name[23]="[23]ruanyif"
+    name[24]="[24]mutilinux"
+    name[25]="[25]mutisearch"
 
     search[0]="https://github.com/search?utf8=✓&q="
     search[1]="https://www.google.com/search?q="
@@ -47,6 +49,9 @@
     search[20]="https://s.weibo.com/weibo/"
     search[21]="https://www.youtube.com/results?search_query="
     search[22]="https://www.reddit.com/search/?q="
+    search[23]="https://www.baidu.com/s?wd=site:www.ruanyifeng.com "
+
+    lengh=${#name[*]}
 
     for ((i=0; i<$lengh; i=i+1));do
         engine="$engine${name[$i]}\n"
@@ -57,6 +62,21 @@
         if [ "$n" == "${name[$i]}" ];then
             e=$(echo 'input' | dmenu)
             xdg-open "${search[$i]}$e" &> /dev/null
+            break
+        elif [ "$n" == "${name[24]}" ];then
+            e=$(echo 'input' | dmenu)
+            xdg-open "${search[23]}$e" &> /dev/null
+            xdg-open "${search[4]}$e" &> /dev/null
+            xdg-open "${search[1]}$e" &> /dev/null
+            xdg-open "${search[14]}$e" &> /dev/null
+            xdg-open "${search[8]}$e" &> /dev/null
+            break
+        elif [ "$n" == "${name[25]}" ];then
+            e=$(echo 'input' | dmenu)
+            xdg-open "${search[1]}$e" &> /dev/null
+            xdg-open "${search[2]}$e" &> /dev/null
+            xdg-open "${search[2]}$e" &> /dev/null
+            xdg-open "${search[10]}$e" &> /dev/null
             break
         fi
     done
