@@ -27,7 +27,7 @@ makepkg -si
 
 
 
-gpg: keyserver receive failed: General error
+#gpg: keyserver receive failed: General error
 #gpg --keyserver pool.sks-keyservers.net --recv-keys 6C37DC12121A5006BC1DB804DF6FD971306037D9
 }
 

@@ -14,11 +14,35 @@ cat > ~/.config/fish/config.fish << 'EOF'
 alias j "autojump"
 alias c "clear"
 alias r "ranger"
+alias cp "cp -i"
 alias rm "rm -i"
 
-alias w="watch -d -n 2"
-alias ifconfig="ifconfig -a"
-alias cplast="history | tail -n 1 | cut -c8- | clip"
+alias w "watch -d -n 2"
+alias ifconfig "ifconfig -a"
+alias cplast "history | tail -n 1 | cut -c8- | clip"
+alias sl "systemctl"
+alias sls "systemctl status"
+alias slr "systemctl restart"
+
+alias yi "yum install -y"
+
+# git
+alias lg 'lazygit'
+alias gc 'git clone'
+alias ga 'git add --all'
+alias gm 'git commit -m '
+alias gp 'git push'
+alias grhh "git reset --hard $(git log | awk 'NR  1{print $2}')"
+
+# docker
+alias dil 'sudo docker image ls'
+alias dip 'sudo docker image pull'
+alias dir 'sudo docker image rm'
+alias dcl 'sudo docker container ls'
+alias dcrun 'sudo docker container run'
+alias dccp 'sudo docker container cp'
+alias dck 'sudo docker container kill'
+alias dcs 'sudo docker container stop'
 
 set -x nvim ~/.config/nvim/init.vim
 set -x fish ~/.config/fish/config.fish

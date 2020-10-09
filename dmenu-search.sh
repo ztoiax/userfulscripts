@@ -63,20 +63,24 @@
             e=$(echo 'input' | dmenu)
             xdg-open "${search[$i]}$e" &> /dev/null
             break
+        # muti linux
         elif [ "$n" == "${name[24]}" ];then
             e=$(echo 'input' | dmenu)
             xdg-open "${search[23]}$e" &> /dev/null
-            xdg-open "${search[4]}$e" &> /dev/null
-            xdg-open "${search[1]}$e" &> /dev/null
+            xdg-open "${search[4]}$e"  &> /dev/null
+            xdg-open "${search[0]}$e"  &> /dev/null
             xdg-open "${search[14]}$e" &> /dev/null
-            xdg-open "${search[8]}$e" &> /dev/null
+            xdg-open "${search[8]}$e"  &> /dev/null
             break
+        # muti search
         elif [ "$n" == "${name[25]}" ];then
             e=$(echo 'input' | dmenu)
-            xdg-open "${search[1]}$e" &> /dev/null
-            xdg-open "${search[2]}$e" &> /dev/null
-            xdg-open "${search[2]}$e" &> /dev/null
+            xdg-open "${search[1]}$e"  &> /dev/null
+            xdg-open "${search[2]}$e"  &> /dev/null
+            xdg-open "${search[3]}$e"  &> /dev/null
             xdg-open "${search[10]}$e" &> /dev/null
+            xdg-open "${search[17]}$e" &> /dev/null
+            xdg-open "${search[20]}$e" &> /dev/null
             break
         fi
     done

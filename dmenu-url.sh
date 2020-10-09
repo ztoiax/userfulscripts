@@ -61,7 +61,9 @@
     url[30]="https://zhuanlan.zhihu.com/p/96631135"
     url[31]="https://zhuanlan.zhihu.com/p/192961725"
     url[32]="https://zhuanlan.zhihu.com/p/123989641"
+
     lengh=${#name[*]}
+
     for ((i=1; i<=$lengh; i=i+1));do
         engine="$engine${name[$i]}\n"
     done
@@ -71,19 +73,22 @@
         if [ "$n" == "${name[$i]}" ];then
                 xdg-open "${url[$i]}" &> /dev/null
                 break
+        # muti vim
         elif [ "$n" == "${name[26]}" ];then
                 xdg-open "${url[10]}" &> /dev/null
                 xdg-open "${url[17]}" &> /dev/null
                 xdg-open "${url[18]}" &> /dev/null
                 xdg-open "${url[29]}" &> /dev/null
                 break
+        # muti bash
         elif [ "$n" == "${name[27]}" ];then
                 xdg-open "${url[13]}" &> /dev/null
                 xdg-open "${url[14]}" &> /dev/null
                 xdg-open "${url[32]}" &> /dev/null
                 break
+        # muti git
         elif [ "$n" == "${name[28]}" ];then
-                xdg-open "${url[7]}" &> /dev/null
+                xdg-open "${url[7]}"  &> /dev/null
                 xdg-open "${url[12]}" &> /dev/null
                 xdg-open "${url[30]}" &> /dev/null
                 xdg-open "${url[31]}" &> /dev/null
