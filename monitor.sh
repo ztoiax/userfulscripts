@@ -43,3 +43,4 @@ pktstat
 psenstor #温度
 #disk
 gnome-disk-utility
+duf

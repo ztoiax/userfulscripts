@@ -2,6 +2,9 @@
 # set -x
 
 # $install tlp #它能帮你的设备省点电
+log(){
+$install rsyslog
+}
 chinese(){
 cat >> ~/.xprofile << "EOF"
 # 设置中文界面
@@ -72,6 +75,7 @@ yay -S zfs-linux
 yay -S procdump
 yay -S qt-scrcpy
 $install bleachbit  #清理垃圾
+$install testdisk   #恢复删除文件
 $install d-feet     #调试dbus
 $install filelight  #树目录大小
 }

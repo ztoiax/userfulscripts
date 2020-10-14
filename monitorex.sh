@@ -11,16 +11,6 @@ ll /proc/$pid/task/*/fd/ | wc -l
 #查看队列个数
 ethtool -l eth0 | grep Combined
 
-#CPU
-#获取保留两位小数的 CPU 占用率：
-top -b -n1 | grep ^%Cpu | awk '{printf("Current CPU Utilization is : %.2f%"), 100-$8}'
-#每秒刷新一次 cpu 序号为 5,7,1,3 核心的 cpu 使用率
-sar -P 5,7,1,3 1
-#每秒刷新所有核心
-sar -P ALL 1
-#打印 idle 小于 10 的核心
-sar -P ALL 1 | tail -n+3 | awk '$NF<10 {print $0}'
-
 #查看中断号对应的cpu处理
 for i in {0..100}; do cat /proc/irq/$i/smp_affinity_list 2> /dev/null; done
 

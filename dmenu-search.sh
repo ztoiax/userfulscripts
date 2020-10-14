@@ -6,7 +6,7 @@
     name[4]="[4]IBM developer"
     name[5]="[5]Huawei"
     name[6]="[6]Gitbook"
-    name[7]="[7]阿里云社区"
+    name[7]="[7]aliyun"
     name[8]="[8]Archwiki"
     name[9]="[9]jianshu"
     name[10]="[10]夸克"
@@ -71,6 +71,7 @@
             xdg-open "${search[0]}$e"  &> /dev/null
             xdg-open "${search[14]}$e" &> /dev/null
             xdg-open "${search[8]}$e"  &> /dev/null
+            xdg-open "${search[7]}$e"  &> /dev/null
             break
         # muti search
         elif [ "$n" == "${name[25]}" ];then

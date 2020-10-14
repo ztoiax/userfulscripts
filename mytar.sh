@@ -17,6 +17,8 @@ yasuo(){
     esac
 }
 echo ${0%/*}
+
+# 当变量大于2的时候，合并成一个变量$file
 if [ $# == 1 ]; then
     tar -tvf $1
 elif [ $# == 2 ]; then
