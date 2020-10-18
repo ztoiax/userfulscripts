@@ -25,6 +25,7 @@
     name[23]="[23]ruanyif"
     name[24]="[24]mutilinux"
     name[25]="[25]mutisearch"
+    name[26]="[25]Gitee"
 
     search[0]="https://github.com/search?utf8=✓&q="
     search[1]="https://www.google.com/search?q="
@@ -50,6 +51,7 @@
     search[21]="https://www.youtube.com/results?search_query="
     search[22]="https://www.reddit.com/search/?q="
     search[23]="https://www.baidu.com/s?wd=site:www.ruanyifeng.com "
+    search[26]="https://search.gitee.com/?skin=rec&type=repository&q="
 
     lengh=${#name[*]}
 
@@ -61,7 +63,14 @@
     for ((i=0; i<$lengh; i=i+1));do
         if [ "$n" == "${name[$i]}" ];then
             e=$(echo 'input' | dmenu)
-            xdg-open "${search[$i]}$e" &> /dev/null
+            # 当输入为空时(==input)，搜索剪切板的内容
+            if [ "$e" == "input" ];then
+                # 获取剪切板
+                clip=$(xsel -o -b)
+                xdg-open "${search[$i]}$clip" &> /dev/null
+            else
+                xdg-open "${search[$i]}$e" &> /dev/null
+            fi
             break
         # muti linux
         elif [ "$n" == "${name[24]}" ];then

@@ -16,22 +16,27 @@ alias c "clear"
 alias r "ranger"
 alias cp "cp -i"
 alias rm "rm -i"
+alias grep "egrep --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn}"
 
 alias w "watch -d -n 2"
 alias ifconfig "ifconfig -a"
 alias cplast "history | tail -n 1 | cut -c8- | clip"
+
 alias sl "systemctl"
 alias sls "systemctl status"
 alias slr "systemctl restart"
 
-alias yi "yum install -y"
+alias pi "yum install -y"
 
 # git
-alias lg 'lazygit'
-alias gc 'git clone'
-alias ga 'git add --all'
-alias gm 'git commit -m '
-alias gp 'git push'
+alias lg='lazygit'
+alias gc='git clone'
+alias ga='git add --all'
+alias gm='git commit -m '
+alias gp='git push'
+alias gl='git log'
+alias gb='git branch'
+alias gs='git status'
 alias grhh "git reset --hard $(git log | awk 'NR  1{print $2}')"
 
 # docker
