@@ -94,3 +94,5 @@
             break
         fi
     done
+    # 如果没有选择搜索引擎，默认使用github搜索
+        xdg-open "${search[0]}$n"  &> /dev/null

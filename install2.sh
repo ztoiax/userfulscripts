@@ -64,6 +64,12 @@ $install bat               #cat
 $install diff-so-fancy     #git diff
 $install fd                #find
 $install cfdisk            #fdisk
+$install bit               #git cli
+
+$install mc                #file manage with support mouse
+$install broot
+$install exa               #ls
+$install lsd               #ls support icon
 }
 
 otherinstall(){
@@ -78,6 +84,11 @@ $install bleachbit  #清理垃圾
 $install testdisk   #恢复删除文件
 $install d-feet     #调试dbus
 $install filelight  #树目录大小
+}
+git-advance(){
+$install git-extras
+npm i -g cli-github
+npm i -g git-stats
 }
 
 ranger(){
