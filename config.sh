@@ -27,6 +27,9 @@ alias cplast   "history | tail -n 1 | cut -c8- | clip"
 alias sl  "systemctl"
 alias sls "systemctl status"
 alias slr "systemctl restart"
+alias sle="systemctl enbale"
+alias sld="systemctl stop"
+alias jl="journalctl"
 
 alias pi "yum install -y"
 

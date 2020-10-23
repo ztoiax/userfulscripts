@@ -2,9 +2,16 @@
 # set -x
 
 # $install tlp #它能帮你的设备省点电
+mysql(){
+$install mycli # 更友好的cli
+$install mydumper # 更友好的mysqldump
+$install innotop # 性能监控
+}
+
 log(){
 $install rsyslog
 }
+
 chinese(){
 cat >> ~/.xprofile << "EOF"
 # 设置中文界面
@@ -25,7 +32,6 @@ source /etc/profile.d/locale.sh
 
 net(){
 $install proxychains
-$install prettyping
 }
 code(){
 $install sourcetrail
@@ -57,21 +63,25 @@ yay -S ripgrep-all
 }
 instead(){
 # https://linux.cn/article-4042-1.html
-$install advcp             #cp mv
-$install silversearcher-ag #grep
-$install dfc               #df
-$install bat               #cat
-$install diff-so-fancy     #git diff
-$install fd                #find
-$install cfdisk            #fdisk
-$install bit               #git cli
-
-$install mc                #file manage with support mouse
-$install broot
-$install exa               #ls
-$install lsd               #ls support icon
+$install advcp             # instead cp mv
+$install silversearcher-ag # instead grep
+$install bat               # instead cat
+$install diff-so-fancy     # instead git diff
+$install fd                # instead find
+$install cfdisk            # instead fdisk
+$install bit               # instead git cli
+$install exa               # instead ls
+$install lsd               # instead ls support icon
+$install prettyping        # instead ping
+$install dfc               # instead df
+$install duf               # instead df
+$install ncdu              # instead ncdu
 }
-
+filemanage(){
+$install mc                # file manage with support mouse
+$install broot             # file manage
+$install nnn               # file manage
+}
 otherinstall(){
 $install netease-cloud-music
 $install baidupcs-go
@@ -84,13 +94,20 @@ $install bleachbit  #清理垃圾
 $install testdisk   #恢复删除文件
 $install d-feet     #调试dbus
 $install filelight  #树目录大小
+$install gitkraken  #git gui
+$install navicat    #数据库可视化
 }
 git-advance(){
 $install git-extras
 npm i -g cli-github
 npm i -g git-stats
 }
-
+nnn(){
+# plugin preview-tabbed
+$install tabbed
+$install sxiv
+$install lsix
+}
 ranger(){
 $install ranger-git
 $install ffmpegthumbnailer ueberzug
@@ -176,6 +193,7 @@ $install git wget make nodejs subversion
 $install python2 python3 python-pip python3-pip
 $install tree
 $install dunst #notifications
+$install vidir
 $install kdeconnect
 pip3 install ranger-fm
 
@@ -183,8 +201,6 @@ npm install -g cnpm --registry=https://registry.npm.taobao.org
 
 #Mount Android
 yay -S simple-mtpfs
-sudo simple-mtpfs --device 1 /mnt/android/
-sudo fusermount -u /mnt/android
 
 # time
 # sudo timedatectl set-local-rtc true
@@ -320,3 +336,4 @@ for i in "$@"; do
             ;;
     esac
 done
+# https://github.com/orangbus/Tool
