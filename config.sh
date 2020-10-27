@@ -11,6 +11,8 @@ cd autojump
 
 echo "正在配置fish"
 cat > ~/.config/fish/config.fish << 'EOF'
+
+alias sudo "sudo "
 alias j    "autojump"
 alias c    "clear"
 alias r    "ranger"
@@ -18,8 +20,7 @@ alias cp   "cp -i"
 alias rm   "rm -i"
 alias grep "egrep --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn}"
 
-alias vi       "vim"
-alias vim      "nvim"
+alias v        "nvim"
 alias w        "watch -d -n 2"
 alias ifconfig "ifconfig -a"
 alias cplast   "history | tail -n 1 | cut -c8- | clip"
@@ -110,20 +111,44 @@ nmap <Leader>sj :belo split <cr>
 nmap <Leader>sq <C-w>c
 
 " incert keymap like emacs
-inmap <C-w> <C-[>diwa
-inmap <C-h> <BS>
-inmap <C-d> <Del>
-inmap <C-k> <ESC>d$a
-inmap <C-u> <C-G>u<C-U>
-inmap <C-b> <Left>
-inmap <C-f> <Right>
-inmap <C-a> <Home>
-inmap <C-n> <Down>
-inmap <C-p> <Up>
+imap <C-h> <BS>
+imap <C-d> <Del>
+imap <C-w> <C-[>diwa
+imap <C-k> <Esc>lDa
+imap <C-u> <Esc>d0xi
+imap <C-y> <Esc>Pa
+
+imap <C-b> <Left>
+imap <C-f> <Right>
+imap <C-a> <Home>
+imap <C-n> <Down>
+imap <C-p> <Up>
+imap <C-z> <ESC>ua
+imap <C-o> <Esc>o
+imap <C-s> <esc>:w<CR>
+imap <C-q> <esc>:wq<CR>
+imap <expr><C-e> pumvisible() ? "\<C-e>" : "\<End>"
+
+imap <leader>j <Esc>wi
+imap <leader>k <Esc>bi
+
+" command keymap like emacs
+cmap <C-p> <Up>
+cmap <C-k> <Up>
+cmap <C-n> <Down>
+cmap <C-j> <Down>
+cmap <C-b> <Left>
+cmap <C-f> <Right>
+cmap <C-a> <Home>
+cmap <C-e> <End>
+cmap <C-d> <Del>
+cmap <C-h> <BS>
+cmap <C-t> <C-R>=expand("%:p:h") . "/" <CR>
+
+tnoremap <A-[> <C-\><C-n>
 
 nmap q :q <CR>
 nmap Q q
-nmap Y y$
 nmap j gj
 nmap k gk
 nmap  \  :%s//g<Left><Left>
@@ -132,7 +157,9 @@ nmap  <space> `
 nnmap ' "
 
 nmap Y y$
-nmap E v$
+nmap yu y0
+nmap E v$h
+nmap B vb
 nmap <Leader>w :w<CR>
 " Run the current line
 nmap <leader>ee :execute getline(line('.'))<cr>
@@ -154,6 +181,18 @@ nmap <leader>b :buffers<cr>
 nmap <leader>n :bnext<cr>
 nmap <leader>p :bprevious<cr>
 nmap <Leader>x :bw<cr>
+
+" vmap
+vmap ,' <esc>`>a'<esc>`<i'<esc>
+vmap ," <esc>`>a"<esc>`<i"<esc>
+vmap ,( <esc>`>a)<esc>`<i(<esc>
+vmap ,[ <esc>`>a]<esc>`<i[<esc>
+vmap ,<space> <esc>`>a<space><esc>`<i<space><esc>
+
+vmap ,d <esc>`>a` <esc>`<i `<esc>
+vmap ,c <esc>`>a<enter>```<esc>`<i```<enter><esc>kA
+vmap ,i <esc>`>a*<esc>`<i*<esc>
+vmap ,b <esc>`>a**<esc>`<i**<esc>
 EOF
 }
 

@@ -55,6 +55,22 @@
     search[26]="https://search.gitee.com/?skin=rec&type=repository&q="
     search[27]="https://weixin.sogou.com/weixin?type=2&s_from=input&query="
     lengh=${#name[*]}
+    function mutilinux(){
+        xdg-open "${search[23]}$1" &> /dev/null
+        xdg-open "${search[4]}$1"  &> /dev/null
+        xdg-open "${search[0]}$1"  &> /dev/null
+        xdg-open "${search[14]}$1" &> /dev/null
+        xdg-open "${search[8]}$1"  &> /dev/null
+        xdg-open "${search[7]}$1"  &> /dev/null
+    }
+    function mutisearch(){
+        xdg-open "${search[1]}$1"  &> /dev/null
+        xdg-open "${search[2]}$1"  &> /dev/null
+        xdg-open "${search[3]}$1"  &> /dev/null
+        xdg-open "${search[10]}$1" &> /dev/null
+        xdg-open "${search[17]}$1" &> /dev/null
+        xdg-open "${search[20]}$1" &> /dev/null
+    }
 
     for ((i=0; i<$lengh; i=i+1));do
         engine="$engine${name[$i]}\n"
@@ -76,22 +92,24 @@
         # muti linux
         elif [ "$n" == "${name[24]}" ];then
             e=$(echo 'input' | dmenu)
-            xdg-open "${search[23]}$e" &> /dev/null
-            xdg-open "${search[4]}$e"  &> /dev/null
-            xdg-open "${search[0]}$e"  &> /dev/null
-            xdg-open "${search[14]}$e" &> /dev/null
-            xdg-open "${search[8]}$e"  &> /dev/null
-            xdg-open "${search[7]}$e"  &> /dev/null
+            if [ "$e" == "input" ];then
+                # 获取剪切板
+                clip=$(xsel -o -b)
+                mutilinux $clip
+            else
+                mutilinux $e
+            fi
             exit 0
         # muti search
         elif [ "$n" == "${name[25]}" ];then
             e=$(echo 'input' | dmenu)
-            xdg-open "${search[1]}$e"  &> /dev/null
-            xdg-open "${search[2]}$e"  &> /dev/null
-            xdg-open "${search[3]}$e"  &> /dev/null
-            xdg-open "${search[10]}$e" &> /dev/null
-            xdg-open "${search[17]}$e" &> /dev/null
-            xdg-open "${search[20]}$e" &> /dev/null
+            if [ "$e" == "input" ];then
+                # 获取剪切板
+                clip=$(xsel -o -b)
+                mutisearch $clip
+            else
+                mutisearch $e
+            fi
             exit 0
         fi
     done

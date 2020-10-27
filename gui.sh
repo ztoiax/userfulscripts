@@ -23,7 +23,7 @@ $install zathura-pdf-poppler
 }
 
 rimefctixinstall(){
-$install fcitx-im fcitx-confitool fcitx-rime
+$install fcitx-im fcitx-confitool fcitx-rime vim-fcitx
 # fcitx
 cat >> ~/.xprofile << "EOF"
 export GTK_IM_MODULE=fcitx
@@ -35,17 +35,22 @@ export QT5_IM_MODULE=fcitx
 export QT_IM_MODULE=fcitx
 EOF
 #theme
-gti clone https://github.com/winjeg/fcitx-skins.git
+git clone https://github.com/winjeg/fcitx-skins.git
 cd fcitx-skins
 chmod a+x ./install.sh
 ./install.sh
 }
 
 fcitx5(){
-yay -S fcitx5-git fcitx5-rime-git fcitx5-gtk-git fcitx5-chinese-addons-git fcitx5-configtool fcitx5-qt4-git
-yay -S fcitx5-pinyin-moegirl-rime fcitx5-pinyin-zhwiki #萌娘百科，中文维基百科词库
-yay -S kcm-fcitx5-git #kde
-yay -S fcitx5-material-color#皮肤
+yay -S fcitx5-git  fcitx5-gtk-git fcitx5-chinese-addons-git fcitx5-configtool fcitx5-qt4-git
+# rime输入法
+yay -S fcitx5-rime-git
+# 萌娘百科，中文维基百科词库
+yay -S fcitx5-pinyin-moegirl-rime fcitx5-pinyin-zhwiki
+# 皮肤
+yay -S fcitx5-material-color
+# kde
+yay -S kcm-fcitx5-git
 
 cat >> ~/.pam_environment << "EOF"
 INPUT_METHOD  DEFAULT=fcitx5
