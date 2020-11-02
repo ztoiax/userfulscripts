@@ -3,11 +3,12 @@
 
 # $install tlp #它能帮你的设备省点电
 mysql(){
-$install mycli           # 更友好的cli
-$install mydumper        # 更友好的mysqldump
-$install innotop         # 性能监控tui
-$install percona-toolkit # 运维工具cli
-$install workbench       # 官方gui
+$install mycli             # 更友好的cli
+$install mydumper          # 更友好的mysqldump
+$install innotop           # 性能监控tui
+$install percona-toolkit   # 运维工具cli
+$install workbench         # 官方gui
+$install undrop-for-innodb # 恢复误删除数据
 }
 
 log(){
