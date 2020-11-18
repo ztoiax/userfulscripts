@@ -180,6 +180,8 @@ nmap <leader>9 :buffer9<cr>
 nmap <leader>b :buffers<cr>
 nmap <leader>n :bnext<cr>
 nmap <leader>p :bprevious<cr>
+nmap L         :bnext<cr>
+nmap H         :bprevious<cr>
 nmap <Leader>x :bw<cr>
 
 " vmap

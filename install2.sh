@@ -3,12 +3,18 @@
 
 # $install tlp #它能帮你的设备省点电
 mysql(){
-$install mycli             # 更友好的cli
-$install mydumper          # 更友好的mysqldump
-$install innotop           # 性能监控tui
-$install percona-toolkit   # 运维工具cli
-$install workbench         # 官方gui
-$install undrop-for-innodb # 恢复误删除数据
+$install mycli                # 更友好的cli
+$install mydumper             # 更友好的mysqldump
+$install innotop              # 性能监控tui
+$install percona-toolkit      # 运维工具cli
+$install workbench            # 官方gui
+$install undrop-for-innodb    # 恢复误删除数据
+$install mitzasql             # vim key tui
+
+# canal_client
+curl -LO https://github.com/liukelin/canal_mysql_nosql_sync/files/442171/canal_client_1.0.22.2.zip
+# canal.deployer
+curl -LO https://github.com/alibaba/canal/releases/download/canal-1.1.4/canal.deployer-1.1.4.tar.gz
 }
 
 log(){
@@ -36,10 +42,12 @@ source /etc/profile.d/locale.sh
 net(){
 $install proxychains
 }
+
 code(){
 $install sourcetrail
 $install vscode
 }
+
 kvm(){
 $install qemu
 $install virt-manager
@@ -50,6 +58,7 @@ systemctl start libvirtd
 systemctl enable virtlogd.service
 systemctl start virtlogd.service
 }
+
 hackintosh(){
     git clone https://github.com/foxlet/macOS-Simple-KVM.git
     cd macOS-Simple-KVM
@@ -59,6 +68,7 @@ char(){
 $install thefuck
 $install how2
 $install tldr
+$install asciinema #终端屏幕录制
 $install csvkit #https://csvkit.readthedocs.io/en/1.0.3/
 $install entr   #事件监控
 $install pet    #CLI Snippet Manager
@@ -74,11 +84,14 @@ $install fd                # instead find
 $install cfdisk            # instead fdisk
 $install bit               # instead git cli
 $install exa               # instead ls
-$install lsd               # instead ls support icon
+$install cheat             # instead man
 $install prettyping        # instead ping
+$install gping             # instead ping
 $install dfc               # instead df
-$install duf               # instead df
+$install duf               # instead detailed df
 $install ncdu              # instead ncdu
+
+#$install lsd               # instead ls support icon
 }
 filemanage(){
 $install mc                # file manage with support mouse
@@ -93,6 +106,7 @@ yay -S timeshift    #backup
 yay -S zfs-linux
 yay -S procdump
 yay -S qt-scrcpy
+pip3 install -u guiscrcpy
 $install bleachbit  #清理垃圾
 $install testdisk   #恢复删除文件
 $install d-feet     #调试dbus
@@ -100,6 +114,7 @@ $install filelight  #树目录大小
 $install gitkraken  #git gui
 $install navicat    #数据库可视化
 }
+
 git-advance(){
 $install git-extras
 npm i -g cli-github
@@ -191,7 +206,7 @@ sshclient(){
 
 # base
 baseinstall(){
-#声卡驱动
+#声卡驱动sound
 $install alsa-utils
 
 $install ntfs-3g

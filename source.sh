@@ -1,5 +1,22 @@
 #!/bin/bash
-#源修改
+# 源修改
+
+# 中科大源使用帮助
+# https://mirrors.ustc.edu.cn/help/dockerhub.html
+
+dockersource(){
+    # 中科大
+    # i='"registry-mirrors": ["https://docker.mirrors.ustc.edu.cn/"]'
+
+    # docker 中国区源
+    i='"registry-mirrors": ["https://registry.docker-cn.com"]'
+
+    sudo sed -i "/registry-mirrors/c$i" /etc/docker/daemon.json
+
+    DOCKER_OPTS=$i
+    sudo systemctl restart docker
+}
+
 pipsource(){
 if [ ! -f ~/.pip/pip.conf ]; then
     echo "正在更换pip源"
@@ -12,6 +29,7 @@ if [ ! -f ~/.pip/pip.conf ]; then
     echo -e $aliyun > ~/.pip/pip.conf
 fi
 }
+
 npmsource() {
     echo "正在更换npm源"
 npm config set registry https://mirrors.huaweicloud.com/repository/npm/
