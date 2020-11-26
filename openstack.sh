@@ -1,18 +1,5 @@
 #!/bin/bash
 #openstack
-epelinstall(){
-if rpm -q epel-release; then
-    echo "epel已安装"
-    return
-fi
-echo "正在安装epel"
-yum install -y epel-release
-mv /etc/yum.repos.d/epel.repo /etc/yum.repos.d/epel.repo.backup
-mv /etc/yum.repos.d/epel-testing.repo /etc/yum.repos.d/epel-testing.repo.backup
-curl -o /etc/yum.repos.d/epel.repo http://mirrors.aliyun.com/repo/epel-7.repo
-# yum clean all
-# yum makecache
-}
 baseinstall(){
 echo  "LANG=en_US.utf-8" > /etc/environment
 echo  "LC_ALL=en_US.utf-8" >> /etc/environment

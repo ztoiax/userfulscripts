@@ -1,28 +1,45 @@
 #!/bin/bash
 echo "gtk-key-theme-name = Emacs" >> ~/.config/gtk-3.0/settings.ini
 
+other(){
+    $install electronic-wechat-bin
+    $install netease-cloud-music
+    $install baidupcs-go
+    yay -S lanzou-gui   #蓝奏云
+    yay -S timeshift    #backup
+    yay -S zfs-linux
+    yay -S procdump
+    yay -S qt-scrcpy
+    pip3 install -u guiscrcpy
+    $install bleachbit  #清理垃圾
+    $install testdisk   #恢复删除文件
+    $install d-feet     #调试dbus
+    $install filelight  #树目录大小
+    $install gitkraken  #git gui
+}
+
 awesomechar(){
-$install figlet                 #beautiful char
-$install cmatrix				#黑客帝国效果
-$install neofetch				#系统信息显示
+    $install figlet                 #beautiful char
+    $install cmatrix				#黑客帝国效果
+    $install neofetch				#系统信息显示
 }
 
 font(){
-#biaoqing
-noto-fonts-emoji
-libxft-bgra
-#font
-yay -S nerd-fonts-source-code-pro
-cd ~/.local/share/fonts && sudo curl -fLo "Droid Sans Mono for Powerline Nerd Font Complete.otf" https://github.com/ryanoasis/nerd-fonts/raw/master/patched-fonts/DroidSansMono/complete/Droid%20Sans%20Mono%20Nerd%20Font%20Complete.otf
+    #biaoqing
+    noto-fonts-emoji
+    libxft-bgra
+    #font
+    yay -S nerd-fonts-source-code-pro
+    cd ~/.local/share/fonts && sudo curl -fLo "Droid Sans Mono for Powerline Nerd Font Complete.otf" https://github.com/ryanoasis/nerd-fonts/raw/master/patched-fonts/DroidSansMono/complete/Droid%20Sans%20Mono%20Nerd%20Font%20Complete.otf
 }
 
-zathura(){
 #pdf
-$install zathura
-$install zathura-pdf-poppler
+zathura(){
+    $install zathura
+    $install zathura-pdf-poppler
 }
 
-rimefctixinstall(){
+rimefctix(){
 $install fcitx-im fcitx-confitool fcitx-rime vim-fcitx
 # fcitx
 cat >> ~/.xprofile << "EOF"
@@ -74,7 +91,7 @@ Theme=Material-Color-Brown
 EOF
 }
 
-rimeibusinstall(){
+rimeibus(){
 $install ibus ibus-clutter ibus-gtk ibus-gtk3 ibus-qt4
 $install ibus-rime
 # 简体
@@ -90,7 +107,7 @@ $install gcr
 $install webkit2gtk
 }
 
-sddminstall(){
+sddm(){
 $install sddm
 sudo sddm --example-config > /etc/sddm.conf
 #sddm theme
@@ -107,39 +124,77 @@ Session=dwm.desktop
 EOF
 }
 
-iconinstall(){
-yay -S la-capitaine-icon-theme
-yay -S flat-remix
+icon(){
+    yay -S la-capitaine-icon-theme
+    yay -S flat-remix
 }
 
-xorginstall(){
-#notifications
-$install dunst
-#notifications process
-$install noti
-#screen-recorder
-$install deepin-screen-recorder
-#set termianl colorscheme from wallpaper
-$install wal
-#alpha
-$install compton
-#menu
-$install dmenu
-$install conky
-#themes
-$install lxappearance
-#wallpaper
-$install feh
-#wallpaper config
-$install variety
+xorg(){
+    $install feh #wallpaper
+    $install dunst #notifications
+    $install screenkey #show key input
+    $install deepin-screen-recorder #screen-recorder
+    $install wal #set termianl colorscheme from wallpaper
+    $install compton #alpha
 
-#show key input
-$install screenkey
-#screen recorder
-$install simplescreenrecorder
-#download
-$install transmission
+    # $install conky #menu
+    # $install lxappearance #themes
+    # $install noti #notifications process
+
+    # $install variety #wallpaper config
+    # $install simplescreenrecorder #screen recorder
+    # $install transmission #download
 }
-dwminstall(){
+
+dwm(){
 $install xdotool
 }
+
+########## main ##########
+
+# check linux release
+if [ -f /usr/bin/lsb_release ]; then
+    # debian like
+    install="apt-get"
+    check="dpkg -l"
+    echo "This is Debian like"
+elif [ -f /etc/redhat-release ];then
+    # red hat
+    install="yum -y"
+    check="rpm -q"
+    release=$(cat /etc/redhat-release | awk '{ print $4 }' | cut -c1)
+    echo "This is red hat $release version"
+elif [ which pacman ];then
+    # arch
+    install="pacman -S"
+    # check="rpm -q"
+    echo "This is Arch"
+elif uname -a | grep Android;then
+    # android
+    install="pkg"
+    check="pkg show"
+    echo "This is Android"
+fi
+
+for i in "$@"; do
+    case $i in
+        sddm ) sddm;;
+        xorg ) xorg;;
+        font ) font;;
+        fcitx5 ) fcitx5;;
+        zathura ) zathura;;
+        other ) other;;
+        awesomechar ) awesomechar;;
+
+        # other
+        list ) set | grep "()";;
+        * ) read -p "$i暂时没收录，是否使用$install安装:[y/n] " y
+            if [ $y == y ]; then
+                sudo $install $i
+            else
+                exit 1
+            fi
+            ;;
+    esac
+done
+# https://github.com/orangbus/Tool

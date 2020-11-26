@@ -7,6 +7,12 @@ iostat
 iotop
 fio
 
+# process
+ps aux
+# 查看线程
+ps -T -p <pid>
+top -H -p <pid>
+
 #第三方
 #综合
 stacer #qt-app
@@ -17,14 +23,17 @@ atop
 htop
 gtop
 bashtop
+
 #cpu
 s-tui
 sensors #温度
+
 #io
 ncdu
 iozone
 hddtemp #sata硬盘温度
 nvme-cli #可nvme温度等
+
 #net https://linux.cn/article-5461-weixin.html
 traceroute #追踪
 tcptraceroute #追踪

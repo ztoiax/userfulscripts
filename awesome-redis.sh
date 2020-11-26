@@ -32,8 +32,14 @@ redis-shake(){
     # ./start.sh redis-shake.conf sync
 }
 
+# dbatools
+dbatools(){
+    git clone https://github.com/xiepaup/dbatools.git
+}
+
 rdb
 rma
 redis-gui
 iredis
 redis-shake
+dbatools

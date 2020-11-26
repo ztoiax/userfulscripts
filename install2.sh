@@ -3,18 +3,30 @@
 
 # $install tlp #它能帮你的设备省点电
 mysql(){
-$install mycli                # 更友好的cli
-$install mydumper             # 更友好的mysqldump
-$install innotop              # 性能监控tui
-$install percona-toolkit      # 运维工具cli
-$install workbench            # 官方gui
-$install undrop-for-innodb    # 恢复误删除数据
-$install mitzasql             # vim key tui
+    $install mycli                # 更友好的cli
+    $install mydumper             # 更友好的mysqldump
+    $install xtrabackup           # 支持增量备份
+    $install innotop              # 性能监控tui
+    $install percona-toolkit      # 运维工具cli
+    $install workbench            # 官方gui
+    $install undrop-for-innodb    # 恢复误删除数据
+    $install mitzasql             # vim key tui
 
-# canal_client
-curl -LO https://github.com/liukelin/canal_mysql_nosql_sync/files/442171/canal_client_1.0.22.2.zip
-# canal.deployer
-curl -LO https://github.com/alibaba/canal/releases/download/canal-1.1.4/canal.deployer-1.1.4.tar.gz
+    # binlog2sql
+    git clone https://github.com/danfengcao/binlog2sql.git && cd binlog2sql
+    pip install -r requirements.txt
+
+    # canal_client
+    curl -LO https://github.com/liukelin/canal_mysql_nosql_sync/files/442171/canal_client_1.0.22.2.zip
+    # canal.deployer
+    curl -LO https://github.com/alibaba/canal/releases/download/canal-1.1.4/canal.deployer-1.1.4.tar.gz
+}
+
+bspwm(){
+mkdir ~/.config/bspwm
+mkdir ~/.config/sxhkd
+cp /usr/share/doc/bspwm/examples/bspwmrc ~/.config/bspwm/bspwmrc
+cp /usr/share/doc/bspwm/examples/sxhkdrc ~/.config/sxhkd/sxhkdrc
 }
 
 log(){
@@ -39,24 +51,42 @@ unset LANG
 source /etc/profile.d/locale.sh
 }
 
-net(){
-$install proxychains
-}
-
 code(){
 $install sourcetrail
 $install vscode
 }
 
 kvm(){
-$install qemu
-$install virt-manager
-$install dnsmasq ebtables dmidecode ovmf
-systemctl enable libvirtd
-systemctl start libvirtd
-#开启日志
-systemctl enable virtlogd.service
-systemctl start virtlogd.service
+    # web ui console
+    dnf install cockpit cockpit-machines
+    systemctl start cockpit.socket
+    systemctl enable cockpit.socket
+    systemctl status cockpit.socket
+
+    firewall-cmd --add-service=cockpit --permanent
+    firewall-cmd --reload
+
+    # kvm
+    dnf install qemu-kvm libvirt virt-install virt-viewer
+
+    # $install libvirt libvirt-daemon  libvirt-client  libvirt-daemon-driver-qemu
+    # $install qemu-kvm  virt-install  virt-viewer virt-v2v
+    # gui
+    # $install virt-manager
+    # $install dnsmasq ebtables dmidecode ovmf
+
+    # 设置开机启动
+    echo "设置开机启动"
+    systemctl enable libvirtd
+    systemctl start libvirtd
+
+    #开启日志
+    echo "开启日志"
+    systemctl enable virtlogd.service
+    systemctl start virtlogd.service
+
+    systemctl status libvirtd.service
+    lsmod | grep kvm
 }
 
 hackintosh(){
@@ -64,68 +94,55 @@ hackintosh(){
     cd macOS-Simple-KVM
     ./jumpstart.sh --mojave
 }
-char(){
-$install thefuck
-$install how2
-$install tldr
-$install asciinema #终端屏幕录制
-$install csvkit #https://csvkit.readthedocs.io/en/1.0.3/
-$install entr   #事件监控
-$install pet    #CLI Snippet Manager
-yay -S ripgrep-all
-}
-instead(){
-# https://linux.cn/article-4042-1.html
-$install advcp             # instead cp mv
-$install silversearcher-ag # instead grep
-$install bat               # instead cat
-$install diff-so-fancy     # instead git diff
-$install fd                # instead find
-$install cfdisk            # instead fdisk
-$install bit               # instead git cli
-$install exa               # instead ls
-$install cheat             # instead man
-$install prettyping        # instead ping
-$install gping             # instead ping
-$install dfc               # instead df
-$install duf               # instead detailed df
-$install ncdu              # instead ncdu
 
-#$install lsd               # instead ls support icon
+char(){
+    $install thefuck
+    $install how2
+    $install tldr
+    $install asciinema #终端屏幕录制
+    $install csvkit #https://csvkit.readthedocs.io/en/1.0.3/
+    $install entr   #事件监控
+    $install pet    #CLI Snippet Manager
+    # yay -S ripgrep-all
 }
+
+instead(){
+    # https://linux.cn/article-4042-1.html
+    $install advcp             # instead cp mv
+    $install silversearcher-ag # instead grep
+    $install bat               # instead cat
+    $install diff-so-fancy     # instead git diff
+    $install fd                # instead find
+    $install cfdisk            # instead fdisk
+    $install bit               # instead git cli
+    $install exa               # instead ls
+    $install cheat             # instead man
+    $install prettyping        # instead ping
+    $install gping             # instead ping
+    $install dfc               # instead df
+    $install duf               # instead detailed df
+    $install ncdu              # instead ncdu
+}
+
 filemanage(){
-$install mc                # file manage with support mouse
-$install broot             # file manage
-$install nnn               # file manage
-}
-otherinstall(){
-$install netease-cloud-music
-$install baidupcs-go
-yay -S lanzou-gui   #蓝奏云
-yay -S timeshift    #backup
-yay -S zfs-linux
-yay -S procdump
-yay -S qt-scrcpy
-pip3 install -u guiscrcpy
-$install bleachbit  #清理垃圾
-$install testdisk   #恢复删除文件
-$install d-feet     #调试dbus
-$install filelight  #树目录大小
-$install gitkraken  #git gui
-$install navicat    #数据库可视化
+    $install mc                # file manage with support mouse
+    $install broot             # file manage
 }
 
 git-advance(){
-$install git-extras
-npm i -g cli-github
-npm i -g git-stats
+    $install git-extras
+    npm i -g cli-github
+    npm i -g git-stats
+    npm i -g commitizen # git cz 代码提交规范
 }
+
 nnn(){
-# plugin preview-tabbed
-$install tabbed
-$install sxiv
-$install lsix
+    # plugin preview-tabbed
+    $install tabbed
+    $install sxiv
+    $install lsix
 }
+
 ranger(){
 $install ranger-git
 $install ffmpegthumbnailer ueberzug
@@ -155,47 +172,37 @@ cd shortcut-c-client
 make install
 }
 
-nvminstall(){
-curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.3/install.sh | bash
+grub(){
+    echo "installing grub"
+    $install os-prober
+    grub-mkconfig -o /boot/grub/grub.cfg
+    grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=GRUB
 }
 
-fzfinstall(){
-git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
-~/.fzf/install
+st(){
+    git clone https://git.suckless.org/st
+    cd st
+    sed -i '/X11INC = \/usr\/X11R6\/include/cX11INC = /usr/include/X11' config.mk
+    sed -i '/X11LIB = \/usr\/X11R6\/lib/cX11LIB = /usr/include/X11' config.mk
+    sudo make clean install
 }
 
-grubinstall(){
-$install os-prober
-grub-mkconfig -o /boot/grub/grub.cfg
-grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=GRUB
-}
-
-stinstall(){
-git clone https://git.suckless.org/st
-cd st
-sed -i '/X11INC = \/usr\/X11R6\/include/cX11INC = /usr/include/X11' config.mk
-sed -i '/X11LIB = \/usr\/X11R6\/lib/cX11LIB = /usr/include/X11' config.mk
-sudo make clean install
-}
 sshserver(){
-if rpm -q openssh; then
-    echo "ssh已安装,免密码正在安装"
-else
-    echo "正在安装ssh"
     $install install -y openssh
-fi
-echo "PermitRootLogin yes
-StrictModes no
-RSAAuthentication yes
-PubkeyAuthentication yes
-PasswordAuthentication no"
 
-sed -i '/PubkeyAuthentication/cPubkeyAuthentication yes' /etc/ssh/sshd_config
-sed -i '/PasswordAuthentication/cPasswordAuthentication no' /etc/ssh/sshd_config
-sed -i "/^PermitRootLogin/cPermitRootLogin yes" /etc/ssh/sshd_config
-sed -i '/RSAAuthentication/cRSAAuthentication yes' /etc/ssh/sshd_config
-sed -i '/StrictModes/cStrictModes no' /etc/ssh/sshd_config
+    echo "PermitRootLogin yes
+    StrictModes no
+    RSAAuthentication yes
+    PubkeyAuthentication yes
+    PasswordAuthentication no"
+
+    sed -i '/PubkeyAuthentication/cPubkeyAuthentication yes' /etc/ssh/sshd_config
+    sed -i '/PasswordAuthentication/cPasswordAuthentication no' /etc/ssh/sshd_config
+    sed -i "/^PermitRootLogin/cPermitRootLogin yes" /etc/ssh/sshd_config
+    sed -i '/RSAAuthentication/cRSAAuthentication yes' /etc/ssh/sshd_config
+    sed -i '/StrictModes/cStrictModes no' /etc/ssh/sshd_config
 }
+
 sshclient(){
     echo "ssh免密码登录正在安装"
     read -p "enter serverip: " serverip
@@ -204,69 +211,50 @@ sshclient(){
     ssh-copy-id $serverip
 }
 
-# base
-baseinstall(){
-#声卡驱动sound
-$install alsa-utils
+other(){
+    $install alsa-utils # 声卡驱动sound
+    $install kdeconnect nodejs subversion
+}
 
-$install ntfs-3g
-$install git wget make nodejs subversion
-$install python2 python3 python-pip python3-pip
-$install tree
-$install dunst #notifications
-$install vidir
-$install kdeconnect
-pip3 install ranger-fm
+base(){
 
-npm install -g cnpm --registry=https://registry.npm.taobao.org
+    $install ntfs-3g
+    $install openssh
+    $install git wget make
+    $install python2 python3 python-pip python3-pip
+    $install tree
+    $install vidir
+    $install proxychains # proxy
 
-#Mount Android
-yay -S simple-mtpfs
+    # Mount Android
+    # yay -S simple-mtpfs
 
-# time
-# sudo timedatectl set-local-rtc true
+    # time
+    # sudo timedatectl set-local-rtc true
 }
 
 nvim(){
-if [ $release == 7 ]; then
-    echo "正在安装neovim"
-    yum install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
-    yum install -y neovim python3-neovim
-fi
-}
-#fish
-fishinstall(){
-if [ $release == 7 ]; then
-    echo "正在安装fish"
-    cd /etc/yum.repos.d/
-    wget https://download.opensuse.org/repositories/shells:fish:release:2/RedHat_RHEL-6/shells:fish:release:2.repo
-    yum install -y fish
-elif [ $release == 8 ]; then
-    echo "正在安装fish"
-    cd /etc/yum.repos.d/
-    wget https://download.opensuse.org/repositories/shells:fish:release:3/CentOS_8/shells:fish:release:3.repo
-    yum install -y fish
-fi
-}
-oh-my-fishinstall(){
-    curl -L https://get.oh-my.fish | fish
-}
-fzfinstall(){
-if type fzf; then
-    echo "fzf已安装"
-    return 1
-fi
-echo "正在安装fzf"
-git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
-~/.fzf/install
+# if [ $release == 7 ]; then
+    echo "installing neovim"
+    # yum install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+    $install neovim python3-neovim
+# fi
 }
 
-adbconnect(){
-adb -s 192.168.1.111:5555 connect 192.168.1.111:5555
-sleep 1
-adb -s 192.168.1.111:5555 forward tcp:10808 tcp:10808
-export ALL_PROXY=socks5://127.0.0.1:10808
-export NO_PROXY="mirrors.aliyun.com,registry.npm.taobao.org,npm.taobao.org,docker.mirrors.ustc.edu.cn,mirrors.aliyuncs.com,mirrors.cloud.aliyuncs.com"
+fish(){
+    echo "installing fish"
+    $install fish && echo "installing oh-my-fish" && \
+    curl -L https://get.oh-my.fish | fish
+}
+
+fzf(){
+    if type fzf; then
+        echo "fzf id installed"
+        return 1
+    fi
+    echo "installing fzf"
+    git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
+    ~/.fzf/install
 }
 
 monitorinstall() {
@@ -319,34 +307,59 @@ rpm -ivh iozone-3-490.src.rpm && rm iozone-3-490.src.rpm
 fi
 }
 
+
+
+########## main ##########
+
+# check linux release
 if [ -f /usr/bin/lsb_release ]; then
+    # debian like
     install="apt-get"
     check="dpkg -l"
+    echo "This is Debian like"
 elif [ -f /etc/redhat-release ];then
-    install="yum"
+    # red hat
+    install="yum -y"
     check="rpm -q"
+    release=$(cat /etc/redhat-release | awk '{ print $4 }' | cut -c1)
+    echo "This is red hat $release version"
+elif [ which pacman ];then
+    # arch
+    install="pacman -S"
+    # check="rpm -q"
+    echo "This is Arch"
 elif uname -a | grep Android;then
+    # android
     install="pkg"
     check="pkg show"
+    echo "This is Android"
 fi
-# 系统版本
-release=$(cat /etc/redhat-release | awk '{ print $4 }' | cut -c1)
 
 for i in "$@"; do
     case $i in
-        adb ) adbconnect;;
-        fzf ) fzfinstall;;
-        epel ) epelinstall;;
-        fish ) fishinstall;;
-        base ) baseinstall;;
-        monitor ) monitorinstall;;
-        phoronix ) phoronixinstall;;
+        # personal customization
+        fzf ) fzf;;
+        fish ) fish;;
+        base ) base;;
+        grub ) grub;;
+        nvim ) nvim;;
+        instead ) instead;;
+        other ) other;;
+
+        # server
+        kvm ) kvm;;
         sshserver ) sshserver;;
         sshclient ) sshclient;;
+        monitor ) monitorinstall;;
+        phoronix ) phoronixinstall;;
+
         openstack ) source openstack.sh && openstackinstall;;
 
+        # config
         *config ) source ${0%/*}/config.sh && config.sh $i;;
         *source ) source ${0%/*}/source.sh && source.sh $i;;
+
+        # other
         list ) set | grep "()";;
         * ) read -p "$i暂时没收录，是否使用$install安装:[y/n] " y
             if [ $y == y ]; then
