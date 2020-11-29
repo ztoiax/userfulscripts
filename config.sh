@@ -14,11 +14,16 @@ cat > ~/.config/fish/config.fish << 'EOF'
 
 alias sudo "sudo "
 alias j    "autojump"
-alias c    "clear"
 alias r    "ranger"
+alias p    "ps aux"
 alias cp   "cp -i"
+alias c="curl -LO"
 alias rm   "rm -i"
 alias grep "egrep --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn}"
+
+alias typel "type -a"
+alias df "df -h"
+alias free "free -hw"
 
 alias v        "nvim"
 alias w        "watch -d -n 2"
@@ -28,21 +33,21 @@ alias cplast   "history | tail -n 1 | cut -c8- | clip"
 alias sl  "systemctl"
 alias sls "systemctl status"
 alias slr "systemctl restart"
-alias sle="systemctl enbale"
-alias sld="systemctl stop"
-alias jl="journalctl"
+alias sle "systemctl enbale"
+alias sld "systemctl stop"
+alias jl "journalctl"
 
 alias pi "yum install -y"
 
 # git
-alias lg='lazygit'
-alias gc='git clone'
-alias ga='git add --all'
-alias gm='git commit -m '
-alias gp='git push'
-alias gl='git log'
-alias gb='git branch'
-alias gs='git status'
+alias lg 'lazygit'
+alias gc 'git clone'
+alias ga 'git add --all'
+alias gm 'git commit -m '
+alias gp 'git push'
+alias gl 'git log'
+alias gb 'git branch'
+alias gs 'git status'
 # alias grhh "git reset --hard $(git log | awk 'NR  1{print $2}')"
 
 # docker
@@ -55,10 +60,13 @@ alias dccp  'sudo docker container cp'
 alias dck   'sudo docker container kill'
 alias dcs   'sudo docker container stop'
 
+# export
+export CDPATH='/home/tz:/home/tz/.config:/etc'
+export PATH="/root/.mybin:$PATH"
+
 set -x nvim ~/.config/nvim/init.vim
 set -x fish ~/.config/fish/config.fish
 
-export PATH="/root/.mybin:$PATH"
 source ~/.autojump/share/autojump/autojump.fish
 
 EOF

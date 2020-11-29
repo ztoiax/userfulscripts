@@ -1,8 +1,9 @@
 #!/bin/bash
-# 源修改
 
-# 中科大源使用帮助
-# https://mirrors.ustc.edu.cn/help/dockerhub.html
+# 源修改
+# 中科大源使用帮助 https://mirrors.ustc.edu.cn/help/dockerhub.html
+
+##### function ######
 
 dockersource(){
     echo " Replacing docker aliyun source..."
@@ -32,11 +33,12 @@ fi
 }
 
 npmsource() {
-    echo " Replacing npm aliyun source..."
+    echo " Replacing npm taobao source..."
     # npm install -g cnpm --registry=https://registry.npm.taobao.org
-    npm config set registry https://mirrors.huaweicloud.com/repository/npm/
-    npm config set sass_binary_site https://mirrors.huaweicloud.com/node-sass
-    npm config set disturl https://mirrors.huaweicloud.com/nodejs
+    npm config set registry https://registry.npm.taobao.org
+    # npm config set registry https://mirrors.huaweicloud.com/repository/npm/
+    # npm config set sass_binary_site https://mirrors.huaweicloud.com/node-sass
+    # npm config set disturl https://mirrors.huaweicloud.com/nodejs
     npm cache clean -f
 }
 
@@ -69,6 +71,7 @@ epelsource(){
     sed -i 'baseurl/cbaseurl=https://mirrors.aliyun.com/epel/$release/Everything/$basearch' /etc/yum.repos.d/epel.repo
     sed -i 'metalink/c#metalink' /etc/yum.repos.d/epel.repo
 }
+
 pacmansource(){
     echo " Replacing pacman aliyun source..."
     aliyun=Server = https://mirrors.aliyun.com/archlinuxcn/$arch
@@ -92,7 +95,7 @@ yaysource(){
     #gpg --keyserver pool.sks-keyservers.net --recv-keys 6C37DC12121A5006BC1DB804DF6FD971306037D9
 }
 
-########## main ##########
+##### main ######
 
 case $1 in
     npm*) npmsource ;;

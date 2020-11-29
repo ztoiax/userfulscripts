@@ -1,7 +1,19 @@
 #!/bin/bash
-# set -x
+# Copyright (C) 2017 liang an da(梁安达) - All Rights Reserved
+# Permission to copy and modify is granted under the Creative Commons Attribution 4.0 license
+# Last revised 2020-11-29
 
+# set -x
 # $install tlp #它能帮你的设备省点电
+
+zram(){
+    echo "zram" > /etc/modules-load.d/zram.conf
+    echo "options zram num_devices=1" > /etc/modprobe.d/zram.conf
+    echo 'KERNEL=="zram0", ATTR{disksize}="2G",TAG+="systemd"' > /etc/udev/rules.d/99-zram.rules
+    echo "[Unit]\nDescription=Swap with zram\nAfter=multi-user.target\n\n[Service]\nType=oneshot \nRemainAfterExit=true\nExecStartPre=/sbin/mkswap /dev/zram0\nExecStart=/sbin/swapon /dev/zram0\nExecStop=/sbin/swapoff /dev/zram0\n\n[Install]\nWantedBy=multi-user.target" > /etc/systemd/system/zram.service
+    systemctl enable zram
+}
+
 mysql(){
     $install mycli                # 更友好的cli
     $install mydumper             # 更友好的mysqldump
@@ -226,6 +238,7 @@ base(){
     $install vidir
     $install proxychains # proxy
 
+    yay -S bash-snippets # good bash scripts
     # Mount Android
     # yay -S simple-mtpfs
 
@@ -311,29 +324,8 @@ fi
 
 ########## main ##########
 
-# check linux release
-if [ -f /usr/bin/lsb_release ]; then
-    # debian like
-    install="apt-get"
-    check="dpkg -l"
-    echo "This is Debian like"
-elif [ -f /etc/redhat-release ];then
-    # red hat
-    install="yum -y"
-    check="rpm -q"
-    release=$(cat /etc/redhat-release | awk '{ print $4 }' | cut -c1)
-    echo "This is red hat $release version"
-elif [ which pacman ];then
-    # arch
-    install="pacman -S"
-    # check="rpm -q"
-    echo "This is Arch"
-elif uname -a | grep Android;then
-    # android
-    install="pkg"
-    check="pkg show"
-    echo "This is Android"
-fi
+# check and set env
+source ~/.mybin/variables-depend.sh
 
 for i in "$@"; do
     case $i in
@@ -345,6 +337,9 @@ for i in "$@"; do
         nvim ) nvim;;
         instead ) instead;;
         other ) other;;
+
+        # system
+        zram ) zram;;
 
         # server
         kvm ) kvm;;

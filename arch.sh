@@ -15,7 +15,7 @@ arch(){
     pacman -Sy pacman-contrib #paccache
     systemctl enable dhcpcd
     systemctl enable NetworkManager
-    pacman -Sy zsh fish git wget bash-completion go base-devel python-pip the_silver_searcher inetutils
+    pacman -Sy zsh fish git wget bash-completion go base-devel python-pip the_silver_searcher inetutils expac
     passwd
 }
 

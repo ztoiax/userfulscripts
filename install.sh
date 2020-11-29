@@ -1,26 +1,4 @@
 #!/bin/bash
-zsh(){
-#oh-my-zsh
-wget https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -O - | sh;
-#zplug
-curl -sL --proto-redir -all,https https://raw.githubusercontent.com/zplug/installer/master/installer.zsh | zsh
-
-git clone https://github.com/zsh-users/zsh-syntax-highlighting.git
-echo "source ${(q-)PWD}/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" >> ${ZDOTDIR:-$HOME}/.zshrc
-
-git clone https://github.com/zsh-users/zsh-autosuggestions.git
-##################################################################
-git clone https://github.com/wting/autojump.git
-cd autojump
-./install.py or ./uninstall.py
-[[ -s /home/tz/.autojump/etc/profile.d/autojump.sh ]] && source /home/tz/.autojump/etc/profile.d/autojump.sh
-##################################################################
-#spaceship主题
-git clone https://github.com/denysdovhan/spaceship-prompt.git "$ZSH_CUSTOM/themes/spaceship-prompt"
-ln -s "$ZSH_CUSTOM/themes/spaceship-prompt/spaceship.zsh-theme" "$ZSH_CUSTOM/themes/spaceship.zsh-theme"
-#pure主题
-git clone https://github.com/sindresorhus/pure.git "$ZSH_CUSTOM/themes/spaceship-prompt"
-}
 base(){
 #源修改
 sudo add-apt-repository ppa:mmstick76/alacritty 		#alacritty
@@ -51,8 +29,6 @@ sudo apt-get -y install qemu qemu-kvm libvirt-bin libvirt-clients libvirt-daemon
 sudo apt-get -y install emacs25
 sudo apt-get -y install vim
 sudo apt-get -y install docker
-zsh()
-ranger()
 #systemctl
 sudo systemctl enable fstrim                    #开启ssd trim
 #https://zhuanlan.zhihu.com/p/34683444
@@ -64,27 +40,6 @@ git clone https://github.com/syl20bnr/spacemacs ~/.emacs.d -b develop
 curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 
-#fzf
-git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
-~/.fzf/install
-
-#Nerdfont
-mkdir -p ~/.local/share/fonts
-cd ~/.local/share/fonts && curl -fLo "Droid Sans Mono for Powerline Nerd Font Complete.otf" https://github.com/ryanoasis/nerd-fonts/raw/master/patched-fonts/DroidSansMono/complete/Droid%20Sans%20Mono%20Nerd%20Font%20Complete.otf
-
-
-#docker
-#换源
-sudo mkdir -p /etc/docker
-sudo tee /etc/docker/daemon.json <<-'EOF'
-{
-  "registry-mirrors": ["https://3lyyl0r4.mirror.aliyuncs.com"]
-}
-EOF
-sudo systemctl daemon-reload
-sudo systemctl restart docker
-}
-
 monitor(){
 sudo apt-get -y netdata						    #系统监视
 sudo apt-get -y install lazygit                 #gitgui
@@ -95,7 +50,6 @@ sudo apt-get -y install iftop
 sudo apt-get -y install iotop
 sudo apt-get -y install glances
 sudo apt-get -y install pybootchartgui          #启动时间记录
-sudo apt-get -y install filelight               #查看磁盘占用
 sudo apt-get -y install trace-cmd               #函数跟踪
 sudo apt-get -y install fio                     #块io测试
 sudo apt-get -y install bpfcc-tools linux-headers-$(uname -r) #bcc
@@ -108,9 +62,6 @@ sudo apt-get -y install linux-cloud-tools-generic
 #https://www.ibm.com/developerworks/cn/linux/l-cn-perf1/index.html
 }
 gui(){
-sudo apt-get -y install vlc
-sudo apt-get -y install variety					#壁纸管理
-sudo apt-get -y install redshift-gui			#护眼
 sudo apt-get -y install synaptic				#新立得包管理
 sudo apt-get -y install albert					#alt+space窗口
 sudo apt-get -y install unetbootin				#usb镜像制作

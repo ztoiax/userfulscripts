@@ -28,8 +28,11 @@ font(){
     #biaoqing
     noto-fonts-emoji
     libxft-bgra
+
     #font
     yay -S nerd-fonts-source-code-pro
+    #or
+    mkdir -p ~/.local/share/fonts
     cd ~/.local/share/fonts && sudo curl -fLo "Droid Sans Mono for Powerline Nerd Font Complete.otf" https://github.com/ryanoasis/nerd-fonts/raw/master/patched-fonts/DroidSansMono/complete/Droid%20Sans%20Mono%20Nerd%20Font%20Complete.otf
 }
 
@@ -137,13 +140,13 @@ xorg(){
     $install wal #set termianl colorscheme from wallpaper
     $install compton #alpha
 
+    # $install transmission-gtk # torrnet download
     # $install conky #menu
     # $install lxappearance #themes
     # $install noti #notifications process
 
     # $install variety #wallpaper config
     # $install simplescreenrecorder #screen recorder
-    # $install transmission #download
 }
 
 dwm(){
