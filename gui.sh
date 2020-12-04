@@ -12,6 +12,7 @@ other(){
     yay -S qt-scrcpy
     pip3 install -u guiscrcpy
     $install bleachbit  #清理垃圾
+    $install stacer     #电脑管家
     $install testdisk   #恢复删除文件
     $install d-feet     #调试dbus
     $install filelight  #树目录大小
@@ -139,6 +140,7 @@ xorg(){
     $install deepin-screen-recorder #screen-recorder
     $install wal #set termianl colorscheme from wallpaper
     $install compton #alpha
+    $install grub-customizer # grub
 
     # $install transmission-gtk # torrnet download
     # $install conky #menu

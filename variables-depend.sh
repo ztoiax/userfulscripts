@@ -22,7 +22,7 @@ elif [ -f /etc/redhat-release ];then
 elif [ which pacman ];then
     # arch
     install="pacman -S"
-    # check="rpm -q"
+    check="pacman -Qs"
     echo "This is Arch"
 elif uname -a | grep Android;then
     # android

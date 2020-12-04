@@ -143,6 +143,18 @@ show_nvmethermal(){
     sensors | awk 'NR==39 {print $2}'
 }
 
+show_gpuusage(){
+    gpustat | awk 'NR==2 {print $7"%"}'
+}
+
+show_gputhermal(){
+    gpustat | awk 'NR==2 {print $6"°C"}' | cut -c-2,6-8
+}
+
+show_gpumemory(){
+    gpustat | awk 'NR==2 {print $12-$10"M"}'
+}
+
 LOC=$(readlink -f "$0")
 DIR=$(dirname "$LOC")
 export IDENTIFIER="unicode"
@@ -168,7 +180,9 @@ get_bytes
 vel_recv=$(get_velocity $received_bytes $old_received_bytes $now)
 vel_trans=$(get_velocity $transmitted_bytes $old_transmitted_bytes $now)
 
-xsetroot -name "  $(show_cpuusage) $(show_cputhermal)  $(print_mem)M ﰬ $vel_recv ﰵ $vel_trans  $(show_diskidle) $(show_nvmethermal) $(print_volume) $(print_date) "
+#  ﴬ 菉
+
+xsetroot -name "  $(show_cpuusage) $(show_cputhermal)  $(show_gpuusage) $(show_gputhermal)  $(print_mem)M $(show_gpumemory) ﰬ $vel_recv ﰵ $vel_trans  $(show_diskidle) $(show_nvmethermal) $(print_volume) $(print_date) "
 
 # Update old values to perform new calculations
 old_received_bytes=$received_bytes

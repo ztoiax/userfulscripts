@@ -1,10 +1,19 @@
 #!/bin/bash
-# Copyright (C) 2017 liang an da(梁安达) - All Rights Reserved
-# Permission to copy and modify is granted under the Creative Commons Attribution 4.0 license
-# Last revised 2020-11-29
 
 # set -x
 # $install tlp #它能帮你的设备省点电
+zinit(){
+    mkdir ~/.zinit
+    git clone https://github.com/zdharma/zinit.git ~/.zinit/bin
+
+    # fzf-tab colors
+    git submodule add git://github.com/xPMo/zsh-ls-colors.git ls-colors
+    ls-color::init
+}
+
+man(){
+    $install cgasm # 汇编手册
+}
 
 zram(){
     echo "zram" > /etc/modules-load.d/zram.conf
@@ -124,6 +133,7 @@ instead(){
     $install silversearcher-ag # instead grep
     $install bat               # instead cat
     $install diff-so-fancy     # instead git diff
+    $install icdiff            # instead diff
     $install fd                # instead find
     $install cfdisk            # instead fdisk
     $install bit               # instead git cli
@@ -134,6 +144,7 @@ instead(){
     $install dfc               # instead df
     $install duf               # instead detailed df
     $install ncdu              # instead ncdu
+    $install multitail         # instead tail
 }
 
 filemanage(){
@@ -200,7 +211,9 @@ st(){
 }
 
 sshserver(){
-    $install install -y openssh
+    if ! $check openssh;then
+        $install install -y openssh
+    fi
 
     echo "PermitRootLogin yes
     StrictModes no
@@ -235,6 +248,9 @@ base(){
     $install git wget make
     $install python2 python3 python-pip python3-pip
     $install tree
+    $install pv          # 显示进度
+    $install ltrace      # lib call
+    $install syslog-ng
     $install vidir
     $install proxychains # proxy
 
@@ -337,6 +353,7 @@ for i in "$@"; do
         nvim ) nvim;;
         instead ) instead;;
         other ) other;;
+        man ) man;;
 
         # system
         zram ) zram;;
