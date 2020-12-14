@@ -64,14 +64,17 @@ chmod a+x ./install.sh
 
 fcitx5(){
 yay -S fcitx5-git  fcitx5-gtk-git fcitx5-chinese-addons-git fcitx5-configtool fcitx5-qt4-git
-# rime输入法
-yay -S fcitx5-rime-git
-# 萌娘百科，中文维基百科词库
-yay -S fcitx5-pinyin-moegirl-rime fcitx5-pinyin-zhwiki
+# spell
+sudo pacman -Sy hunspell
+# 萌娘百科，中文维基百科词库 成语词库
+yay -S fcitx5-pinyin-moegirl-rime fcitx5-pinyin-zhwiki fcitx5-pinyin-chinese-idiom
 # 皮肤
 yay -S fcitx5-material-color
+
 # kde
 yay -S kcm-fcitx5-git
+# rime输入法
+yay -S fcitx5-rime-git
 
 cat >> ~/.pam_environment << "EOF"
 INPUT_METHOD  DEFAULT=fcitx5

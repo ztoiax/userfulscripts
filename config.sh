@@ -17,11 +17,11 @@ alias j    "autojump"
 alias r    "ranger"
 alias p    "ps aux"
 alias cp   "cp -i"
-alias c="curl -LO"
+alias c    "curl -LO"
 alias rm   "rm -i"
 alias grep "egrep --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn}"
 
-alias typel "type -a"
+alias type "type -a"
 alias df "df -h"
 alias free "free -hw"
 
@@ -29,15 +29,15 @@ alias v        "nvim"
 alias w        "watch -d -n 2"
 alias ifconfig "ifconfig -a"
 alias cplast   "history | tail -n 1 | cut -c8- | clip"
+alias r        "ranger"
 
-alias sl  "systemctl"
-alias sls "systemctl status"
-alias slr "systemctl restart"
-alias sle "systemctl enbale"
-alias sld "systemctl stop"
-alias jl "journalctl"
-
-alias pi "yum install -y"
+alias sl    "systemctl"
+alias sls   "systemctl status"
+alias slr   "systemctl restart"
+alias sle   "systemctl enbale"
+alias sld   "systemctl stop"
+alias jl    "journalctl"
+alias error "journalctl -fp err"
 
 # git
 alias lg 'lazygit'
@@ -110,13 +110,13 @@ set path+=**                 "find 子目录
 set clipboard+=unnamedplus   "直接复制剪切板
 set autoread                 "文件发生外部改变就会发出提示
 "分屏
-nmap <Tab> :wincmd w <cr>
-nmap <Leader>sm :only <cr>
+nmap <Tab>      :wincmd w <cr>
+nmap <Leader>sw :only <cr>
+nmap <Leader>so :only <cr>
 nmap <Leader>sh :vsplit <cr>
 nmap <Leader>sk :split <cr>
 nmap <Leader>sl :belowright vsplit <cr>
 nmap <Leader>sj :belo split <cr>
-nmap <Leader>sq <C-w>c
 
 " incert keymap like emacs
 imap <C-h> <BS>
@@ -172,7 +172,7 @@ nmap <Leader>w :w<CR>
 " Run the current line
 nmap <leader>ee :execute getline(line('.'))<cr>
 " Run the current line in sh
-nmap <leader>el :execute '!'.getline('.')<cr>
+nmap <leader>il :execute '!'.getline('.')<cr>
 
 nmap <Leader>u :<C-U><C-R>=printf("nohlsearch %s", "")<CR><CR>
 " buffers
@@ -188,9 +188,20 @@ nmap <leader>9 :buffer9<cr>
 nmap <leader>b :buffers<cr>
 nmap <leader>n :bnext<cr>
 nmap <leader>p :bprevious<cr>
-nmap L         :bnext<cr>
-nmap H         :bprevious<cr>
 nmap <Leader>x :bw<cr>
+
+nmap <a-1> :buffer1<cr>
+nmap <a-2> :buffer2<cr>
+nmap <a-3> :buffer3<cr>
+nmap <a-4> :buffer4<cr>
+nmap <a-5> :buffer5<cr>
+nmap <a-6> :buffer6<cr>
+nmap <a-7> :buffer7<cr>
+nmap <a-8> :buffer8<cr>
+nmap <a-9> :buffer9<cr>
+nmap <C-w> :bw<cr>
+nmap L     :bnext<cr>
+nmap H     :bprevious<cr>
 
 " vmap
 vmap ,' <esc>`>a'<esc>`<i'<esc>
@@ -203,6 +214,10 @@ vmap ,d <esc>`>a` <esc>`<i `<esc>
 vmap ,c <esc>`>a<enter>```<esc>`<i```<enter><esc>kA
 vmap ,i <esc>`>a*<esc>`<i*<esc>
 vmap ,b <esc>`>a**<esc>`<i**<esc>
+
+" snap
+autocmd Filetype * inoremap <buffer> ,, <Esc>/<++><CR>:nohlsearch<CR>"_c4l
+autocmd Filetype * vnoremap ,<space> <esc>`>a<space><esc>`<i<space><esc>
 EOF
 }
 

@@ -16,11 +16,38 @@ man(){
 }
 
 zram(){
+    # 重启后才会启动zram
     echo "zram" > /etc/modules-load.d/zram.conf
     echo "options zram num_devices=1" > /etc/modprobe.d/zram.conf
     echo 'KERNEL=="zram0", ATTR{disksize}="2G",TAG+="systemd"' > /etc/udev/rules.d/99-zram.rules
     echo "[Unit]\nDescription=Swap with zram\nAfter=multi-user.target\n\n[Service]\nType=oneshot \nRemainAfterExit=true\nExecStartPre=/sbin/mkswap /dev/zram0\nExecStart=/sbin/swapon /dev/zram0\nExecStop=/sbin/swapoff /dev/zram0\n\n[Install]\nWantedBy=multi-user.target" > /etc/systemd/system/zram.service
     systemctl enable zram
+}
+
+zram-temp(){
+    # 临时zram，只在当前启动，重启消失
+    modprobe zram
+    echo lz4 > /sys/block/zram0/comp_algorithm
+    echo 2G > /sys/block/zram0/disksize
+    mkswap --label zram0 /dev/zram0
+    swapon --priority 100 /dev/zram0
+
+    # disable zram
+    # swapoff /dev/zram0
+    # rmmod zram
+}
+
+bbr(){
+    echo 注意:不要无脑推崇 bbr，bbr 并不适合任何网络环境
+
+    # 在当前环境修改拥塞控制算法为bbr
+    net.ipv4.tcp_congestion_control = bbr
+
+    # 永久设置
+    echo "tcp_bbr" > /etc/modules-load.d/modules.conf
+    # 设置网络队列为cake(默认值fq_codel)
+    echo "net.core.default_qdisc=cake" > /etc/sysctl.d/bbr.conf
+    echo "net.ipv4.tcp_congestion_control=bbr" >> /etc/sysctl.d/bbr.conf
 }
 
 mysql(){
@@ -131,6 +158,7 @@ instead(){
     # https://linux.cn/article-4042-1.html
     $install advcp             # instead cp mv
     $install silversearcher-ag # instead grep
+    $install ripgrep-all       # instead grep
     $install bat               # instead cat
     $install diff-so-fancy     # instead git diff
     $install icdiff            # instead diff
@@ -243,6 +271,7 @@ other(){
 
 base(){
 
+    $install p7zip rar # rar要yay
     $install ntfs-3g
     $install openssh
     $install git wget make
@@ -357,6 +386,8 @@ for i in "$@"; do
 
         # system
         zram ) zram;;
+        zram-temp ) zram-temp;;
+        bbr ) bbr;;
 
         # server
         kvm ) kvm;;
