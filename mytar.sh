@@ -34,6 +34,8 @@ else
     }
 fi
 
+
+
 # show compression ratio
 checksize(){
     red='\033[0;31m'
@@ -57,16 +59,64 @@ checksize(){
     fi
 }
 
+# check pigz command
+if which pigz &> /dev/null;then
+    gz=pigz
+    # targz="tar --use-compress-program=pigz -cvpf"
+    targz="tar -I pigz -cvpf"
+else
+    gz=gzip
+    targz="tar -zcpvf"
+fi
+
+if which pbzip2 &> /dev/null;then
+    bz2=pbzip2
+    tarbz2="tar -I pbzip2 -cvpf"
+else
+    bz2=bz2ip
+    tarbz2="tar -jcpvf"
+fi
+
+if which pixz &> /dev/null;then
+    xz="pixz -i"
+    tarxz="tar -I pixz -cvpf"
+else
+    xz="xz -c"
+    tarxz="tar -Jcvf"
+fi
+
 # check pv command
 if which pv &> /dev/null;then
     gzpv(){
-        gzip  -c $2 | pv > $1
+        $gz  -c $2 | pv > $1
     }
     bz2pv(){
-        bzip2 -c $2 | pv > $1
+        $bz2 -c $2 | pv > $1
     }
     xzpv(){
-        xz    -c $2 | pv > $1
+        $xz $2 | pv > $1
+    }
+    lz4pv(){
+        lz4 -c $2 | pv > $1
+    }
+    zstdpv(){
+        zstd -c $2 | pv > $1
+    }
+else
+    gzpv(){
+        $gz  -c $2 > $1
+    }
+    bz2pv(){
+        $bz2 -c $2 > $1
+    }
+    xzpv(){
+        $xz $2 > $1
+    }
+    lz4(){
+        lz4  -c $2 > $1
+    }
+    zstdpv(){
+        zstd -c $2 > $1
     }
 fi
 
@@ -79,6 +129,8 @@ view-contents(){
         *bz)   bzcat $1;;
         *bz2)  bzcat $1;;
         *xz)   xzcat $1;;
+        *lz4)  lz4cat $1;;
+        *zstd) zstdcat $1;;
         # 暂时获取不了内容
         *rar)  rar l $1;;
         *7z)   7z  l $1;;
@@ -89,17 +141,27 @@ view-contents(){
 # compression file or dir
 compression(){
     case $1 in
-        *.tar)     tar -cpvf  $1 $2 && checksize $1 $3;;
-        *.tar.gz)  tar -zcpvf $1 $2 && checksize $1 $3;;
-        *.tar.bz)  tar -jcpvf $1 $2 && checksize $1 $3;;
-        *.tar.bz2) tar -jcpvf $1 $2 && checksize $1 $3;;
-        *.tar.xz)  tar -Jcvf  $1 $2 && checksize $1 $3;;
+        *.tar)      tar -cpvf $1 $2 && checksize $1 $3;;
+        *.tar.gz)   $targz    $1 $2 && checksize $1 $3;;
+        *.tar.bz)   $tarbz2   $1 $2 && checksize $1 $3;;
+        *.tar.bz2)  $tarbz2   $1 $2 && checksize $1 $3;;
+        *.tar.xz)   $tarxz    $1 $2 && checksize $1 $3;;
+        *.tar.lz4)  tar -I lz4 -cf $1 $2 && checksize $1 $3;;
+        *.tar.zst)  tar -I zstd -cf $1 $2 && checksize $1 $3;;
+        *.tgz)      $targz    $1 $2 && checksize $1 $3;;
+        *.tbz)      $tarbz2   $1 $2 && checksize $1 $3;;
+        *.tbz2)     $tarbz2   $1 $2 && checksize $1 $3;;
+        *.txz)      $tarxz    $1 $2 && checksize $1 $3;;
+        *.tlz4)     tar -I lz4 -cf $1 $2 && checksize $1 $3;;
+        *.tzst)     tar -I zstd -cf $1 $2 && checksize $1 $3;;
         # *.tar.7z)  tar -cpvf  ${1%.*} $2 && echo ${1%.*};echo $1&& 7z a $1 ${1%.*};;
 
         *.gz)   gzpv   $1 $2 && checksize $1 $2;;
         *.bz)   bz2pv  $1 $2 && checksize $1 $2;;
         *.bz2)  bz2pv  $1 $2 && checksize $1 $2;;
         *.xz)   xzpv   $1 $2 && checksize $1 $2;;
+        *.lz4)  lz4pv  $1 $2 && checksize $1 $2;;
+        *.zst)  zstdpv  $1 $2 && checksize $1 $2;;
         *.rar)  rar a  $1 $2 && checksize $1 $2;;
         *.zip)  zip -r $1 $2 && checksize $1 $2;;
         *.7z)   7z  a  $1 $2 && checksize $1 $3;;

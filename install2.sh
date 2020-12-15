@@ -271,7 +271,7 @@ other(){
 
 base(){
 
-    $install p7zip rar # rar要yay
+    $install p7zip lz4 zstd pigz pbzip2 pixz rar # rar,pxz要yay
     $install ntfs-3g
     $install openssh
     $install git wget make

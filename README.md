@@ -22,10 +22,13 @@ tmp file
 - `rar`
 - `zip`
 - `xz`
+- `lz4`
+- `zst`
 
 ### fast pack and compress script `mytar.sh`
 
 > Automatically determine the file extension name for compression
+> Automatically switch pigz or gz,pbzip2 or bzip2
 
 ```bash
 # show example:
@@ -34,14 +37,19 @@ mytar.sh
 # view file contents
 mytar.sh filename.zip
 mytar.sh filename.xz
+mytar.sh filename.lz4
 
 # Compress a single file:
 mytar.sh filename.zip file
 mytar.sh filename.xz file
+mytar.sh filename.7z file
+mytar.sh filename.zst file
 
 # tar and compress single or multiple directories:
 mytar.sh filename.tar.gz /home /etc
 mytar.sh filename.tar.xz /home /etc
+mytar.sh filename.tar.lz4 /home /etc
+mytar.sh filename.tar.zst /home /etc
 ```
 
 **show compression ratio:**
@@ -52,7 +60,7 @@ mytar.sh filename.tar.xz /home /etc
 - greater than 100% is **red**
   ![avatar](/Pictures/ratio1.png)
 
-**simple compress benchmark:**
+**simple compression benchmark:**
 
 ```bash
 mytar.sh test.tar.gz  /tmp/jianli /tmp/dwm
@@ -66,6 +74,25 @@ mytar.sh test.7z      /tmp/jianli /tmp/dwm
 - 7z is fast and best
 
   ![avatar](/Pictures/benchmark.gif)
+
+**Multithreading compression and decompression:**
+
+- [pigz](https://github.com/madler/pigz)
+- [bzip2](https://linux.die.net/man/1/pbzip2)
+- [pixz](https://github.com/vasi/pixz)
+
+  The above window shows the utilization useage of all CPU cores
+
+  common gz compressing:
+  ![avatar](/Pictures/pigz.gif)
+
+  pigz compressing:
+  ![avatar](/Pictures/pigz1.gif)
+
+**More compress benchmark:**
+
+- [Quick Benchmark: Gzip vs Bzip2 vs LZMA vs XZ vs LZ4 vs LZO](https://catchchallenger.first-world.info/wiki/Quick_Benchmark:_Gzip_vs_Bzip2_vs_LZMA_vs_XZ_vs_LZ4_vs_LZO)
+- [Squash Compression Benchmark](https://quixdb.github.io/squash-benchmark/)
 
 ### decompress script `myx.sh`
 
