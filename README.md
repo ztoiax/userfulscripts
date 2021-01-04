@@ -2,20 +2,24 @@
 
 ## tmp script ,可避免因输错路径导致 rm -rf 的错误删除 `tmp.sh`
 
-similar `mv file /tmp`
+> similar `mv file /tmp`
 
-- 如果 tmp 路径下已经存在该文件,则重命名文件
+- 如果 tmp 路径下已经存在该文件,则会在文件名后面加入日期
 
 ```bash
 # useage
-tmp file
+tmp.sh file
 ```
+
+> 因为`/tmp` 是内存文件系统,系统会自动删除,可以减少 IO 的开销,代价是内存的减少,不适合大文件
+
+> 因此建议使用[trash-cli](https://github.com/andreafrancia/trash-cli),类似于 windows 的回收站,只是把文件移动到一个目录里,并不会真正删除文件
 
 ## compress and decompress
 
 **support type:**
 
-- `7z`
+- `7z(lama)`
 - `gz`
 - `bz2`
 - `zip`

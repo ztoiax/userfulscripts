@@ -14,9 +14,12 @@ other(){
     $install bleachbit  #清理垃圾
     $install stacer     #电脑管家
     $install testdisk   #恢复删除文件
+    $install xunlei-bin #迅雷
     $install d-feet     #调试dbus
     $install filelight  #树目录大小
     $install gitkraken  #git gui
+    $install qv2ray     #v2ray-gui
+    $install deepin.com.qq.im.light #wine qq light
 }
 
 awesomechar(){
@@ -63,7 +66,7 @@ chmod a+x ./install.sh
 }
 
 fcitx5(){
-yay -S fcitx5-git  fcitx5-gtk-git fcitx5-chinese-addons-git fcitx5-configtool fcitx5-qt4-git
+yay -S fcitx5-git  fcitx5-gtk-git fcitx5-chinese-addons fcitx5-configtool fcitx5-qt4-git
 # spell
 sudo pacman -Sy hunspell
 # 萌娘百科，中文维基百科词库 成语词库
@@ -138,6 +141,7 @@ icon(){
 
 xorg(){
     $install feh #wallpaper
+    $install eog #image viewer
     $install dunst #notifications
     $install screenkey #show key input
     $install deepin-screen-recorder #screen-recorder

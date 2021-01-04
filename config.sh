@@ -21,7 +21,6 @@ alias c    "curl -LO"
 alias rm   "rm -i"
 alias grep "egrep --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn}"
 
-alias type "type -a"
 alias df "df -h"
 alias free "free -hw"
 
@@ -61,7 +60,7 @@ alias dck   'sudo docker container kill'
 alias dcs   'sudo docker container stop'
 
 # export
-export CDPATH='/home/tz:/home/tz/.config:/etc'
+export CDPATH="/home/tz:/home/tz/.config:/etc"
 export PATH="/root/.mybin:$PATH"
 
 set -x nvim ~/.config/nvim/init.vim
@@ -95,7 +94,7 @@ set smartcase                "小写包含大写
 set lazyredraw               "不要在宏和脚本执行期间更新屏幕。
 set cursorline               "突出显示当前在光标下的行。
 set number                   "显示行号
-set norelativenumber         "相对行号
+set relativenumber           "相对行号
 set cursorline               "突出显示当前在光标下的行。
 set wrap                     "自动折行，即太长的行分成几行显示
 set showmatch                "自动高亮对应的另一个圆括号、方括号和大括号。
@@ -109,6 +108,10 @@ set listchars=tab:»·,trail:· "空格显示为·
 set path+=**                 "find 子目录
 set clipboard+=unnamedplus   "直接复制剪切板
 set autoread                 "文件发生外部改变就会发出提示
+set background=dark          "黑背景
+
+" set noswapfile             "Disable swap files.
+
 "分屏
 nmap <Tab>      :wincmd w <cr>
 nmap <Leader>sw :only <cr>
@@ -160,21 +163,25 @@ nmap Q q
 nmap j gj
 nmap k gk
 nmap  \  :%s//g<Left><Left>
-vnmap \  :s//g<Left><Left>
+vmap \  :s//g<Left><Left>
 nmap  <space> `
-nnmap ' "
+nmap ' "
 
 nmap Y y$
 nmap yu y0
 nmap E v$h
 nmap B vb
-nmap <Leader>w :w<CR>
+nmap <leader>w :w<CR>
 " Run the current line
 nmap <leader>ee :execute getline(line('.'))<cr>
 " Run the current line in sh
 nmap <leader>il :execute '!'.getline('.')<cr>
 
-nmap <Leader>u :<C-U><C-R>=printf("nohlsearch %s", "")<CR><CR>
+nmap <leader>u :<C-U><C-R>=printf("nohlsearch %s", "")<CR><CR>
+
+" file manager
+nmap <leader>fr :terminal ranger<CR>
+
 " buffers
 nmap <leader>1 :buffer1<cr>
 nmap <leader>2 :buffer2<cr>
@@ -199,9 +206,15 @@ nmap <a-6> :buffer6<cr>
 nmap <a-7> :buffer7<cr>
 nmap <a-8> :buffer8<cr>
 nmap <a-9> :buffer9<cr>
-nmap <C-w> :bw<cr>
-nmap L     :bnext<cr>
-nmap H     :bprevious<cr>
+
+nmap <leader>tt :tabnew<cr>
+nmap <C-w> :tabclose<cr>
+nmap L     :tabnext<cr>
+nmap H     :tabprevious<cr>
+
+" nmap <C-w> :bw<cr>
+" nmap L     :bnext<cr>
+" nmap H     :bprevious<cr>
 
 " vmap
 vmap ,' <esc>`>a'<esc>`<i'<esc>
@@ -218,11 +231,18 @@ vmap ,b <esc>`>a**<esc>`<i**<esc>
 " snap
 autocmd Filetype * inoremap <buffer> ,, <Esc>/<++><CR>:nohlsearch<CR>"_c4l
 autocmd Filetype * vnoremap ,<space> <esc>`>a<space><esc>`<i<space><esc>
+
+autocmd Filetype * vnoremap s' <esc>`>a'<esc>`<i'<esc>
+autocmd Filetype * vnoremap s" <esc>`>a"<esc>`<i"<esc>
+autocmd Filetype * vnoremap s) <esc>`>a)<esc>`<i(<esc>
+autocmd Filetype * vnoremap s] <esc>`>a]<esc>`<i[<esc>
+autocmd Filetype * vnoremap s} <esc>`>a}<esc>`<i{<esc>
+autocmd Filetype * vnoremap s/ <esc>`>a/<esc>`<i/<esc>
 EOF
 }
 
 case $1 in
-    fish* ) fishconfig;;
-    nvim* ) nvimconfig;;
+    fishconfig ) fish;;
+    nvimconfig ) nvim;;
     * ) echo "$i还有收录";;
 esac

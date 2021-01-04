@@ -39,12 +39,9 @@ qinghua
 pkg install neovim wget git tree tsu openssl proot -y
 pkg install openssh -y && sshd
 pkg install lsof nmap htop -y
-pkg install python -y
+pkg install python3 -y
 pkg install nodejs -y
 pkg install ranger -y
 pkg install fish -y
 
 pip install ipython -y
-#config
-nvimconfig
-fishconfig

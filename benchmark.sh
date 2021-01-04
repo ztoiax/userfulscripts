@@ -6,10 +6,13 @@ all-have(){
     sudo sysdig-probe-loader
 
     $install perf-tool
-}
-
-process(){
-    $install htop bashtop glance
+    $install htop bpytop glance
+    $install netdata
+    $install sysstat # include pidstat,iostat,mpstat,sar
+    #bcc
+    #depend
+    pip3 install bcc pytest
+    $install  python-bcc bcc-tools bpftrace
 }
 
 file(){

@@ -1,4 +1,5 @@
 #!/bin/bash
+# This is a fast tar compression script
 
 ##### function ######
 # check lanuage
@@ -7,30 +8,38 @@ if [ $LANG != zh_CN.UTF-8 ];then
         echo -e "Automatically determine the file extension name for compression\n\nexample:" 
         echo -e "view file contents:
           mytar.sh filename.zip
+          mytar.sh filename.lz4
           mytar.sh filename.xz\n"
 
         echo -e "Compress a single file:
-          mytar.sh filename.zip file
-          mytar.sh filename.xz file\n"
+          mytar.sh filename.7z  file
+          mytar.sh filename.zst file
+          mytar.sh filename.xz  file\n"
 
         echo -e "tar and compress single or multiple directories:
-          mytar.sh filename.tar.gz /home /etc
-          mytar.sh filename.tar.xz /home /etc\n"
+          mytar.sh filename.tar.gz  /home /etc
+          mytar.sh filename.tar.lz4 /home /etc
+          mytar.sh filename.tar.zst /home /etc
+          mytar.sh filename.tar.xz  /home /etc\n"
     }
 else
     help(){
         echo -e "自动确定压缩的文件扩展名\n\n例子：" 
         echo -e "查看压缩文件的内容：
           mytar.sh 文件名.zip
+          mytar.sh 文件名.lz4
           mytar.sh 文件名.xz\n"
 
         echo -e "压缩单个文件：
-          mytar.sh 文件名.zip 文件
-          mytar.sh 文件名.xz 文件\n"
+          mytar.sh 文件名.7z  file
+          mytar.sh 文件名.zst file
+          mytar.sh 文件名.xz  文件\n"
 
         echo -e "打包压缩单个或多个目录：
-          mytar.sh 文件名.tar.gz /home /etc
-          mytar.sh 文件名.tar.xz /home /etc\n"
+          mytar.sh 文件名.tar.gz  /home /etc
+          mytar.sh 文件名.tar.lz4 /home /etc
+          mytar.sh 文件名.tar.zst /home /etc
+          mytar.sh 文件名.tar.xz  /home /etc\n"
     }
 fi
 

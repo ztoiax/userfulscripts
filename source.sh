@@ -94,7 +94,14 @@ yaysource(){
     #gpg: keyserver receive failed: General error
     #gpg --keyserver pool.sks-keyservers.net --recv-keys 6C37DC12121A5006BC1DB804DF6FD971306037D9
 }
-
+opensuse(){
+    zypper mr -da
+    echo " Replacing pacman aliyun source..."
+    zypper ar -fc https://mirrors.aliyun.com/opensuse/distribution/leap/15.2/repo/oss openSUSE-Aliyun-OSS
+    zypper ar -fc https://mirrors.aliyun.com/opensuse/distribution/leap/15.2/repo/non-oss openSUSE-Aliyun-NON-OSS
+    zypper ar -fc https://mirrors.aliyun.com/opensuse/update/leap/15.2/oss openSUSE-Aliyun-UPDATE-OSS
+    zypper ar -fc https://mirrors.aliyun.com/opensuse/update/leap/15.2/non-oss openSUSE-Aliyun-UPDATE-NON-OSS
+}
 ##### main ######
 
 case $1 in

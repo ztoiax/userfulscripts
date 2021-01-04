@@ -250,7 +250,7 @@ sshserver(){
     PasswordAuthentication no"
 
     sed -i '/PubkeyAuthentication/cPubkeyAuthentication yes' /etc/ssh/sshd_config
-    sed -i '/PasswordAuthentication/cPasswordAuthentication no' /etc/ssh/sshd_config
+    sed -i '/PasswordAuthentication/cPasswordAuthentication yes' /etc/ssh/sshd_config
     sed -i "/^PermitRootLogin/cPermitRootLogin yes" /etc/ssh/sshd_config
     sed -i '/RSAAuthentication/cRSAAuthentication yes' /etc/ssh/sshd_config
     sed -i '/StrictModes/cStrictModes no' /etc/ssh/sshd_config
@@ -258,10 +258,14 @@ sshserver(){
 
 sshclient(){
     echo "ssh免密码登录正在安装"
+    echo "Format: root@192.168.100.208"
     read -p "enter serverip: " serverip
+
+    # 生成密钥
     ssh-keygen -t rsa
-    # scp ~/.ssh/id_rsa.pub root@$serverip:/root/.ssh/authorized_keys
-    ssh-copy-id $serverip
+    # 追加公钥
+    ssh $serverip 'mkdir -p .ssh && cat >> .ssh/authorized_keys' < ~/.ssh/id_rsa.pub
+    # ssh-copy-id $serverip
 }
 
 other(){
@@ -282,6 +286,8 @@ base(){
     $install syslog-ng
     $install vidir
     $install proxychains # proxy
+    $install sshfs
+    $install cdrtools    # cdrecord
 
     yay -S bash-snippets # good bash scripts
     # Mount Android

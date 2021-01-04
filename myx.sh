@@ -1,4 +1,5 @@
 #!/bin/bash
+# This is a fast decompression script
 
 # check pigz command
 if which pigz &> /dev/null;then

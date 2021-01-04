@@ -133,6 +133,9 @@ show_record(){
 show_diskidle(){
     df -h / | awk 'NR==2 {print $4}'
 }
+show_homedisk(){
+    df -h /home | awk 'NR==2 {print $4}'
+}
 show_cpuusage(){
     top -b -n1 | grep ^%Cpu | awk '{printf("%.2f%"), 100-$8}'
 }
@@ -182,7 +185,7 @@ vel_trans=$(get_velocity $transmitted_bytes $old_transmitted_bytes $now)
 
 #  ﴬ 菉
 
-xsetroot -name "  $(show_cpuusage) $(show_cputhermal)  $(show_gpuusage) $(show_gputhermal)  $(print_mem)M $(show_gpumemory) ﰬ $vel_recv ﰵ $vel_trans  $(show_diskidle) $(show_nvmethermal) $(print_volume) $(print_date) "
+xsetroot -name "  $(show_cpuusage) $(show_cputhermal)  $(show_gpuusage) $(show_gputhermal)  $(print_mem)M $(show_gpumemory) ﰬ $vel_recv ﰵ $vel_trans  $(show_diskidle)  $(show_homedisk) $(show_nvmethermal) $(print_volume) $(print_date) "
 
 # Update old values to perform new calculations
 old_received_bytes=$received_bytes
