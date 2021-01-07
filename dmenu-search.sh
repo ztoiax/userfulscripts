@@ -39,6 +39,7 @@
     name[35]="[35]zlibrary"
     #
     name[36]="[36]Wiki"
+    name[37]="[37]LWM"
 
 
     search[0]="https://github.com/search?utf8=✓&q="
@@ -76,6 +77,7 @@
     #书
     search[33]="https://zh.b-ok.cc/s/"
     search[36]="https://en.wikipedia.org/wiki/"
+    search[37]="https://www.google.com/search?q=site:lwn.net "
 
 
     lengh=${#name[*]}

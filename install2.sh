@@ -171,8 +171,9 @@ instead(){
     $install gping             # instead ping
     $install dfc               # instead df
     $install duf               # instead detailed df
-    $install ncdu              # instead ncdu
+    $install ncdu              # instead du
     $install multitail         # instead tail
+    $install meld              # instead diff
 }
 
 filemanage(){
@@ -271,6 +272,7 @@ sshclient(){
 other(){
     $install alsa-utils # 声卡驱动sound
     $install kdeconnect nodejs subversion
+    $install ext4magic  # ext4恢复文件
 }
 
 base(){

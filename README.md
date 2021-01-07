@@ -19,7 +19,7 @@ tmp.sh file
 
 **support type:**
 
-- `7z(lama)`
+- `7z`
 - `gz`
 - `bz2`
 - `zip`
@@ -27,7 +27,7 @@ tmp.sh file
 - `zip`
 - `xz`
 - `lz4`
-- `zst`
+- `zstd`
 
 ### fast pack and compress script `mytar.sh`
 
@@ -59,10 +59,10 @@ mytar.sh filename.tar.zst /home /etc
 **show compression ratio:**
 
 - less than 100% is **green**
-  ![avatar](/Pictures/ratio.png)
+  ![image](./Pictures/ratio.png)
 
 - greater than 100% is **red**
-  ![avatar](/Pictures/ratio1.png)
+  ![image](./Pictures/ratio1.png)
 
 **simple compression benchmark:**
 
@@ -77,7 +77,7 @@ mytar.sh test.7z      /tmp/jianli /tmp/dwm
 
 - 7z is fast and best
 
-  ![avatar](/Pictures/benchmark.gif)
+  ![image](./Pictures/benchmark.gif)
 
 **Multithreading compression and decompression:**
 
@@ -88,10 +88,10 @@ mytar.sh test.7z      /tmp/jianli /tmp/dwm
   The above window shows the utilization useage of all CPU cores
 
   common gz compressing:
-  ![avatar](/Pictures/pigz.gif)
+  ![image](./Pictures/pigz.gif)
 
   pigz compressing:
-  ![avatar](/Pictures/pigz1.gif)
+  ![image](./Pictures/pigz1.gif)
 
 **More compress benchmark:**
 
@@ -108,6 +108,12 @@ myx.sh filename.7z
 # decompress mutile file
 myx.sh filename.7z filename.tar.gz
 ```
+
+### top completion `mytop.sh`
+
+![image](./Pictures/mytop.gif)
+
+- [About parameter details and more benchmark](https://github.com/ztoiax/notes/blob/master/benchmark.md)
 
 ### tech search engine
 

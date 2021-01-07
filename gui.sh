@@ -19,6 +19,7 @@ other(){
     $install filelight  #树目录大小
     $install gitkraken  #git gui
     $install qv2ray     #v2ray-gui
+    $install gparted    #part-gui
     $install deepin.com.qq.im.light #wine qq light
 }
 
