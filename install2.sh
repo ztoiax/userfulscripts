@@ -173,7 +173,8 @@ instead(){
     $install duf               # instead detailed df
     $install ncdu              # instead du
     $install multitail         # instead tail
-    $install meld              # instead diff
+    $install paris-traceroute  # instead traceroute
+    $install nping             # instead ping(nmap)
 }
 
 filemanage(){

@@ -1,6 +1,6 @@
 #!/bin/bash
 name[1]="htop"
-name[2]="glance"
+name[2]="glances"
 name[3]="bpytop"
 name[4]="nvtop"
 name[5]="iotop"
@@ -11,6 +11,7 @@ name[9]="pidstat"
 name[10]="dstat"
 name[11]="mpstat"
 name[12]="nmon"
+name[12]="s-tui"
 
 lengh=${#name[*]}
 

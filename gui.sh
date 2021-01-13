@@ -133,6 +133,30 @@ sudo cat > /etc/sddm.conf.d/autologin.conf << "EOF"
 User=tz
 Session=dwm.desktop
 EOF
+
+sudo systemctl enable sddm.service
+}
+
+lightdm(){
+sudo pacman -S --needed lightdm lightdm-webkit2-greeter lightdm-webkit-theme-litarvan
+
+sudo sed -i '/#greeter-session/cgreeter-session=lightdm-webkit2-greeter' /etc/lightdm/lightdm.conf
+sudo systemctl enable lightdm.service
+}
+
+lightdm-autologin(){
+sudo pacman -S lightdm lightdm-gtk-greeter
+sudo sed -i 's/#autologin-user=/autologin-user=tz/' /etc/lightdm/lightdm.conf
+
+sudo sed -i '/#background=/cbackground=/home/tz/Pictures/wallpaper/wallpaper-34.jpg' /etc/lightdm/lightdm-gtk-greeter.conf
+# 启动自动登陆
+sudo groupadd autologin
+sudo gpasswd -a tz autologin
+# 启用无密码交互登录
+sudo sed -i  "2iauth        sufficient  pam_succeed_if.so user ingroup nopasswdlogin" /etc/pam.d/lightdm
+sudo groupadd -r nopasswdlogin
+sudo gpasswd -a username nopasswdlogin
+sudo systemctl enable lightdm.service
 }
 
 icon(){

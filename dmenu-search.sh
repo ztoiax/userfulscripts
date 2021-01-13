@@ -40,6 +40,7 @@
     #
     name[36]="[36]Wiki"
     name[37]="[37]LWM"
+    name[38]="[38]Net"
 
 
     search[0]="https://github.com/search?utf8=✓&q="
@@ -78,6 +79,7 @@
     search[33]="https://zh.b-ok.cc/s/"
     search[36]="https://en.wikipedia.org/wiki/"
     search[37]="https://www.google.com/search?q=site:lwn.net "
+    search[38]="https://www.google.com/search?q=site:netbeez.net "
 
 
     lengh=${#name[*]}
