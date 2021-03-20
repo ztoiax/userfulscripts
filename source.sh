@@ -44,32 +44,34 @@ npmsource() {
 
 yumsource(){
     echo " Replacing yum aliyun source..."
-    release=$(cat /etc/redhat-release | awk '{ print $4 }' | cut -c1)
+    release=$(awk '{ print $4 }' /etc/redhat-release | cut -c1)
+    dir=/etc/yum.repos.d
+    backup=/etc/yum.repos.d.bak
 
-    if [ ! -f /etc/yum.repo.d.bak ];then
+    if [ ! -f "$backup" ];then
         echo "This is red hat $release version"
-        mv /etc/yum.repo.d/ /etc/yum.repo.d.bak
-        mkdri /etc/yum.repo.d
-        curl -o /etc/yum.repos.d/CentOS-Base.repo https://mirrors.aliyun.com/repo/Centos-$release.repo
+        mv $dir $backup
+        mkdir $dir
+        cd $dir
+        curl -LO https://mirrors.aliyun.com/repo/Centos-$release.repo
     fi
 
     echo "install epel source"
     yum install -y epel-release
 
     echo " Replacing epel aliyun source..."
-    cp /etc/yum.repo.d/epel.repo /etc/yum.repo.d/epel.repo.bak
-    sed -i 'baseurl/cbaseurl=https://mirrors.aliyun.com/epel/$release/Everything/$basearch' /etc/yum.repos.d/epel.repo
-    sed -i 'metalink/c#metalink' /etc/yum.repos.d/epel.repo
+    cp $dir/epel.repo $backup/epel.repo.bak
+    cp $dir/epel-testing.repo $backup/epel-testing.repo.bak
+
+    if [ "$release" == "8" ];then
+        sed -i 's|^#baseurl=https://download.fedoraproject.org/pub|baseurl=https://mirrors.aliyun.com|' /etc/yum.repos.d/epel*
+        sed -i 's|^metalink|#metalink|' /etc/yum.repos.d/epel*
+    else
+        wget -O /etc/yum.repos.d/epel.repo http://mirrors.aliyun.com/repo/epel-$release.repo
+    fi
 
     yum clean all
     yum makecache
-}
-
-epelsource(){
-    echo " Replacing epel aliyun source..."
-    cp /etc/yum.repo.d/epel.repo /etc/yum.repo.d/epel.repo.bak
-    sed -i 'baseurl/cbaseurl=https://mirrors.aliyun.com/epel/$release/Everything/$basearch' /etc/yum.repos.d/epel.repo
-    sed -i 'metalink/c#metalink' /etc/yum.repos.d/epel.repo
 }
 
 pacmansource(){
@@ -94,7 +96,7 @@ yaysource(){
     #gpg: keyserver receive failed: General error
     #gpg --keyserver pool.sks-keyservers.net --recv-keys 6C37DC12121A5006BC1DB804DF6FD971306037D9
 }
-opensuse(){
+zyppersource(){
     zypper mr -da
     echo " Replacing pacman aliyun source..."
     zypper ar -fc https://mirrors.aliyun.com/opensuse/distribution/leap/15.2/repo/oss openSUSE-Aliyun-OSS
@@ -112,6 +114,7 @@ case $1 in
     epel*) epelsource ;;
     pacman*) pacmansource ;;
     yay*) yaysource ;;
+    zypper*) zyppersource;;
 
     list ) set | grep "()";;
     * ) echo "$i 源还有收录";;

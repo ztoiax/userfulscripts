@@ -20,8 +20,10 @@ file(){
 }
 
 net(){
+    $install ngrep
     $install speedometer
     $install gping
+    $install nghttp2       # 测试网站是否支持http2
     $install wireshark
 }
 blktrace(){

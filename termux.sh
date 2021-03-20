@@ -13,6 +13,10 @@ qinghua(){
 apt update && apt upgrade
 }
 
+ustc(){
+    sed -i 's@^\(deb.*stable main\)$@#\1\ndeb https://mirrors.ustc.edu.cn/termux stable main@' $PREFIX/etc/apt/sources.list
+}
+
 atilo(){
 git clone https://github.com/YadominJinta/atilo
 pip install tqdm
@@ -35,9 +39,18 @@ chmod +x install-nethunter-termux
 wget https://raw.githubusercontent.com/EXALAB/AnLinux-Resources/master/Scripts/Installer/Kali/kali.sh && bash kali.sh
 }
 #install
-qinghua
-pkg install neovim wget git tree tsu openssl proot -y
-pkg install openssh -y && sshd
+ustc
+pkg install tsu -y
+# ssh
+passwd
+pkg install openssh -y
+tsu
+ssh-keygen -A
+sshd
+nmap 127.0.0.1
+ssh root@192.168.1.111
+
+pkg install neovim wget git tree openssl proot -y
 pkg install lsof nmap htop -y
 pkg install python3 -y
 pkg install nodejs -y

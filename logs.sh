@@ -35,3 +35,7 @@ cd $dir
 sudo agedu -s /
 sudo chmod 775 agedu.dat
 mv agedu.dat $date-agedu.dat
+# home
+sudo agedu -s /home
+sudo chmod 775 agedu.dat
+mv agedu.dat home-$date-agedu.dat

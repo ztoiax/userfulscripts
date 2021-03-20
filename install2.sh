@@ -11,6 +11,17 @@ zinit(){
     ls-color::init
 }
 
+xonsh(){
+    xpip install xontrib-autojump
+    xpip install xontrib-fzf-widgets
+    xpip install xonsh-docker-tabcomplete
+    xpip install xonsh-direnv
+    xpip install xontrib-output-search
+    xpip install xontrib-pipeliner
+    xpip install xontrib-sh
+    xpip install xontrib-z
+}
+
 man(){
     $install cgasm # 汇编手册
 }
@@ -115,8 +126,7 @@ kvm(){
     firewall-cmd --reload
 
     # kvm
-    dnf install qemu-kvm libvirt virt-install virt-viewer
-
+    dnf install qemu-kvm libvirt virt-install virt-viewer libguestfs ksmtuned
     # $install libvirt libvirt-daemon  libvirt-client  libvirt-daemon-driver-qemu
     # $install qemu-kvm  virt-install  virt-viewer virt-v2v
     # gui
@@ -147,6 +157,7 @@ char(){
     $install thefuck
     $install how2
     $install tldr
+    $install fx     #json viewer
     $install asciinema #终端屏幕录制
     $install csvkit #https://csvkit.readthedocs.io/en/1.0.3/
     $install entr   #事件监控
@@ -175,6 +186,7 @@ instead(){
     $install multitail         # instead tail
     $install paris-traceroute  # instead traceroute
     $install nping             # instead ping(nmap)
+    $install httpie            # instead curl
 }
 
 filemanage(){
@@ -183,6 +195,7 @@ filemanage(){
 }
 
 git-advance(){
+    $install gitsome
     $install git-extras
     npm i -g cli-github
     npm i -g git-stats

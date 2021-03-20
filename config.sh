@@ -167,6 +167,8 @@ vmap \  :s//g<Left><Left>
 nmap  <space> `
 nmap ' "
 
+nmap <C-y> "0p
+vmap <C-y> "0p
 nmap Y y$
 nmap yu y0
 nmap E v$h

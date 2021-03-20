@@ -37,11 +37,13 @@
     name[34]="[34]MutiXueShu"
     #书
     name[35]="[35]zlibrary"
-    #
     name[36]="[36]Wiki"
     name[37]="[37]LWM"
     name[38]="[38]Net"
-
+    name[39]="[39]Arch man"
+    name[40]="[40]爱思想"
+    name[41]="[41]DownloadXueShu"
+    name[42]="[42]ChaoXingXueShu"
 
     search[0]="https://github.com/search?utf8=✓&q="
     search[1]="https://www.google.com/search?q="
@@ -80,7 +82,10 @@
     search[36]="https://en.wikipedia.org/wiki/"
     search[37]="https://www.google.com/search?q=site:lwn.net "
     search[38]="https://www.google.com/search?q=site:netbeez.net "
-
+    search[39]="https://man.archlinux.org/search?q="
+    search[40]="http://www.aisixiang.com/data/search.php?keyWords="
+    search[41]="http://jour.gzlib.org/searchJour?sw"
+    search[42]="http://qikan.chaoxing.com/searchjour?sw="
 
     lengh=${#name[*]}
     function mutilinux(){
@@ -102,8 +107,9 @@
     function mutixueshu(){
         xdg-open "${search[29]}$1"  &> /dev/null
         xdg-open "${search[30]}$1"  &> /dev/null
-        xdg-open "${search[31]}$1"  &> /dev/null
         xdg-open "${search[32]}$1" &> /dev/null
+        xdg-open "${search[41]}$1&ecode=utf-8" &> /dev/null
+        xdg-open "${search[42]}$1" &> /dev/null
     }
 
     # 显示搜索引擎
