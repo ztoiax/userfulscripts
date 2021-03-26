@@ -1,3 +1,0 @@
-let l:bm_file_version = 1
-let l:bm_sessions = {'default': {'/home/tz/md/mysql.md': [{'sign_idx': 9500, 'line_nr': 604, 'content': '> 列名称1 数据类型 列属性,'},],}}
-let l:bm_current_session = 'default'
