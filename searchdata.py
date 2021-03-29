@@ -129,8 +129,6 @@ network = {
         'Netbeez' : netbeez
         }
 
-engine = [sousuo, xueshu, social, waiguosocial, video, shop, linux, network]
-# engine = {'sousuo': sousuo, 'xueshu': xueshu, 'social': social, 'waiguosocial': waiguosocial, 'video': video, 'shop': shop, 'linux': linux, 'network': network}
+engine = {'sousuo': sousuo, 'xueshu': xueshu, 'social': social, 'waiguosocial': waiguosocial, 'video': video, 'shop': shop, 'linux': linux, 'network': network}
 
-category = ['sousuo', 'xueshu', 'social', 'waiguosocial', 'video', 'shop', 'linux', 'network']
 menulist = ['dmenu', 'rofi -dmenu', 'fzf']

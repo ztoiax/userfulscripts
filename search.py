@@ -31,12 +31,18 @@ def selectUrl():
     return str_engine
 
 
-def showEngine():
+def showEngine(category=None):
+    # 设置字符串
     str_engine = selectUrl()
-    for value in engine:
-        for i in value.keys():
+    # 只显示分类
+    if category is not None:
+        for i in engine[category]:
             str_engine = str_engine + i + '\n'
-
+    # 显示所有
+    else:
+        for value in engine.values():
+            for i in value.keys():
+                str_engine = str_engine + i + '\n'
     return str_engine
 
 
@@ -88,20 +94,11 @@ def openEngine():
         return 0
     else:
         input_text = input(menu)
-        for value in engine:
+        for value in engine.values():
             for key in value:
                 if select_engine == key:
-                    cmd = 'xdg-open {0}{1}'.format(
-                            value[select_engine], input_text)
-
+                    cmd = 'xdg-open {0}{1}'.format(value[select_engine], input_text)
                     subprocess.call(cmd, shell=True)
-
-
-def selectEngine1(select_category):
-    print(select_category)
-    for i in engine[select_category]:
-        str_engine = str_engine + i + '\n'
-    return str_engine.rstrip()
 
 
 def openCategory():
@@ -110,15 +107,10 @@ def openCategory():
     if checkUrl(select_category):
         return 0
     else:
-        select_engine = selectEngine1(select_category)
+        select_engine = selectEngine(showEngine(select_category), menu)
         input_text = input(menu)
-        for value in engine:
-            for key in value:
-                if select_engine == key:
-                    cmd = 'xdg-open {0}{1}'.format(
-                            value[select_engine], input_text)
-
-                    subprocess.call(cmd, shell=True)
+        cmd = 'xdg-open {0}{1}'.format(engine[select_category][select_engine], input_text)
+        subprocess.call(cmd, shell=True)
 
 
 
