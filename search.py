@@ -3,25 +3,16 @@ import re
 import sys
 import subprocess
 
-if sys.argv[1] != '':
+# 导入数据
+from searchdata import *
+
+# 选择menu程序
+if len(sys.argv) == 1:
+    menu = 'dmenu'
+else:
     menu = sys.argv[1]
     if sys.argv[1] == 'rofi':
         menu = 'rofi -dmenu'
-else:
-    menu = 'dmenu'
-
-google = 'https://www.google.com/search?q='
-baidu = 'https://www.baidu.com/s?wd='
-sousuo = {'google': google, 'baidu': baidu}
-
-googlexueshu = 'https://scholar.google.com/scholar?hl=zh-CN&as_sdt=0%2C5&q='
-baiduxueshu = 'https://xueshu.baidu.com/s?wd='
-xueshu = {'googlexueshu': googlexueshu, 'baiduxueshu': baiduxueshu}
-
-engine = [sousuo, xueshu]
-
-category = ['sousuo', 'xueshu']
-menulist = ['dmenu', 'rofi -dmenu', 'fzf']
 
 
 def getClipboard():
@@ -30,17 +21,29 @@ def getClipboard():
     return output
 
 
-def showEngine():
+def selectUrl():
     # 判断剪切板是否为url
     url = getClipboard()
     if re.search(r'^http.*', url):
         str_engine = url
     else:
         str_engine = ''
+    return str_engine
 
+
+def showEngine():
+    str_engine = selectUrl()
     for value in engine:
         for i in value.keys():
             str_engine = str_engine + i + '\n'
+
+    return str_engine
+
+
+def showCategory():
+    str_engine = selectUrl()
+    for i in category:
+        str_engine = str_engine + i + '\n'
     return str_engine
 
 
@@ -70,18 +73,54 @@ def input(menu):
     return input_text.rstrip()
 
 
-# 选择engine
-select_engine = selectEngine(showEngine(), menu)
 
-# 如果剪切板是url, 直接打开url
-if re.search(r'^http.*', select_engine):
-    subprocess.call('xdg-open {0}'.format(select_engine), shell=True)
-else:
-    input_text = input(menu)
-    for value in engine:
-        for key in value:
-            if select_engine == key:
-                cmd = 'xdg-open {0}{1}'.format(
-                        value[select_engine], input_text)
+def checkUrl(select_engine):
+    # 如果剪切板是url, 则直接打开url
+    if re.search(r'^http.*', select_engine):
+        subprocess.call('xdg-open {0}'.format(select_engine), shell=True)
+        return True
 
-                subprocess.call(cmd, shell=True)
+
+def openEngine():
+    # 选择engine
+    select_engine = selectEngine(showEngine(), menu)
+    if checkUrl(select_engine):
+        return 0
+    else:
+        input_text = input(menu)
+        for value in engine:
+            for key in value:
+                if select_engine == key:
+                    cmd = 'xdg-open {0}{1}'.format(
+                            value[select_engine], input_text)
+
+                    subprocess.call(cmd, shell=True)
+
+
+def selectEngine1(select_category):
+    print(select_category)
+    for i in engine[select_category]:
+        str_engine = str_engine + i + '\n'
+    return str_engine.rstrip()
+
+
+def openCategory():
+    # 选择engine
+    select_category = selectEngine(showCategory(), menu)
+    if checkUrl(select_category):
+        return 0
+    else:
+        select_engine = selectEngine1(select_category)
+        input_text = input(menu)
+        for value in engine:
+            for key in value:
+                if select_engine == key:
+                    cmd = 'xdg-open {0}{1}'.format(
+                            value[select_engine], input_text)
+
+                    subprocess.call(cmd, shell=True)
+
+
+
+openEngine()
+# openCategory()
