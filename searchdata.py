@@ -3,22 +3,33 @@ google = 'https://www.google.com/search?q='
 baidu  = 'https://www.baidu.com/s?wd='
 kuake  = "https://quark.sm.cn/s?q="
 bind   = "https://cn.bing.com/search?q="
-wiki   = "https://en.wikipedia.org/wiki/"
+wiby   = 'https://www.wiby.me/?q='
+duckduckgo = 'https://duckduckgo.com/?q='
+wolframalpha = 'https://www.wolframalpha.com/input/?i='
 
-sousuo = {
+search = {
         'Google' : google,
         'Baidu'  : baidu,
         'Kuake'  : kuake,
-        'bind'   : bind,
-        'wiki'   : wiki
+        'Bind'   : bind,
+        'Wiby'   : wiby,
+        'Duckduckgo'   : duckduckgo,
+        'WolframAlpha'   : wolframalpha
+        }
+
+wk   = "https://en.wikipedia.org/wiki/"
+baiduwiki = 'https://baike.baidu.com/item/'
+wiki = {
+        'Wiki'   : wk,
+        'BaiduWiki' : baiduwiki
         }
 
 # social
 jianshu = "https://www.jianshu.com/search?q="
-zhihu   = "https://www.zhihu.com/search?type=content&q="
-douban  = "https://www.douban.com/search?source=suggest&q="
+zhihu   = "https://www.zhihu.com/search?q="
+douban  = "https://www.douban.com/search?q="
 weibo   = "https://s.weibo.com/weibo/"
-weixin  = "https://weixin.sogou.com/weixin?type=2&s_from=input&query="
+weixin  = "https://weixin.sogou.com/weixin?query="
 
 social = {
         'jianshu' : jianshu,
@@ -42,20 +53,29 @@ waiguosocial = {
         }
 
 # xueshu
-googlexueshu = 'https://scholar.google.com/scholar?hl=zh-CN&as_sdt=0%2C5&q='
+googlexueshu = 'https://scholar.google.com/scholar?q='
 baiduxueshu = 'https://xueshu.baidu.com/s?wd='
 nstl = "http://oar.nstl.gov.cn/Paper/Search?searchKey="
 downloadxueshu = "http://jour.gzlib.org/searchJour?sw"
 chaoxing = "http://qikan.chaoxing.com/searchjour?sw="
 aisixiang = "http://www.aisixiang.com/data/search.php?keyWords="
-
+semanticscholar = 'https://www.semanticscholar.org/search?q='
 xueshu = {
         'GoogleXueShu': googlexueshu,
         'BaiduXueShu': baiduxueshu,
         'nstl国家科技图书文献中心': nstl,
         'DownloadXueShu': downloadxueshu,
         'ChaoXing': chaoxing,
-        'aisixiang(爱思想)': aisixiang
+        'aisixiang(爱思想)': aisixiang,
+        'semanticscholar(外国学术)': semanticscholar
+        }
+
+# library
+zhongshan = 'http://opac.zslib.com.cn:8991/F/?func=find-b&find_code=WRD&find_base=KJSK&request='
+guangzhou = 'http://opac.gzlib.org.cn/opac/search?q='
+library = {
+        'ZhongShan' : zhongshan,
+        'GuangZhou' : guangzhou
         }
 
 # video
@@ -87,8 +107,8 @@ shop = {
         }
 
 # linux
-github        = "https://github.com/search?utf8=✓&q="
-gitee         = "https://search.gitee.com/?skin=rec&type=repository&q="
+github        = "https://github.com/search?q="
+gitee         = "https://search.gitee.com/?q="
 gitbook       = "https://www.google.com/search?q=site:gitbook.com%20"
 linux_china   = "https://www.baidu.com/s?wd=site:linux.cn%20"
 linux_command = "https://man.linuxde.net/"
@@ -118,7 +138,7 @@ linux = {
 
 # network
 h3c     = "https://search.h3c.com/basesearch.aspx?q0="
-huawei  = "https://support.huawei.com/enterprisesearch/?lang=zh#lang=zh&type=ALL&keyword="
+huawei  = "https://support.huawei.com/enterprisesearch/?lang=zh#keyword="
 cisco   = "https://search.cisco.com/search?query="
 netbeez = "https://www.google.com/search?q=site:netbeez.net%20"
 
@@ -129,6 +149,6 @@ network = {
         'Netbeez' : netbeez
         }
 
-engine = {'sousuo': sousuo, 'xueshu': xueshu, 'social': social, 'waiguosocial': waiguosocial, 'video': video, 'shop': shop, 'linux': linux, 'network': network}
+engine = {'linux': linux, 'xueshu': xueshu, 'library': library, 'social': social, 'waiguosocial': waiguosocial, 'video': video, 'shop': shop, 'search': search, 'wiki': wiki, 'network': network}
 
 menulist = ['dmenu', 'rofi -dmenu', 'fzf']

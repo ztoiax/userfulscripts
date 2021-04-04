@@ -304,6 +304,7 @@ base(){
     $install proxychains # proxy
     $install sshfs
     $install cdrtools    # cdrecord
+    $install moreutils   # gnu拓展包, ts等命令
 
     yay -S bash-snippets # good bash scripts
     # Mount Android
