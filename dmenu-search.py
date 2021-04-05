@@ -73,10 +73,10 @@ class search(object):
         r = redis.Redis()
 
         # list, hash store
-        for i, v in engine.items():
-            r.hset('engine', i, i)
-            for k in engine[i]:
-                r.hset(i, k, v[k])
+        for category, v in engine.items():
+            r.hset('engine', category, category)
+            for k in engine[category]:
+                r.hset(category, k, v[k])
 
     def redis_load(self):
         import redis
@@ -103,6 +103,49 @@ class search(object):
             for k, v in r.hgetall(category).items():
                 self.engine_list = self.engine_list + [k.decode()]
 
+    def sqlite_store(self):
+        import sqlite3
+        con = sqlite3.connect('/home/tz/.mybin/search.db')
+        cur = con.cursor()
+
+        cur.execute('CREATE TABLE IF NOT EXISTS engine (key)')
+        for table in engine:
+            cur.execute(f"INSERT INTO engine (key) VALUES('{table}')")
+            cur.execute(f"CREATE TABLE IF NOT EXISTS {table} (key, value)")
+
+        for table, context in engine.items():
+            for k, v in context.items():
+                cur.execute(f"INSERT INTO {table} (key, value) VALUES('{k}', '{v}')")
+
+        con.commit()
+        con.close()
+
+    def sqlite_load(self):
+        import sqlite3
+        con = sqlite3.connect('/home/tz/.mybin/search.db')
+        cur = con.cursor()
+        engine = {}
+
+        category = cur.execute('SELECT * FROM engine')
+
+        # 如果for i in category, 到第二次循环.i就变成了空值,跳出循环
+        ca = []
+        for i in category:
+            ca.append(i[0])
+
+        for i in ca:
+            table_name = i
+            table = cur.execute(f'SELECT * FROM {table_name}')
+
+            kv = {}
+            for ii in table:
+                kv.update(dict([ii]))
+
+            exec(f'{table_name} = {kv}')
+            engine.update({table_name: kv})
+
+        con.close()
+
 
 if __name__ == "__main__":
     instance = search()
@@ -113,6 +156,8 @@ if __name__ == "__main__":
             instance.file_load()
         elif 'redis' == i:
             instance.redis_load()
+        elif 'sqlite' == i:
+            instance.sqlite_load()
         elif '-l' == i:
             category=True
 
