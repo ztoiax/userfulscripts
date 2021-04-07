@@ -6,6 +6,14 @@ import dmenu
 from threading import Thread
 
 
+def dcode(ca):
+    # binary转换utf
+    kv = {}
+    for i, v in ca.items():
+        kv[i.decode()] = v.decode()
+    return kv
+
+
 class search(object):
     def __init__(self):
         self.clip = ''
@@ -16,7 +24,8 @@ class search(object):
 
     def clipboard(self):
         cmd = 'xclip -selection clipboard -o'
-        self.clip = subprocess.check_output(cmd, shell=True, universal_newlines=True)
+        tmp = subprocess.check_output(cmd, shell=True, universal_newlines=True)
+        self.clip = tmp.strip()
 
     def cmd(self, text):
         if 'dmenu' == self.menu:
@@ -26,13 +35,84 @@ class search(object):
         return r
 
     def input_text(self):
+        self.history_output()
         if 'dmenu' == self.menu:
-            self.input = dmenu.show(prompt='input', items=['input'])
+            self.input = dmenu.show(prompt='input',lines=15, items=self.history)
         elif 'fzf' == self.menu:
             self.input = input('input: ')
+        self.history_input()
 
-        if 'input' == self.input:
-            self.input = self.clip
+    def redis_output(self):
+        import redis
+        r = redis.Redis()
+        try:
+            history = r.hgetall('history')
+        except redis.exceptions.ConnectionError:
+            self.history = [self.clip]
+            return 1
+        history = dcode(history)
+        # sort
+        history1 = sorted(history, key=history.get, reverse=True)
+        self.history = [self.clip]
+        self.history.extend([k for k in history1])
+
+    def redis_input(self):
+        import redis
+        r = redis.Redis()
+        try:
+            r.client()
+        except redis.exceptions.ConnectionError:
+            r.close()
+            return 1
+
+        if self.input in self.history:
+            r.hincrby('history', f'{self.input}', 1)
+        else:
+            r.hset('history', f'{self.input}', 1)
+
+    def sqlite_output(self):
+        import sqlite3
+        import pathlib
+        filepath = pathlib.Path(__file__).parent.absolute()
+        con = sqlite3.connect(f'{filepath}/history.db')
+        cur = con.cursor()
+        try:
+            history_tuple = cur.execute("SELECT * FROM history")
+        except sqlite3.OperationalError:
+            con.commit()
+            con.close()
+            self.history = [self.clip]
+            return 1
+
+        # tuple convert to dict
+        history = {}
+        for i in history_tuple:
+            history.update({i[0]: i[1]})
+        # sort
+        history1 = sorted(history, key=history.get, reverse=True)
+        self.history = [self.clip]
+        self.history.extend([k for k in history1])
+        con.commit()
+        con.close()
+
+
+    def sqlite_input(self):
+        import sqlite3
+        import pathlib
+        filepath = pathlib.Path(__file__).parent.absolute()
+        con = sqlite3.connect(f'{filepath}/history.db')
+        cur = con.cursor()
+        cur.execute('CREATE TABLE IF NOT EXISTS history (input, count)')
+        history_tuple = cur.execute(f"SELECT * FROM history WHERE input='{self.input}'")
+        return_code = history_tuple.fetchall()
+        if return_code == []:
+            cur.execute(f"INSERT INTO history (input, count) VALUES('{self.input}', 1)")
+        else:
+            count = return_code[0][1] + 1
+            cur.execute(f"UPDATE history SET count={count} WHERE input='{self.input}'")
+
+        con.commit()
+        con.close()
 
     def select(self):
         clip_thread.join()
@@ -84,12 +164,18 @@ class search(object):
     def redis_store(self):
         import redis
         r = redis.Redis()
-
+        try:
+            r.client()
+        except redis.exceptions.ConnectionError:
+            r.close()
+            return 1
         # list, hash store
         for category, v in engine.items():
             r.hset('engine', category, category)
             for k in engine[category]:
                 r.hset(category, k, v[k])
+
+        r.close()
 
     def redis_load(self):
         import redis
@@ -97,8 +183,9 @@ class search(object):
 
         try:
             redis_engine = r.hgetall('engine')
-        except:
+        except redis.exceptions.ConnectionError:
             print('redis_load() false,turn to sqlite_load()')
+            r.close()
             self.sqlite_load()
             return 1
 
@@ -107,12 +194,6 @@ class search(object):
         self.engine_list = []
         for category in redis_engine:
             ca = r.hgetall(category)
-            # binary转换utf
-            def dcode(ca):
-                kv = {}
-                for i, v in ca.items():
-                    kv[i.decode()] = v.decode()
-                return kv
             ca = dcode(ca)
             # 设置category
             exec(f"{category.decode()} = {ca}")
@@ -212,10 +293,14 @@ if __name__ == "__main__":
             load_thread = Thread(target=instance.file_load)
             load_thread.start()
         elif 'redis' == i:
+            instance.history_input = instance.redis_input
+            instance.history_output = instance.redis_output
             load_thread = Thread(target=instance.redis_load)
             load_thread.start()
             # instance.redis_load()
         elif 'sqlite' == i:
+            instance.history_input = instance.sqlite_input
+            instance.history_output = instance.sqlite_output
             load_thread = Thread(target=instance.sqlite_load)
             load_thread.start()
         elif '-l' == i:
@@ -227,6 +312,8 @@ if __name__ == "__main__":
             instance.menu = i
 
     if ['file', 'redis', 'sqlite'] not in sys.argv:
+        # instance.history_input = instance.redis_input
+        # instance.history_output = instance.redis_output
         from searchdata import *
         load_thread = Thread(target=instance.file_load)
         load_thread.start()
