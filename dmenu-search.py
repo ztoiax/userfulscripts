@@ -4,6 +4,7 @@ import sys
 import subprocess
 import dmenu
 from threading import Thread
+from multiprocessing import Process
 
 
 def dcode(ca):
@@ -12,6 +13,29 @@ def dcode(ca):
     for i, v in ca.items():
         kv[i.decode()] = v.decode()
     return kv
+
+
+def redis_operation(cmd):
+    import redis
+    r = redis.Redis()
+    try:
+        eval(cmd)
+    except redis.exceptions.ConnectionError:
+        print('error: ' + cmd)
+        r.close()
+        return 1
+    r.close()
+
+
+def sqlite_operation(cmd):
+    import sqlite3
+    import pathlib
+    filepath = pathlib.Path(__file__).parent.absolute()
+    con = sqlite3.connect(f'{filepath}/search.db')
+    cur = con.cursor()
+    cur.execute(cmd)
+    con.commit()
+    con.close()
 
 
 class search(object):
@@ -32,6 +56,10 @@ class search(object):
             r = dmenu.show(lines=15, items=text)
         elif 'fzf' == self.menu:
             r = iterfzf.iterfzf(text)
+        elif 'normal' == self.menu:
+            for i in text:
+                print(i)
+            r = input('input: ')
         return r
 
     def input_text(self):
@@ -39,6 +67,10 @@ class search(object):
             self.input = dmenu.show(prompt='input', lines=15, items=self.history)
         elif 'fzf' == self.menu:
             self.input = iterfzf.iterfzf(self.history)
+        elif 'normal' == self.menu:
+            for i in self.history:
+                print(i)
+            self.input = input('input: ')
 
         if self.input is None:
             exit(1)
@@ -47,12 +79,16 @@ class search(object):
             history_thread.start()
 
     def redis_output(self):
+        print('in redis_output()')
         import redis
         r = redis.Redis()
         try:
             history = r.hgetall('history')
         except redis.exceptions.ConnectionError:
-            self.history = [self.clip]
+            print('redis_output() false,turn to sqlite_output()')
+            self.history_input = self.sqlite_input
+            self.history_output = self.sqlite_output
+            self.history_output()
             return 1
         history = dcode(history)
         # sort
@@ -61,6 +97,7 @@ class search(object):
         self.history.extend([k for k in history1])
 
     def redis_input(self):
+        print('in redis_input()')
         import redis
         r = redis.Redis()
         try:
@@ -75,6 +112,7 @@ class search(object):
             r.hset('history', f'{self.input}', 1)
 
     def sqlite_output(self):
+        print('in sqlite_output()')
         import sqlite3
         import pathlib
         filepath = pathlib.Path(__file__).parent.absolute()
@@ -83,8 +121,7 @@ class search(object):
         try:
             history_tuple = cur.execute("SELECT * FROM history")
         except sqlite3.OperationalError:
-            con.commit()
-            con.close()
+            # print('sqlite_output() false,turn to file_output()')
             self.history = [self.clip]
             return 1
 
@@ -100,6 +137,7 @@ class search(object):
         con.close()
 
     def sqlite_input(self):
+        print('in sqlite_input()')
         import sqlite3
         import pathlib
         filepath = pathlib.Path(__file__).parent.absolute()
@@ -167,7 +205,7 @@ class search(object):
         import redis
         r = redis.Redis()
         try:
-            r.client()
+            r.flushdb()
         except redis.exceptions.ConnectionError:
             r.close()
             return 1
@@ -189,9 +227,6 @@ class search(object):
             print('redis_load() false,turn to sqlite_load()')
             r.close()
             self.sqlite_load()
-            self.history_output = self.sqlite_output
-            history_thread = Thread(target=self.history_output)
-            history_thread.start()
             return 1
 
         global engine
@@ -211,7 +246,9 @@ class search(object):
     def sqlite_store(self):
         import sqlite3
         import pathlib
+        import os
         filepath = pathlib.Path(__file__).parent.absolute()
+        os.remove(f'{filepath}/search.db')
         con = sqlite3.connect(f'{filepath}/search.db')
         cur = con.cursor()
 
@@ -269,8 +306,41 @@ class search(object):
         self.url = engine['search']['Baidu']
         self.input = 'test'
 
+    def add_item(self):
+        category = self.cmd(engine.keys())
+        key = dmenu.show('')
+        value = dmenu.show('')
+
+        redis_cmd = f"r.hset('{category}', '{key}', '{value}')"
+        redis_operation_thread = Thread(target=redis_operation, args=(redis_cmd,))
+        redis_operation_thread.start()
+
+        sqlite_cmd = (f"INSERT INTO {category} (key, value) VALUES('{key}', '{value}')")
+        sqlite_operation_thread = Thread(target=sqlite_operation, args=(sqlite_cmd,))
+        sqlite_operation_thread.start()
+
+    def del_item(self):
+        self.file_load()
+        key = self.cmd(self.engine_list)
+        for k, v in engine.items():
+            for i in v.keys():
+                if key == i:
+                    category = k
+                    break
+
+        engine[category].pop(key)
+
+        redis_cmd = f"r.hdel('{category}', '{key}')"
+        redis_operation_thread = Thread(target=redis_operation, args=(redis_cmd,))
+        redis_operation_thread.start()
+
+        sqlite_cmd = (f"DELETE FROM {category} WHERE key = '{key}'")
+        sqlite_operation_thread = Thread(target=sqlite_operation, args=(sqlite_cmd,))
+        sqlite_operation_thread.start()
+
 
 if __name__ == "__main__":
+
     instance = search()
     clip_thread = Thread(target=instance.clipboard)
     clip_thread.start()
@@ -307,6 +377,27 @@ if __name__ == "__main__":
         elif 'fzf' == i:
             import iterfzf
             instance.menu = i
+        elif 'dmenu' == i:
+            import dmenu
+            instance.menu = i
+        elif 'normal' == i:
+            instance.menu = i
+        elif 'sync' == i:
+            import searchdata
+            engine = searchdata.engine
+            instance.redis_store()
+            instance.sqlite_store()
+            exit(0)
+        elif 'add' == i:
+            import searchdata
+            engine = searchdata.engine
+            instance.add_item()
+            exit(0)
+        elif 'del' == i:
+            import searchdata
+            engine = searchdata.engine
+            instance.del_item()
+            exit(0)
 
     if 'store' in locals():
         if store == 'redis':

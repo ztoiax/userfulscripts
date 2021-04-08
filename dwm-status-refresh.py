@@ -85,7 +85,7 @@ def one_second():
         gpu = Gpu()
         # psutil.sensors_temperatures()
 
-        arg = f' {psutil.cpu_percent(1)}%  {gpu[0]}% {gpu[1]}°C  {psutil.virtual_memory()[2]}% {gpu[2]} ﰬ {net[1]}/s ﰵ {net[0]}/s  R {io[0]} {io[2]}KB/s W {io[1]} {io[3]}KB/s {disk_available("/")} {disk_available("/home/tz")}  {sound()}  {time_global}'
+        arg = f' {psutil.cpu_percent(1)}%  {gpu[0]}% {gpu[1]}°C  {psutil.virtual_memory()[2]}% {gpu[2]} ﰬ {net[1]}/s ﰵ {net[0]}/s  R {io[0]} {io[2]} W {io[1]} {io[3]} {disk_available("/")} {disk_available("/home/tz")}  {sound()}  {time_global}'
 
         subprocess.call(['xsetroot', '-name', f'{arg}'])
         time.sleep(1)
