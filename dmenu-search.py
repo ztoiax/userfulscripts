@@ -35,12 +35,16 @@ class search(object):
         return r
 
     def input_text(self):
-        self.history_output()
         if 'dmenu' == self.menu:
-            self.input = dmenu.show(prompt='input',lines=15, items=self.history)
+            self.input = dmenu.show(prompt='input', lines=15, items=self.history)
         elif 'fzf' == self.menu:
-            self.input = input('input: ')
-        self.history_input()
+            self.input = iterfzf.iterfzf(self.history)
+
+        if self.input is None:
+            exit(1)
+        else:
+            history_thread = Thread(target=self.history_input)
+            history_thread.start()
 
     def redis_output(self):
         import redis
@@ -95,7 +99,6 @@ class search(object):
         con.commit()
         con.close()
 
-
     def sqlite_input(self):
         import sqlite3
         import pathlib
@@ -120,7 +123,7 @@ class search(object):
             # 判断剪切板是否为url,如果是则放在首选项
             self.engine_list.insert(0, self.clip)
 
-        if self.url == None:
+        if self.url is None:
             # 测试模式
             load_thread.join()
             self.engine = self.cmd(self.engine_list)
@@ -141,7 +144,6 @@ class search(object):
 
         subprocess.call(['xdg-open', f'{self.url}{self.input}'])
 
-
     def file_load(self):
         self.engine_list = []
         for value in engine.values():
@@ -152,7 +154,7 @@ class search(object):
         load_thread.join()
         self.category_list = engine.keys()
 
-        if self.url == None:
+        if self.url is None:
             # 测试模式
             self.category = self.cmd(self.category_list)
             self.engine = self.cmd(engine[self.category].keys())
@@ -187,6 +189,9 @@ class search(object):
             print('redis_load() false,turn to sqlite_load()')
             r.close()
             self.sqlite_load()
+            self.history_output = self.sqlite_output
+            history_thread = Thread(target=self.history_output)
+            history_thread.start()
             return 1
 
         global engine
@@ -228,15 +233,17 @@ class search(object):
         filepath = pathlib.Path(__file__).parent.absolute()
         con = sqlite3.connect(f'{filepath}/search.db')
         cur = con.cursor()
+        global engine
         engine = {}
 
         try:
             category = cur.execute('SELECT * FROM engine')
-        except:
-            # 无法from
-            # print('sqlite_load() false,turn to file_load()')
-            # from searchdata import *
-            # self.file_load()
+        except sqlite3.OperationalError:
+            print('sqlite_load() false,turn to file_load() and exec sqlite_store()')
+            import searchdata
+            engine = searchdata.engine
+            self.file_load()
+            self.sqlite_store()
             return 1
 
         # 如果for i in category, 到第二次循环.i就变成了空值,跳出循环
@@ -255,6 +262,7 @@ class search(object):
             exec(f'{table_name} = {kv}')
             engine.update({table_name: kv})
 
+        self.file_load()
         con.close()
 
     def test(self):
@@ -288,35 +296,37 @@ if __name__ == "__main__":
           以上可以组合使用:
           dmenu-search.py -l redis fzf''')
             exit(0)
-        elif 'file' == i:
-            from searchdata import *
-            load_thread = Thread(target=instance.file_load)
-            load_thread.start()
         elif 'redis' == i:
-            instance.history_input = instance.redis_input
-            instance.history_output = instance.redis_output
-            load_thread = Thread(target=instance.redis_load)
-            load_thread.start()
-            # instance.redis_load()
+            store = i
         elif 'sqlite' == i:
-            instance.history_input = instance.sqlite_input
-            instance.history_output = instance.sqlite_output
-            load_thread = Thread(target=instance.sqlite_load)
-            load_thread.start()
+            store = i
         elif '-l' == i:
-            category=True
+            category = True
         elif '-t' == i:
-            test=True
+            test = True
         elif 'fzf' == i:
             import iterfzf
             instance.menu = i
 
-    if ['file', 'redis', 'sqlite'] not in sys.argv:
-        # instance.history_input = instance.redis_input
-        # instance.history_output = instance.redis_output
-        from searchdata import *
+    if 'store' in locals():
+        if store == 'redis':
+            instance.history_input = instance.redis_input
+            instance.history_output = instance.redis_output
+            load_thread = Thread(target=instance.redis_load)
+        elif store == 'sqlite':
+            instance.history_input = instance.sqlite_input
+            instance.history_output = instance.sqlite_output
+            load_thread = Thread(target=instance.sqlite_load)
+    else:
+        import searchdata
+        engine = searchdata.engine
+        instance.history_input = instance.redis_input
+        instance.history_output = instance.redis_output
         load_thread = Thread(target=instance.file_load)
-        load_thread.start()
+
+    history_thread = Thread(target=instance.history_output)
+    history_thread.start()
+    load_thread.start()
 
     if 'test' in locals():
         instance.test()
