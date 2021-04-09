@@ -36,7 +36,7 @@ social = {
         'zhihu'   : zhihu,
         'douban'  : douban,
         'weibo'   : weibo,
-        'weixin'  : weixin 
+        'weixin'  : weixin
         }
 
 # waiguosocial

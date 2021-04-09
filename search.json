@@ -1,0 +1,74 @@
+{
+    "Linux" : {
+        "Github"        : "https://github.com/search?q=",
+        "Gitee"         : "https://search.gitee.com/?q=",
+        "Gitbook"       : "https://www.google.com/search?q=site:gitbook.com%20",
+        "Linux_china"   : "https://www.baidu.com/s?wd=site:linux.cn%20",
+        "Linux_command" : "https://man.linuxde.net/",
+        "Ruanyif"       : "https://www.baidu.com/s?wd=site:www.ruanyifeng.com%20",
+        "Lwm"           : "https://www.google.com/search?q=site:lwn.net%20",
+        "Arch"          : "https://wiki.archlinux.org/index.php?search=",
+        "Arch_man"      : "https://man.archlinux.org/search?q=",
+        "IBM"           : "https://developer.ibm.com/zh?s=",
+        "Aliyun"        : "https://developer.aliyun.com/search?q=",
+        "Pkgs"          : "https://pkgs.org/search/?q="
+    },
+    "Search" : {
+        "Google"       : "https://www.google.com/search?q=",
+        "Baidu"        : "https://www.baidu.com/s?wd=",
+        "Kuake"        : "https://quark.sm.cn/s?q=",
+        "Bind"         : "https://cn.bing.com/search?q=",
+        "Wiby"         : "https://www.wiby.me/?q=",
+        "Duckduckgo"   : "https://duckduckgo.com/?q=",
+        "WolframAlpha" : "https://www.wolframalpha.com/input/?i="
+    },
+    "Wiki" : {
+        "Wk"        : "https://en.wikipedia.org/wiki/",
+        "Baiduwiki" : "https://baike.baidu.com/item/"
+    },
+    "Social" : {
+        "Jianshu" : "https://www.jianshu.com/search?q=",
+        "Zhihu"   : "https://www.zhihu.com/search?q=",
+        "Douban"  : "https://www.douban.com/search?q=",
+        "Weibo"   : "https://s.weibo.com/weibo/",
+        "Weixin"  : "https://weixin.sogou.com/weixin?query="
+    },
+    "Waiguosocial" : {
+        "Reddit"   : "https://www.reddit.com/search/?q=",
+        "Twitter"  : "https://twitter.com/search?q=",
+        "Facebook" : "https://www.facebook.com/search/top/?q=",
+        "Goodread" : "https://www.goodreads.com/search?q="
+    },
+    "Xueshu" : {
+        "GoogleXueShu"              : "https://scholar.google.com/scholar?q=",
+        "BaiduXueShu"               : "https://xueshu.baidu.com/s?wd=",
+        "nstl国家科技图书文献中心"  : "http://oar.nstl.gov.cn/Paper/Search?searchKey=",
+        "DownloadXueShu"            : "http://jour.gzlib.org/searchJour?sw",
+        "ChaoXing"                  : "http://qikan.chaoxing.com/searchjour?sw=",
+        "AiSiXiang(爱思想)"         : "http://www.aisixiang.com/data/search.php?keyWords=",
+        "SemanticScholar(外国学术)" : "https://www.semanticscholar.org/search?q="
+    },
+    "Library" : {
+        "ZhongShan" : "http://opac.zslib.com.cn:8991/F/?func=find-b&find_code=WRD&find_base=KJSK&request=",
+        "GuangZhou" : "http://opac.gzlib.org.cn/opac/search?q="
+    },
+    "Video" : {
+        "Youtube"   : "https://www.youtube.com/results?search_query=",
+        "Bilibli"   : "https://search.bilibili.com/all?keyword=",
+        "Youku"     : "https://so.youku.com/search_video/q_",
+        "TengXun"   : "https://v.qq.com/x/search/?q=",
+        "Aiqiyi"    : "https://so.iqiyi.com/so/q_",
+        "YunKeTang" : "https://study.163.com/courses-search?keyword=",
+        "GongKaiKe" : "https://open.163.com/newview/search/"
+    },
+    "Shop" : {
+        "Taobao" : "https://s.taobao.com/search?q=",
+        "Jd"     : "https://search.jd.com/Search?keyword="
+    },
+    "Network" : {
+        "H3C"     : "https://search.h3c.com/basesearch.aspx?q0=",
+        "Huawei"  : "https://support.huawei.com/enterprisesearch/?lang=zh#keyword=",
+        "Cisco"   : "https://search.cisco.com/search?query=",
+        "Netbeez" : "https://www.google.com/search?q=site:netbeez.net%20"
+    }
+}

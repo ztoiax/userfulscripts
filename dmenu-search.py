@@ -3,8 +3,16 @@ import re
 import sys
 import subprocess
 import dmenu
+import pathlib
+import json
 from threading import Thread
 from multiprocessing import Process
+
+
+def json_load():
+    global engine
+    with open(f'{filepath}/search.json', 'r') as f:
+        engine = json.load(f)
 
 
 def dcode(ca):
@@ -29,8 +37,6 @@ def redis_operation(cmd):
 
 def sqlite_operation(cmd):
     import sqlite3
-    import pathlib
-    filepath = pathlib.Path(__file__).parent.absolute()
     con = sqlite3.connect(f'{filepath}/search.db')
     cur = con.cursor()
     cur.execute(cmd)
@@ -48,8 +54,8 @@ class search(object):
 
     def clipboard(self):
         cmd = 'xclip -selection clipboard -o'
-        tmp = subprocess.check_output(cmd, shell=True, universal_newlines=True)
-        self.clip = tmp.strip()
+        output = subprocess.check_output(cmd, shell=True, universal_newlines=True)
+        self.clip = output.strip()
 
     def cmd(self, text):
         if 'dmenu' == self.menu:
@@ -114,8 +120,6 @@ class search(object):
     def sqlite_output(self):
         print('in sqlite_output()')
         import sqlite3
-        import pathlib
-        filepath = pathlib.Path(__file__).parent.absolute()
         con = sqlite3.connect(f'{filepath}/history.db')
         cur = con.cursor()
         try:
@@ -139,8 +143,6 @@ class search(object):
     def sqlite_input(self):
         print('in sqlite_input()')
         import sqlite3
-        import pathlib
-        filepath = pathlib.Path(__file__).parent.absolute()
         con = sqlite3.connect(f'{filepath}/history.db')
         cur = con.cursor()
         cur.execute('CREATE TABLE IF NOT EXISTS history (input, count)')
@@ -245,9 +247,7 @@ class search(object):
 
     def sqlite_store(self):
         import sqlite3
-        import pathlib
         import os
-        filepath = pathlib.Path(__file__).parent.absolute()
         os.remove(f'{filepath}/search.db')
         con = sqlite3.connect(f'{filepath}/search.db')
         cur = con.cursor()
@@ -266,8 +266,6 @@ class search(object):
 
     def sqlite_load(self):
         import sqlite3
-        import pathlib
-        filepath = pathlib.Path(__file__).parent.absolute()
         con = sqlite3.connect(f'{filepath}/search.db')
         cur = con.cursor()
         global engine
@@ -277,8 +275,7 @@ class search(object):
             category = cur.execute('SELECT * FROM engine')
         except sqlite3.OperationalError:
             print('sqlite_load() false,turn to file_load() and exec sqlite_store()')
-            import searchdata
-            engine = searchdata.engine
+            json_load()
             self.file_load()
             self.sqlite_store()
             return 1
@@ -311,6 +308,11 @@ class search(object):
         key = dmenu.show('')
         value = dmenu.show('')
 
+        kv = {key: value}
+        engine[category].update(kv)
+        with open(f'{filepath}/search.json', 'w') as file:
+            json.dump(engine, file)
+
         redis_cmd = f"r.hset('{category}', '{key}', '{value}')"
         redis_operation_thread = Thread(target=redis_operation, args=(redis_cmd,))
         redis_operation_thread.start()
@@ -329,6 +331,8 @@ class search(object):
                     break
 
         engine[category].pop(key)
+        with open(f'{filepath}/search.json', 'w') as file:
+            json.dump(engine, file)
 
         redis_cmd = f"r.hdel('{category}', '{key}')"
         redis_operation_thread = Thread(target=redis_operation, args=(redis_cmd,))
@@ -340,6 +344,8 @@ class search(object):
 
 
 if __name__ == "__main__":
+
+    filepath = pathlib.Path(__file__).parent.absolute()
 
     instance = search()
     clip_thread = Thread(target=instance.clipboard)
@@ -383,19 +389,16 @@ if __name__ == "__main__":
         elif 'normal' == i:
             instance.menu = i
         elif 'sync' == i:
-            import searchdata
-            engine = searchdata.engine
+            json_load()
             instance.redis_store()
             instance.sqlite_store()
             exit(0)
         elif 'add' == i:
-            import searchdata
-            engine = searchdata.engine
+            json_load()
             instance.add_item()
             exit(0)
         elif 'del' == i:
-            import searchdata
-            engine = searchdata.engine
+            json_load()
             instance.del_item()
             exit(0)
 
@@ -409,8 +412,7 @@ if __name__ == "__main__":
             instance.history_output = instance.sqlite_output
             load_thread = Thread(target=instance.sqlite_load)
     else:
-        import searchdata
-        engine = searchdata.engine
+        json_load()
         instance.history_input = instance.redis_input
         instance.history_output = instance.redis_output
         load_thread = Thread(target=instance.file_load)
