@@ -5,8 +5,14 @@ import subprocess
 import dmenu
 import pathlib
 import json
+import webbrowser
 from threading import Thread
-from multiprocessing import Process
+
+
+def get(func):
+    for category_key, category_v in engine.items():
+        for key, value in category_v.items():
+            func(key, value, category_key)
 
 
 def json_load():
@@ -51,6 +57,7 @@ class search(object):
         self.engine = ''
         self.url = None
         self.input = ''
+        self.engine_list = []
 
     def clipboard(self):
         cmd = 'xclip -selection clipboard -o'
@@ -170,25 +177,36 @@ class search(object):
 
             if self.engine == self.clip:
                 # 如果选择了剪切板的url,则直接打开
-                subprocess.call(['xdg-open', f'{self.engine}'])
+                webbrowser.open(self.engine)
                 exit(0)
 
-            self.input_text()
-            def url():
-                # 获取引擎url
-                for value in engine.values():
-                    for key in value:
-                        if self.engine == key:
-                            self.url = value[self.engine]
-            url()
+            if self.engine is None:
+                exit(1)
 
-        subprocess.call(['xdg-open', f'{self.url}{self.input}'])
+            @get
+            def get_url(key, value, category_key):
+                # 获取引擎url
+                if self.engine == key:
+                    global get_url
+                    self.url = value
+                    get_url = True
+
+            if self.url:
+                self.input_text()
+            else:
+                # 获取失败,则为Github
+                self.url = engine['Linux']['Github']
+                self.input = self.engine
+            webbrowser.open(self.url + self.input)
 
     def file_load(self):
-        self.engine_list = []
         for value in engine.values():
             for i in value.keys():
                 self.engine_list = self.engine_list + [i]
+
+    # @get
+    # def file_load(key, value, category_key):
+    #     self.engine_list = self.engine_list + [key]
 
     def category(self):
         load_thread.join()
@@ -201,7 +219,7 @@ class search(object):
             self.url = engine[self.category][self.engine]
             self.input_text()
 
-        subprocess.call(['xdg-open', f'{self.url}{self.input}'])
+        webbrowser.open(self.url + self.input)
 
     def redis_store(self):
         import redis
@@ -209,6 +227,7 @@ class search(object):
         try:
             r.flushdb()
         except redis.exceptions.ConnectionError:
+            print('redis_store() error')
             r.close()
             return 1
         # list, hash store
@@ -248,7 +267,11 @@ class search(object):
     def sqlite_store(self):
         import sqlite3
         import os
-        os.remove(f'{filepath}/search.db')
+        try:
+            os.remove(f'{filepath}/search.db')
+        except FileNotFoundError:
+            pass
+
         con = sqlite3.connect(f'{filepath}/search.db')
         cur = con.cursor()
 
@@ -257,9 +280,9 @@ class search(object):
             cur.execute(f"INSERT INTO engine (key) VALUES('{table}')")
             cur.execute(f"CREATE TABLE IF NOT EXISTS {table} (key, value)")
 
-        for table, context in engine.items():
-            for k, v in context.items():
-                cur.execute(f"INSERT INTO {table} (key, value) VALUES('{k}', '{v}')")
+        @get
+        def insert(key, value, category_key):
+            cur.execute(f"INSERT INTO {category_key} (key, value) VALUES('{key}', '{value}')")
 
         con.commit()
         con.close()
@@ -324,11 +347,12 @@ class search(object):
     def del_item(self):
         self.file_load()
         key = self.cmd(self.engine_list)
-        for k, v in engine.items():
-            for i in v.keys():
-                if key == i:
-                    category = k
-                    break
+
+        @get
+        def get_category(k, value, category_key):
+            if key == k:
+                global category
+                category = category_key
 
         engine[category].pop(key)
         with open(f'{filepath}/search.json', 'w') as file:

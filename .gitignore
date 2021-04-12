@@ -1,5 +1,4 @@
 
 __pycache__/*
-test.py
-search.db
-history.db
+test.*
+*.db
