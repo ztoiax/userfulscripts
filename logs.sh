@@ -11,10 +11,12 @@ path="$dir/$date-pkgs"
 pipl=$(pip3 list)
 pipn=$(echo "$pipl" | wc -l)
 # npm
-npml=$(npm list -g --depth=0 2> /dev/null)
+# npml=$(npm list -g --depth=0 2> /dev/null)
+npml=$(npm list -g 2> /dev/null)
 npmn=$(echo "$npml" | wc -l)
 # pkg
-pl=$(pacman -Qs)
+# pl=$(pacman -Qs)
+pl=$(pacman -Q)
 pn=$(echo "$pl" | wc -l )
 
 echo "######pip#####" >> $path

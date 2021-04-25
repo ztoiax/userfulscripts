@@ -27,6 +27,7 @@ awesomechar(){
     $install figlet                 #beautiful char
     $install cmatrix				#黑客帝国效果
     $install neofetch				#系统信息显示
+    $install cpufetch				#cpu信息显示
 }
 
 font(){
@@ -67,7 +68,7 @@ chmod a+x ./install.sh
 }
 
 fcitx5(){
-yay -S fcitx5-git  fcitx5-gtk-git fcitx5-chinese-addons fcitx5-configtool fcitx5-qt4-git
+yay -S fcitx5 fcitx5-chinese-addons fcitx5-configtool fcitx5-qt fcitx5-gtk
 # spell
 sudo pacman -Sy hunspell
 # 萌娘百科，中文维基百科词库 成语词库
@@ -173,14 +174,19 @@ xorg(){
     $install wal #set termianl colorscheme from wallpaper
     $install compton #alpha
     $install grub-customizer # grub
-
+    $install wmctrl # show id of windows
     # $install transmission-gtk # torrnet download
     # $install conky #menu
-    # $install lxappearance #themes
     # $install noti #notifications process
-
     # $install variety #wallpaper config
     # $install simplescreenrecorder #screen recorder
+
+    # $install lxappearance     # gtk config
+    # $install pcman-gtk3       # gtk file manager
+    # $install orchis-theme-git # gtk theme
+
+    # $install qt5ct        # qt config
+    # $install pcman-qt     # qt file manager
 }
 
 dwm(){

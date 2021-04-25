@@ -1,7 +1,6 @@
 #!/usr/bin/python3
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
-
 import paddlehub as hub
 import cv2
 

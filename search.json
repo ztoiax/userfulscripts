@@ -13,6 +13,9 @@
         "Aliyun"        : "https://developer.aliyun.com/search?q=",
         "Pkgs"          : "https://pkgs.org/search/?q="
     },
+    "Programming" : {
+        "GODELF" : "https://unbug.github.io/codelf/#"
+    },
     "Search" : {
         "Google"       : "https://www.google.com/search?q=",
         "Baidu"        : "https://www.baidu.com/s?wd=",
@@ -31,7 +34,7 @@
         "Zhihu"   : "https://www.zhihu.com/search?q=",
         "Douban"  : "https://www.douban.com/search?q=",
         "Weibo"   : "https://s.weibo.com/weibo/",
-        "Weixin"  : "https://weixin.sogou.com/weixin?query="
+        "Weixin"  : "https://weixin.sogou.com/weixin?type=2&s_from=input&query="
     },
     "Waiguosocial" : {
         "Reddit"   : "https://www.reddit.com/search/?q=",
@@ -54,21 +57,29 @@
     },
     "Video" : {
         "Youtube"   : "https://www.youtube.com/results?search_query=",
+        "Odysee"    : "https://odysee.com/$/search?q=",
         "Bilibli"   : "https://search.bilibili.com/all?keyword=",
         "Youku"     : "https://so.youku.com/search_video/q_",
         "TengXun"   : "https://v.qq.com/x/search/?q=",
         "Aiqiyi"    : "https://so.iqiyi.com/so/q_",
         "YunKeTang" : "https://study.163.com/courses-search?keyword=",
-        "GongKaiKe" : "https://open.163.com/newview/search/"
+        "GongKaiKe" : "https://open.163.com/newview/search/",
+        "DongMan"   : "http://share.dmhy.org/topics/list?keyword=",
+        "ChaBeiHu"  : "https://www.cupfox.com/search?key="
     },
     "Shop" : {
         "Taobao" : "https://s.taobao.com/search?q=",
-        "Jd"     : "https://search.jd.com/Search?keyword="
+        "Jd"     : "https://search.jd.com/Search?keyword=",
+        "YouPing": "https://www.xiaomiyoupin.com/search?keyword="
     },
     "Network" : {
         "H3C"     : "https://search.h3c.com/basesearch.aspx?q0=",
         "Huawei"  : "https://support.huawei.com/enterprisesearch/?lang=zh#keyword=",
         "Cisco"   : "https://search.cisco.com/search?query=",
         "Netbeez" : "https://www.google.com/search?q=site:netbeez.net%20"
+    },
+    "Web" : {
+        "ChromeExtensions" : "https://chrome.google.com/webstore/search/",
+        "Greasyfork"       : "https://greasyfork.org/zh-CN/scripts?q="
     }
 }

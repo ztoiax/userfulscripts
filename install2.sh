@@ -20,6 +20,7 @@ xonsh(){
     xpip install xontrib-pipeliner
     xpip install xontrib-sh
     xpip install xontrib-z
+    xpip install xontrib-prompt-starship
 }
 
 man(){
@@ -212,6 +213,8 @@ nnn(){
 ranger(){
 $install ranger-git
 $install ffmpegthumbnailer ueberzug
+# 加速图形渲染
+pip3 install pillow-simd
 
 #fzf
 git clone https://github.com/laggardkernel/ranger-fzf-marks.git ~/.config/ranger/plugins/fzf-marks
@@ -320,6 +323,10 @@ nvim(){
     # yum install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
     $install neovim python3-neovim
 # fi
+}
+
+vscode(){
+    $install visual-studio-code-bin
 }
 
 fish(){

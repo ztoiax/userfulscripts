@@ -6,6 +6,7 @@ import dmenu
 import pathlib
 import json
 import webbrowser
+import logging
 from threading import Thread
 
 
@@ -35,7 +36,7 @@ def redis_operation(cmd):
     try:
         eval(cmd)
     except redis.exceptions.ConnectionError:
-        print('error: ' + cmd)
+        logging.warning('error: ' + cmd)
         r.close()
         return 1
     r.close()
@@ -61,8 +62,12 @@ class search(object):
 
     def clipboard(self):
         cmd = 'xclip -selection clipboard -o'
-        output = subprocess.check_output(cmd, shell=True, universal_newlines=True)
-        self.clip = output.strip()
+        try:
+            output = subprocess.check_output(cmd, shell=True, universal_newlines=True)
+        except:
+            pass
+        else:
+            self.clip = output.strip()
 
     def cmd(self, text):
         if 'dmenu' == self.menu:
@@ -92,7 +97,7 @@ class search(object):
             history_thread.start()
 
     def redis_output(self):
-        print('in redis_output()')
+        logging.info('in redis_output()')
         import redis
         r = redis.Redis()
         try:
@@ -106,11 +111,12 @@ class search(object):
         history = dcode(history)
         # sort
         history1 = sorted(history, key=history.get, reverse=True)
-        self.history = [self.clip]
+        if self.clip != '':
+            self.history = [self.clip]
         self.history.extend([k for k in history1])
 
     def redis_input(self):
-        print('in redis_input()')
+        logging.info('in redis_input()')
         import redis
         r = redis.Redis()
         try:
@@ -125,14 +131,14 @@ class search(object):
             r.hset('history', f'{self.input}', 1)
 
     def sqlite_output(self):
-        print('in sqlite_output()')
+        logging.info('in sqlite_output()')
         import sqlite3
         con = sqlite3.connect(f'{filepath}/history.db')
         cur = con.cursor()
         try:
             history_tuple = cur.execute("SELECT * FROM history")
         except sqlite3.OperationalError:
-            # print('sqlite_output() false,turn to file_output()')
+            logging.warning('sqlite_output() false,turn to file_output()')
             self.history = [self.clip]
             return 1
 
@@ -148,7 +154,7 @@ class search(object):
         con.close()
 
     def sqlite_input(self):
-        print('in sqlite_input()')
+        logging.info('in sqlite_input()')
         import sqlite3
         con = sqlite3.connect(f'{filepath}/history.db')
         cur = con.cursor()
@@ -441,6 +447,7 @@ if __name__ == "__main__":
         instance.history_output = instance.redis_output
         load_thread = Thread(target=instance.file_load)
 
+    logging.basicConfig(format='%(name)s - %(levelname)s - %(message)s')
     history_thread = Thread(target=instance.history_output)
     history_thread.start()
     load_thread.start()

@@ -135,3 +135,36 @@ search iptable
 [13] python pypi
 输入0则全部打开，输入编号则打开的搜索引擎:
 ```
+
+## 多线程ping
+
+> 对 `ping -c 1 ip`进行多线程包装, 判断主机是否存在
+
+```sh
+# 指定ip
+ip_thread 192.168.1.1 192.168.1.111
+
+# 扫描端口: -n
+ip_thread -n 192.168.1.1 192.168.1.111
+
+# 指定文件内的ip
+ip_thread.py $(cat ip_file)
+
+# 指定网段
+ip_thread 192.168.1.0/24 192.168.2.0/24
+```
+
+- 两者速度对比(我cpu是6核12线程)
+
+```sh
+for i in 192.168.1.{1..255}; do
+    ping -c 1 $i
+done
+```
+
+```sh
+ip_thread.py 192.168.1.0/24
+```
+
+- 多线程到61, 而普通的shell命令才到9
+![image](./Pictures/ipthread.gif)

@@ -38,6 +38,14 @@ chmod +x install-nethunter-termux
 
 wget https://raw.githubusercontent.com/EXALAB/AnLinux-Resources/master/Scripts/Installer/Kali/kali.sh && bash kali.sh
 }
+
+zsh(){
+    pkg install zsh
+    # zinit
+    sh -c "$(curl -fsSL https://raw.githubusercontent.com/zdharma/zinit/master/doc/install.sh)"
+}
+
+termux(){
 #install
 ustc
 pkg install tsu -y
@@ -49,12 +57,14 @@ ssh-keygen -A
 sshd
 nmap 127.0.0.1
 ssh root@192.168.1.111
+}
 
-pkg install neovim wget git tree openssl proot -y
-pkg install lsof nmap htop -y
-pkg install python3 -y
-pkg install nodejs -y
-pkg install ranger -y
-pkg install fish -y
+apt install neovim wget git make silversearcher-ag tree openssl proot -y
+apt install lsof nmap -y
+apt install nodejs golang python3 python3-pip npm -y
+apt install fish zsh ranger fzf exa -y
+apt install p7zip lz4 zstd pigz pbzip2 pixz
+apt install pv
+apt install sqlite3 redis default-mysql-server
 
-pip install ipython -y
+pip3 install ptpython litecli iredis mycli

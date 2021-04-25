@@ -29,7 +29,7 @@ jianshu = "https://www.jianshu.com/search?q="
 zhihu   = "https://www.zhihu.com/search?q="
 douban  = "https://www.douban.com/search?q="
 weibo   = "https://s.weibo.com/weibo/"
-weixin  = "https://weixin.sogou.com/weixin?query="
+weixin  = "https://weixin.sogou.com/weixin?type=2&s_from=input&query="
 
 social = {
         'jianshu' : jianshu,
@@ -100,10 +100,12 @@ video = {
 # shop
 taobao = "https://s.taobao.com/search?q="
 jd     = "https://search.jd.com/Search?keyword="
+youping= "https://www.xiaomiyoupin.com/search?keyword="
 
 shop = {
         'Taobao' : taobao,
         'Jd'     : jd
+        'YouPing' : youping
         }
 
 # linux
