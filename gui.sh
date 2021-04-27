@@ -171,6 +171,7 @@ xorg(){
     $install dunst #notifications
     $install screenkey #show key input
     $install deepin-screen-recorder #screen-recorder
+    $install peek #screen-recorder
     $install wal #set termianl colorscheme from wallpaper
     $install compton #alpha
     $install grub-customizer # grub

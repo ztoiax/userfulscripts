@@ -5,6 +5,7 @@ import subprocess
 import dmenu
 import pathlib
 import json
+import yaml
 import webbrowser
 import logging
 from threading import Thread
@@ -21,6 +22,11 @@ def json_load():
     with open(f'{filepath}/search.json', 'r') as f:
         engine = json.load(f)
 
+
+def yaml_load():
+    global engine
+    with open(f'{filepath}/search.yaml', 'r') as f:
+        engine = yaml.load(f)
 
 def dcode(ca):
     # binary转换utf
@@ -171,7 +177,6 @@ class search(object):
         con.close()
 
     def select(self):
-        clip_thread.join()
         if re.search(r'^http.*', self.clip):
             # 判断剪切板是否为url,如果是则放在首选项
             self.engine_list.insert(0, self.clip)
@@ -374,88 +379,80 @@ class search(object):
 
 
 if __name__ == "__main__":
+    from optparse import OptionParser
+    parser = OptionParser()
+    parser.add_option('--redis'    , action='store_true', help="redis mode")
+    parser.add_option('--sqlite'   , action='store_true', help="sqlite mode")
+    parser.add_option('--category' , action='store_true', help="category mode")
+    parser.add_option('--test'     , action='store_true', help="test mode")
+    parser.add_option('--yaml'     , action='store_true', help="yaml load")
+    parser.add_option('--fzf'      , action='store_true', help="fzf menu")
+    parser.add_option('--normal'   , action='store_true', help="normal mode")
+    parser.add_option('--sync'     , action='store_true', help="sync op")
+    parser.add_option('--add'      , action='store_true', help="add op")
+    parser.add_option('--delete'   , action='store_true', help="delete op")
+    args, positional = parser.parse_args()
 
     filepath = pathlib.Path(__file__).parent.absolute()
+    logging.basicConfig(format='%(name)s - %(levelname)s - %(message)s')
 
     instance = search()
-    clip_thread = Thread(target=instance.clipboard)
-    clip_thread.start()
+    instance.clipboard()
 
-    for i in sys.argv:
-        if '-h' == i:
-            print('''
-          2种选择模式:
-          dmenu-search.py
-          dmenu-search.py -l
+    # memu
+    if args.fzf:
+        import iterfzf
+        instance.menu = 'fzf'
+    elif args.normal:
+        instance.menu = 'normal'
+    else:
+        import dmenu
+        instance.menu = 'dmenu'
 
-          3种数据加载模式:
-          dmenu-search.py file
-          dmenu-search.py redis
-          dmenu-search.py sqlite
-
-          menu:
-          dmenu-search.py fzf
-
-          测试:
-          dmenu-serach.py -t
-
-          以上可以组合使用:
-          dmenu-search.py -l redis fzf''')
-            exit(0)
-        elif 'redis' == i:
-            store = i
-        elif 'sqlite' == i:
-            store = i
-        elif '-l' == i:
-            category = True
-        elif '-t' == i:
-            test = True
-        elif 'fzf' == i:
-            import iterfzf
-            instance.menu = i
-        elif 'dmenu' == i:
-            import dmenu
-            instance.menu = i
-        elif 'normal' == i:
-            instance.menu = i
-        elif 'sync' == i:
-            json_load()
-            instance.redis_store()
-            instance.sqlite_store()
-            exit(0)
-        elif 'add' == i:
-            json_load()
-            instance.add_item()
-            exit(0)
-        elif 'del' == i:
-            json_load()
-            instance.del_item()
-            exit(0)
-
-    if 'store' in locals():
-        if store == 'redis':
-            instance.history_input = instance.redis_input
-            instance.history_output = instance.redis_output
-            load_thread = Thread(target=instance.redis_load)
-        elif store == 'sqlite':
-            instance.history_input = instance.sqlite_input
-            instance.history_output = instance.sqlite_output
-            load_thread = Thread(target=instance.sqlite_load)
+    # load
+    if args.redis:
+        instance.history_input = instance.redis_input
+        instance.history_output = instance.redis_output
+        load_thread = Thread(target=instance.redis_load)
+    elif args.sqlite:
+        instance.history_input = instance.sqlite_input
+        instance.history_output = instance.sqlite_output
+        load_thread = Thread(target=instance.sqlite_load)
+    elif args.yaml:
+        yaml_load()
+        instance.history_input = instance.redis_input
+        instance.history_output = instance.redis_output
+        load_thread = Thread(target=instance.file_load)
     else:
         json_load()
         instance.history_input = instance.redis_input
         instance.history_output = instance.redis_output
         load_thread = Thread(target=instance.file_load)
 
-    logging.basicConfig(format='%(name)s - %(levelname)s - %(message)s')
-    history_thread = Thread(target=instance.history_output)
-    history_thread.start()
-    load_thread.start()
+    # op
+    if args.sync:
+        json_load()
+        instance.redis_store()
+        instance.sqlite_store()
+        exit(0)
+    elif args.add:
+        json_load()
+        instance.add_item()
+        exit(0)
+    elif args.delete:
+        json_load()
+        instance.del_item()
+        exit(0)
+    else:
+        history_thread = Thread(target=instance.history_output)
+        history_thread.start()
+        load_thread.start()
 
-    if 'test' in locals():
+    # mode
+    if args.test:
         instance.test()
 
-    if 'category' in locals():
+    if args.category:
         instance.category()
     else:
         instance.select()

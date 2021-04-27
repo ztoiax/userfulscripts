@@ -41,7 +41,6 @@ def pool_thread(q):
         while True:
             ip = q.get_nowait()
             eval(call_func)
-            # call_ping(ip)
     except Empty:
         pass
 
