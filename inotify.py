@@ -10,7 +10,8 @@ db = f'{filepath}/pyinotify.db'
 if os.path.exists(db):
     os.remove(db)
 
-mask_name = ['DELETE', 'CREATE', 'ACCESS', 'MODIFY']
+mask_name = ['DELETE', 'CREATE', 'MODIFY']
+# mask_name = ['DELETE', 'CREATE', 'ACCESS', 'MODIFY']
 mask = 0
 for i in mask_name:
     mask += getattr(pyinotify, f'IN_{i}')

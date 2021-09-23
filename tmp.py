@@ -1,10 +1,19 @@
 #!/usr/bin/python3
-#mv file tmp
-from __future__ import print_function
+'''
+mv file /tmp
+'''
+
 import os
 import sys
+from datetime import datetime
 
-tmp = ' /tmp'
-n = sys.argv
-for i in range(len(n) - 1):
-    os.popen('mv ' + sys.argv[i+1] + tmp)
+now = datetime.now()
+now = now.strftime("%Y-%m-%d:%H:%M:%S")
+
+for filename in sys.argv[1:]:
+    if os.path.exists(f'/tmp/{filename}'):
+        os.popen(f'mv {filename} /tmp/{filename}.{now}')
+        print(f'mv {filename} /tmp/{filename}.{now}')
+    else:
+        os.popen(f'mv {filename} /tmp')
+        print(f'mv {filename} /tmp')

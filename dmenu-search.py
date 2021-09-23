@@ -1,6 +1,5 @@
 #!/bin/python3
 import re
-import sys
 import subprocess
 import dmenu
 import pathlib

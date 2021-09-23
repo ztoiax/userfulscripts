@@ -2,6 +2,14 @@
 
 # set -x
 # $install tlp #它能帮你的设备省点电
+
+perl6(){
+    $install raku
+
+    #module
+    $install perl6-uri-encode
+}
+
 zinit(){
     mkdir ~/.zinit
     git clone https://github.com/zdharma/zinit.git ~/.zinit/bin
@@ -158,7 +166,9 @@ char(){
     $install thefuck
     $install how2
     $install tldr
+    pip install howdoi
     $install fx     #json viewer
+    $install jql    #json 查看器
     $install asciinema #终端屏幕录制
     $install csvkit #https://csvkit.readthedocs.io/en/1.0.3/
     $install entr   #事件监控
@@ -184,10 +194,14 @@ instead(){
     $install dfc               # instead df
     $install duf               # instead detailed df
     $install ncdu              # instead du
+    $install dust              # instead du
     $install multitail         # instead tail
     $install paris-traceroute  # instead traceroute
     $install nping             # instead ping(nmap)
     $install httpie            # instead curl
+    $install curlie            # instead curl
+    $install dog               # instead dig
+    $install procs             # instead ps
 }
 
 filemanage(){

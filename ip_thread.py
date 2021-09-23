@@ -3,15 +3,16 @@
 扫描端口: -n
 
 指定ip:
-ip_thread 192.168.1.1 192.168.1.111
-ip_thread -n 192.168.1.1 192.168.1.111
+ip_thread.py 192.168.1.1 192.168.1.111
+ip_thread.py -n 192.168.1.1 192.168.1.111
 
 指定文件内的ip:
 ip_thread.py $(cat ip_file)
 
 指定网段:
-ip_thread 192.168.1.0/24 192.168.2.0/24
+ip_thread.py 192.168.1.0/24 192.168.2.0/24
 '''
+
 import os
 import subprocess
 import threading
