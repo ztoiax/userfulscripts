@@ -23,6 +23,7 @@
         "Bind"         : "https://cn.bing.com/search?q=",
         "Wiby"         : "https://www.wiby.me/?q=",
         "Duckduckgo"   : "https://duckduckgo.com/?q=",
+        "Magi"         : "https://magi.com/search?q=",
         "WolframAlpha" : "https://www.wolframalpha.com/input/?i="
     },
     "Wiki" : {
@@ -43,39 +44,39 @@
         "Goodread" : "https://www.goodreads.com/search?q=",
         "HackerNew": "https://hn.algolia.com/?dateRange=all&page=0&prefix=false&query="
     },
-    "Xueshu" : {
-        "GoogleXueShu"              : "https://scholar.google.com/scholar?q=",
-        "BaiduXueShu"               : "https://xueshu.baidu.com/s?wd=",
-        "nstl国家科技图书文献中心"  : "http://oar.nstl.gov.cn/Paper/Search?searchKey=",
-        "DownloadXueShu"            : "http://jour.gzlib.org/searchJour?sw",
-        "ChaoXing"                  : "http://qikan.chaoxing.com/searchjour?sw=",
-        "AiSiXiang(爱思想)"         : "http://www.aisixiang.com/data/search.php?keyWords=",
-        "SemanticScholar(外国学术)" : "https://www.semanticscholar.org/search?q=",
-        "ZhongWenQiKan"             : "https://qikan.cqvip.com/Qikan/Search/Index?key=K%3d"
+    "Papers" : {
+        "GooglePapers"                 : "https://scholar.google.com/scholar?q=",
+        "BaiduPapers"                  : "https://xueshu.baidu.com/s?wd=",
+        "nstl(国家科技图书文献中心)"     : "http://oar.nstl.gov.cn/Paper/Search?searchKey=",
+        "DownloadPapers(贵州数字图书)" : "http://jour.gzlib.org/searchJour?sw",
+        "ChaoXing(超星期刊)"           : "http://qikan.chaoxing.com/searchjour?sw=",
+        "AiSiXiang(爱思想)"            : "http://www.aisixiang.com/data/search.php?keyWords=",
+        "SemanticScholar(外国学术)"    : "https://www.semanticscholar.org/search?q=",
+        "WeiPuVip(维普Vip)"              : "https://qikan.cqvip.com/Qikan/Search/Index?key=K%3d"
     },
     "Library" : {
-        "ZhongShan" : "http://opac.zslib.com.cn:8991/F/?func=find-b&find_code=WRD&find_base=KJSK&request=",
-        "GuangZhou" : "http://opac.gzlib.org.cn/opac/search?q="
+        "ZhongShan(中图)" : "http://opac.zslib.com.cn:8991/F/?func=find-b&find_code=WRD&find_base=KJSK&request=",
+        "GuangZhou(广图)" : "http://opac.gzlib.org.cn/opac/search?q="
     },
     "Video" : {
-        "Youtube"   : "https://www.youtube.com/results?search_query=",
-        "Odysee"    : "https://odysee.com/$/search?q=",
-        "Bilibli"   : "https://search.bilibili.com/all?keyword=",
-        "Youku"     : "https://so.youku.com/search_video/q_",
-        "TengXun"   : "https://v.qq.com/x/search/?q=",
-        "Aiqiyi"    : "https://so.iqiyi.com/so/q_",
-        "XueTangZaiXian" : "https://www.xuetangx.com/search?query=",
-        "Mooc"      : "https://www.icourse163.org/search.htm?search=",
-        "YunKeTang" : "https://study.163.com/courses-search?keyword=",
-        "GongKaiKe" : "https://open.163.com/newview/search/",
-        "DongMan"   : "http://share.dmhy.org/topics/list?keyword=",
-        "ChaBeiHu"  : "https://www.cupfox.com/search?key="
+        "Youtube"           : "https://www.youtube.com/results?search_query=",
+        "Odysee"            : "https://odysee.com/$/search?q=",
+        "Bilibli"           : "https://search.bilibili.com/all?keyword=",
+        "Youku"             : "https://so.youku.com/search_video/q_",
+        "TengXun"           : "https://v.qq.com/x/search/?q=",
+        "Aiqiyi"            : "https://so.iqiyi.com/so/q_",
+        "XueTang(学堂在线)" : "https://www.xuetangx.com/search?query=",
+        "Mooc"              : "https://www.icourse163.org/search.htm?search=",
+        "YunKeTang(云课堂)" : "https://study.163.com/courses-search?keyword=",
+        "GongKaiKe(公开课)" : "https://open.163.com/newview/search/",
+        "DongMan(动漫花园)" : "http://share.dmhy.org/topics/list?keyword=",
+        "ChaBeiHu(茶杯狐)"  : "https://www.cupfox.com/search?key="
     },
     "Shop" : {
-        "Taobao" : "https://s.taobao.com/search?q=",
-        "Jd"     : "https://search.jd.com/Search?keyword=",
-        "YouPing": "https://www.xiaomiyoupin.com/search?keyword=",
-        "smzdm"  : "https://search.smzdm.com/?c=home&s="
+        "Taobao"            : "https://s.taobao.com/search?q=",
+        "Jd"                : "https://search.jd.com/Search?keyword=",
+        "YouPing(有品)"     : "https://www.xiaomiyoupin.com/search?keyword=",
+        "smzdm(什么值得买)" : "https://search.smzdm.com/?c=home&s="
     },
     "Network" : {
         "H3C"     : "https://search.h3c.com/basesearch.aspx?q0=",
@@ -88,6 +89,6 @@
         "Greasyfork"       : "https://greasyfork.org/zh-CN/scripts?q="
     },
     "Other" : {
-        "YaoZhi" : "https://db.yaozh.com/Search?typeid=8446&content="
+        "YaoZhi(药智数据)" : "https://db.yaozh.com/Search?typeid=8446&content="
     }
 }
