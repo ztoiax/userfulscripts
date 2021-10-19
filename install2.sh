@@ -258,6 +258,13 @@ make install
 grub(){
     echo "installing grub"
     $install os-prober
+
+cat >> /etc/default/grub << "EOF"
+
+#Check for other operating systems
+GRUB_DISABLE_OS_PROBER=false
+EOF
+
     grub-mkconfig -o /boot/grub/grub.cfg
     grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=GRUB
 }

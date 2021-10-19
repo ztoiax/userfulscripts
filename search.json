@@ -47,12 +47,14 @@
     "Papers" : {
         "GooglePapers"                 : "https://scholar.google.com/scholar?q=",
         "BaiduPapers"                  : "https://xueshu.baidu.com/s?wd=",
-        "nstl(国家科技图书文献中心)"     : "http://oar.nstl.gov.cn/Paper/Search?searchKey=",
+        "nstl(国家科技图书文献中心)"   : "http://oar.nstl.gov.cn/Paper/Search?searchKey=",
         "DownloadPapers(贵州数字图书)" : "http://jour.gzlib.org/searchJour?sw",
         "ChaoXing(超星期刊)"           : "http://qikan.chaoxing.com/searchjour?sw=",
         "AiSiXiang(爱思想)"            : "http://www.aisixiang.com/data/search.php?keyWords=",
         "SemanticScholar(外国学术)"    : "https://www.semanticscholar.org/search?q=",
-        "WeiPuVip(维普Vip)"              : "https://qikan.cqvip.com/Qikan/Search/Index?key=K%3d"
+        "WeiPuVip(维普Vip)"            : "https://qikan.cqvip.com/Qikan/Search/Index?key=K%3d",
+        "Xmol"                         : "https://www.x-mol.com/paper/search/q?option=",
+        "Sci-Hub"                      : "https://sci-hub.se/"
     },
     "Library" : {
         "ZhongShan(中图)" : "http://opac.zslib.com.cn:8991/F/?func=find-b&find_code=WRD&find_base=KJSK&request=",
