@@ -1,6 +1,12 @@
 #!/bin/bash
 # sudo systemctl stop v2ray
 
+
+# 在android 里启动启动端口
+# setprop service.adb.tcp.port 5555
+# stop adbd
+# start adbd
+
 function usb(){
     adb devices
     sleep 1

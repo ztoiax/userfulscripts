@@ -11,7 +11,8 @@
         "Arch_man"      : "https://man.archlinux.org/search?q=",
         "IBM"           : "https://developer.ibm.com/zh?s=",
         "Aliyun"        : "https://developer.aliyun.com/search?q=",
-        "Pkgs"          : "https://pkgs.org/search/?q="
+        "Pkgs"          : "https://pkgs.org/search/?q=",
+        "Medium"        : "https://medium.com/search?q="
     },
     "Programming" : {
         "GODELF" : "https://unbug.github.io/codelf/#"
@@ -55,6 +56,11 @@
         "WeiPuVip(维普Vip)"            : "https://qikan.cqvip.com/Qikan/Search/Index?key=K%3d",
         "Xmol"                         : "https://www.x-mol.com/paper/search/q?option=",
         "Sci-Hub"                      : "https://sci-hub.se/"
+    },
+    "CSPapers" : {
+        "SOSP"       : "https://dl.acm.org/action/doSearch?AllField=",
+        "CCF"        : "https://dl.ccf.org.cn/V2/toSearchList.html?classen=-1&searchText=",
+        "USENIX ATC" : "https://www.usenix.org/publications/proceedings/"
     },
     "Library" : {
         "ZhongShan(中图)" : "http://opac.zslib.com.cn:8991/F/?func=find-b&find_code=WRD&find_base=KJSK&request=",

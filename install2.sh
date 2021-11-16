@@ -314,7 +314,7 @@ other(){
 }
 
 base(){
-
+    $install usbutils   # lsusb
     $install p7zip lz4 zstd pigz pbzip2 pixz rar # rar,pxz要yay
     $install ntfs-3g
     $install openssh
@@ -332,7 +332,13 @@ base(){
 
     yay -S bash-snippets # good bash scripts
     # Mount Android
-    # yay -S simple-mtpfs
+    # yay -S go-mtpfs
+    # pcmanfm
+    # $install -S gvfs-mtp
+    # 包含gui的文件管理器
+    # yay -S android-file-transfer
+    # 只有gui的文件管理器
+    # yay -S gmtp
 
     # time
     # sudo timedatectl set-local-rtc true

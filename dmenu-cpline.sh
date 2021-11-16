@@ -1,2 +1,2 @@
 #!/bin/bash
-    $(history | tail -n 1 | awk '{$1="";print $0}') | dmenu -p "copy line" -l 10 | xclip -selection clipboard
+$(cat ~/.zsh_history | tail -n 2 | awk -F ';' 'NR==1 {$1="";print$0 }') | dmenu -p "copy line" -l 10 | xclip -selection clipboard
