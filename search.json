@@ -21,7 +21,7 @@
         "Google"       : "https://www.google.com/search?q=",
         "Baidu"        : "https://www.baidu.com/s?wd=",
         "Kuake"        : "https://quark.sm.cn/s?q=",
-        "Bind"         : "https://cn.bing.com/search?q=",
+        "Bing"         : "https://cn.bing.com/search?q=",
         "Wiby"         : "https://www.wiby.me/?q=",
         "Duckduckgo"   : "https://duckduckgo.com/?q=",
         "Magi"         : "https://magi.com/search?q=",

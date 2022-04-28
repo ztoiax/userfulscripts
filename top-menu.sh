@@ -13,6 +13,7 @@ name[11]="dstat"
 name[12]="mpstat"
 name[13]="nmon"
 name[13]="s-tui"
+name[14]="tiptop"
 
 lengh=${#name[*]}
 
