@@ -25,7 +25,9 @@
         "Wiby"         : "https://www.wiby.me/?q=",
         "Duckduckgo"   : "https://duckduckgo.com/?q=",
         "Magi"         : "https://magi.com/search?q=",
-        "WolframAlpha" : "https://www.wolframalpha.com/input/?i="
+        "WolframAlpha" : "https://www.wolframalpha.com/input/?i=",
+        "Searx"        : "https://searx.be/search?q=",
+        "WangPan(网盘)" : "https://www.alipansou.com/search?k="
     },
     "Wiki" : {
         "Wiki"        : "https://en.wikipedia.org/wiki/",
@@ -55,7 +57,11 @@
         "SemanticScholar(外国学术)"    : "https://www.semanticscholar.org/search?q=",
         "WeiPuVip(维普Vip)"            : "https://qikan.cqvip.com/Qikan/Search/Index?key=K%3d",
         "Xmol"                         : "https://www.x-mol.com/paper/search/q?option=",
-        "Sci-Hub"                      : "https://sci-hub.se/"
+        "Sci-Hub"                      : "https://sci-hub.se/",
+        "zlibary"                      : "https://zh.u1lib.org/s/",
+        "ynlib(社会科学报刊文章)"      : "http://rdbk1.ynlib.cn:6251/qw?s0=0&s1=",
+        "SheHui(社会学研究)"           : "http://shxyj.ajcass.org/Magazine/?Year=&Issue=&JChannelID=&Title=",
+        "rural(乡村研究数据库)"        : "https://www.ruralchina.cn/xcyj/XCRetrievalResult/view?&sub=&field=All&search=1&SiteID=18&resourceType=all&query="
     },
     "CSPapers" : {
         "SOSP"       : "https://dl.acm.org/action/doSearch?AllField=",
@@ -81,9 +87,10 @@
         "ChaBeiHu(茶杯狐)"  : "https://www.cupfox.com/search?key="
     },
     "Shop" : {
-        "Taobao"            : "https://s.taobao.com/search?q=",
-        "Jd"                : "https://search.jd.com/Search?keyword=",
+        "Taobao(淘宝)"      : "https://s.taobao.com/search?q=",
+        "Jd(京东)"          : "https://search.jd.com/Search?keyword=",
         "YouPing(有品)"     : "https://www.xiaomiyoupin.com/search?keyword=",
+        "1688(阿里巴巴)"    : "https://s.1688.com/selloffer/offer_search.htm?keywords=",
         "smzdm(什么值得买)" : "https://search.smzdm.com/?c=home&s="
     },
     "Network" : {
@@ -97,6 +104,8 @@
         "Greasyfork"       : "https://greasyfork.org/zh-CN/scripts?q="
     },
     "Other" : {
-        "YaoZhi(药智数据)" : "https://db.yaozh.com/Search?typeid=8446&content="
+        "YaoZhi(药智数据)"   : "https://db.yaozh.com/Search?typeid=8446&content=",
+        "TianYanCha(天眼查)" : "https://www.tianyancha.com/search?key=",
+        "GuoBiao(国标)"      : "https://openstd.samr.gov.cn/bzgk/gb/std_list?p.p2="
     }
 }

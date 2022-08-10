@@ -1,6 +1,5 @@
 #!/bin/bash
-# sudo systemctl stop v2ray
-
+systemctl is-active --quiet v2ray.service && sudo systemctl stop v2ray
 
 # 在android 里启动启动端口
 # setprop service.adb.tcp.port 5555

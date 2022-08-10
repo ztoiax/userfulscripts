@@ -2,6 +2,7 @@
 echo "gtk-key-theme-name = Emacs" >> ~/.config/gtk-3.0/settings.ini
 
 other(){
+    $install keynav     #键盘控制鼠标
     $install electronic-wechat-bin
     $install netease-cloud-music
     $install baidupcs-go

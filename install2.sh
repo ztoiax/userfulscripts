@@ -203,6 +203,10 @@ instead(){
     $install curlie            # instead curl
     $install dog               # instead dig
     $install procs             # instead ps
+    $install sd                # instead sed
+    $install direnv            # instead env
+    $install plocate           # instead locate
+    $install viddy             # instead watch
 }
 
 filemanage(){
