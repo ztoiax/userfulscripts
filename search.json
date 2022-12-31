@@ -10,9 +10,11 @@
         "Arch"          : "https://wiki.archlinux.org/index.php?search=",
         "Arch_man"      : "https://man.archlinux.org/search?q=",
         "IBM"           : "https://developer.ibm.com/zh?s=",
-        "Aliyun"        : "https://developer.aliyun.com/search?q=",
+        "AliyunYun"     : "https://developer.aliyun.com/search?q=",
+        "TencentYun"    : "https://cloud.tencent.com/developer/search/article-",
         "Pkgs"          : "https://pkgs.org/search/?q=",
-        "Medium"        : "https://medium.com/search?q="
+        "Medium"        : "https://medium.com/search?q=",
+        "infoq"         : "https://s.geekbang.org/search/c=0/t=/k="
     },
     "Programming" : {
         "GODELF" : "https://unbug.github.io/codelf/#"
@@ -27,7 +29,11 @@
         "Magi"         : "https://magi.com/search?q=",
         "WolframAlpha" : "https://www.wolframalpha.com/input/?i=",
         "Searx"        : "https://searx.be/search?q=",
-        "WangPan(网盘)" : "https://www.alipansou.com/search?k="
+        "neeva"        : "https://neeva.com/search?q=",
+        "kagi"         : "https://kagi.com/search?q=",
+        "WangPan(网盘)" : "https://www.alipansou.com/search?k=",
+        "TieBa(贴吧)"  : "https://tieba.baidu.com/f?ie=utf-8&kw=",
+        "Qwant"        : "https://www.qwant.com/?locale=en_US&q="
     },
     "Wiki" : {
         "Wiki"        : "https://en.wikipedia.org/wiki/",
@@ -106,6 +112,9 @@
     "Other" : {
         "YaoZhi(药智数据)"   : "https://db.yaozh.com/Search?typeid=8446&content=",
         "TianYanCha(天眼查)" : "https://www.tianyancha.com/search?key=",
-        "GuoBiao(国标)"      : "https://openstd.samr.gov.cn/bzgk/gb/std_list?p.p2="
+        "GuoBiao(国标)"      : "https://openstd.samr.gov.cn/bzgk/gb/std_list?p.p2=",
+        "BaiduMap(百度地图)" : "https://map.baidu.com/search/@12619476.5,2638801.4,12z?querytype=s&da_src=shareurl&c=257&src=0&pn=0&sug=0&l=12&b=(12568584.2,2610362.58;12650184.2,2652538.58)&from=webmap&biz_forward=%7B%22scaler%22:2,%22styles%22:%22pl%22%7D&device_ratio=2&wd=",
+        "GaodeMap(高德地图)" : "https://www.amap.com/search?&city=440100&geoobj=112.938342%7C22.839913%7C114.030109%7C23.444783&zoom=10&query=",
+        "DaZhong(大众点评)"  : "https://www.dianping.com/search/keyword/4/0_"
     }
 }

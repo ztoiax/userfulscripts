@@ -10,6 +10,7 @@ arch(){
     locale-gen
     echo 'LANG=en_US.UTF-8' > /etc/locale.conf
     echo "LC_ALL=en_US.utf-8" >> /etc/environment
+    pacman -Sy archlinux-keyring # 更新pgp
     pacman -Sy dhcpcd
     pacman -Sy networkmanager
     pacman -Sy pacman-contrib #paccache

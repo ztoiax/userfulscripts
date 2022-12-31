@@ -185,6 +185,7 @@ instead(){
     $install bat               # instead cat
     $install diff-so-fancy     # instead git diff
     $install icdiff            # instead diff
+    $install difftastic        # instead diff
     $install fd                # instead find
     $install cfdisk            # instead fdisk
     $install bit               # instead git cli
@@ -398,6 +399,7 @@ tui(){
     curl https://raw.githubusercontent.com/jesseduffield/lazydocker/master/scripts/install_update_linux.sh | bash
 # lazygit
     $install lazygit
+    $install parui-git #paru tui
 }
 
 phoronixinstall(){
