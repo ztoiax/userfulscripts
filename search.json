@@ -1,6 +1,7 @@
 {
     "Linux" : {
         "Github"        : "https://github.com/search?q=",
+        "Github code"   : "https://grep.app/search?q=",
         "Gitee"         : "https://search.gitee.com/?q=",
         "Gitbook"       : "https://www.google.com/search?q=site:gitbook.com%20",
         "Linux_china"   : "https://www.baidu.com/s?wd=site:linux.cn%20",
@@ -31,6 +32,7 @@
         "Searx"        : "https://searx.be/search?q=",
         "neeva"        : "https://neeva.com/search?q=",
         "kagi"         : "https://kagi.com/search?q=",
+        "kagi（总结）"  : "https://labs.kagi.com/ai/sum?url=",
         "WangPan(网盘)" : "https://www.alipansou.com/search?k=",
         "TieBa(贴吧)"  : "https://tieba.baidu.com/f?ie=utf-8&kw=",
         "Qwant"        : "https://www.qwant.com/?locale=en_US&q="
@@ -82,6 +84,7 @@
         "Youtube"           : "https://www.youtube.com/results?search_query=",
         "Odysee"            : "https://odysee.com/$/search?q=",
         "Bilibli"           : "https://search.bilibili.com/all?keyword=",
+        "XiGua(西瓜)"       : "https://www.ixigua.com/search/",
         "Youku"             : "https://so.youku.com/search_video/q_",
         "TengXun"           : "https://v.qq.com/x/search/?q=",
         "Aiqiyi"            : "https://so.iqiyi.com/so/q_",

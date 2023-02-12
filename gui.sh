@@ -76,6 +76,7 @@ sudo pacman -Sy hunspell
 yay -S fcitx5-pinyin-moegirl-rime fcitx5-pinyin-zhwiki fcitx5-pinyin-chinese-idiom
 # 皮肤
 yay -S fcitx5-material-color
+yay -S fcitx5-gruvbox-dark-theme-git
 
 # kde
 yay -S kcm-fcitx5-git
