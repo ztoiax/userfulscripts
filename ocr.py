@@ -1,46 +1,52 @@
-#!/usr/bin/python3
-import matplotlib.pyplot as plt
-import matplotlib.image as mpimg
-import paddlehub as hub
+#!/bin/python
+# USAGE
+# python ocr.py --image images/example_01.png 
+# python ocr.py --image images/example_02.png  --preprocess blur
+
+# import the necessary packages
+from PIL import Image
+import pytesseract
+import argparse
 import cv2
+import os
 
-# 待预测图片
-test_img_path = ["/tmp/ocr.jpg"]
+# construct the argument parse and parse the arguments
+ap = argparse.ArgumentParser()
+ap.add_argument("-i", "--image", required=True,
+	help="path to input image to be OCR'd")
+ap.add_argument("-p", "--preprocess", type=str, default="thresh",
+	help="type of preprocessing to be done")
+args = vars(ap.parse_args())
 
-# 展示其中广告信息图片
-img1 = mpimg.imread(test_img_path[0])
-plt.figure(figsize=(10, 10))
-plt.imshow(img1)
-plt.axis('off')
-plt.show()
+# load the example image and convert it to grayscale
+image = cv2.imread(args["image"])
+gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 
-with open('/tmp/test.txt', 'r') as f:
-    test_img_path = []
-    for line in f:
-        test_img_path.append(line.strip())
-print(test_img_path)
-['/tmp/ocr.jpg']
+cv2.imshow("Image", gray)
 
-# 加载移动端预训练模型
-ocr = hub.Module(name="chinese_ocr_db_crnn_mobile")
-# 服务端可以加载大模型，效果更好
-# ocr = hub.Module(name="chinese_ocr_db_crnn_server")
+# check to see if we should apply thresholding to preprocess the
+# image
+if args["preprocess"] == "thresh":
+	gray = cv2.threshold(gray, 0, 255,
+		cv2.THRESH_BINARY | cv2.THRESH_OTSU)[1]
 
-# 读取测试文件夹test.txt中的照片路径
-np_images = [cv2.imread(image_path) for image_path in test_img_path]
+# make a check to see if median blurring should be done to remove
+# noise
+elif args["preprocess"] == "blur":
+	gray = cv2.medianBlur(gray, 3)
 
-results = ocr.recognize_text(
-    images=np_images,  # 图片数据，ndarray.shape 为 [H, W, C]，BGR格式；
-    use_gpu=False,  # 是否使用 GPU；若使用GPU，请先设置CUDA_VISIBLE_DEVICES环境变量
-    output_dir='ocr_result',  # 图片的保存路径，默认设为 ocr_result；
-    visualization=True,  # 是否将识别结果保存为图片文件；
-    box_thresh=0.5,  # 检测文本框置信度的阈值；
-    text_thresh=0.5)  # 识别中文文本置信度的阈值；
+# write the grayscale image to disk as a temporary file so we can
+# apply OCR to it
+filename = "{}.png".format(os.getpid())
+cv2.imwrite(filename, gray)
 
-for result in results:
-    data = result['data']
-    save_path = result['save_path']
-    for infomation in data:
-        print('text: ', infomation['text'], '\nconfidence: ',
-              infomation['confidence'], '\ntext_box_position: ',
-              infomation['text_box_position'])
+# load the image as a PIL/Pillow image, apply OCR, and then delete
+# the temporary file
+text = pytesseract.image_to_string(Image.open(filename))
+os.remove(filename)
+print(text)
+
+# show the output images
+# cv2.imshow("Image", image)
+cv2.imshow("Output", gray)
+cv2.waitKey(0)

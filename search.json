@@ -15,7 +15,10 @@
         "TencentYun"    : "https://cloud.tencent.com/developer/search/article-",
         "Pkgs"          : "https://pkgs.org/search/?q=",
         "Medium"        : "https://medium.com/search?q=",
-        "infoq"         : "https://s.geekbang.org/search/c=0/t=/k="
+        "infoq"         : "https://s.geekbang.org/search/c=0/t=/k=",
+        "phind"         : "https://www.phind.com/search?q=",
+        "SourceForge"   : "https://sourceforge.net/directory/linux/?sort=update&q=",
+        "JueJin(掘金)"  : "https://juejin.cn/search?query="
     },
     "Programming" : {
         "GODELF" : "https://unbug.github.io/codelf/#"
@@ -27,9 +30,8 @@
         "Bing"         : "https://cn.bing.com/search?q=",
         "Wiby"         : "https://www.wiby.me/?q=",
         "Duckduckgo"   : "https://duckduckgo.com/?q=",
-        "Magi"         : "https://magi.com/search?q=",
         "WolframAlpha" : "https://www.wolframalpha.com/input/?i=",
-        "Searx"        : "https://searx.be/search?q=",
+        "Searx"        : "https://search.ononoki.org/search?q=",
         "neeva"        : "https://neeva.com/search?q=",
         "kagi"         : "https://kagi.com/search?q=",
         "kagi（总结）"  : "https://labs.kagi.com/ai/sum?url=",
@@ -45,7 +47,7 @@
         "Jianshu" : "https://www.jianshu.com/search?q=",
         "Zhihu"   : "https://www.zhihu.com/search?q=",
         "Douban"  : "https://www.douban.com/search?q=",
-        "Weibo"   : "https://s.weibo.com/weibo/",
+        "Weibo"   : "https://s.weibo.com/weibo?q=",
         "Weixin"  : "https://weixin.sogou.com/weixin?type=2&s_from=input&query="
     },
     "Waiguosocial" : {
@@ -67,6 +69,7 @@
         "Xmol"                         : "https://www.x-mol.com/paper/search/q?option=",
         "Sci-Hub"                      : "https://sci-hub.se/",
         "zlibary"                      : "https://zh.u1lib.org/s/",
+        "全国图书馆主要参考联盟"       : "http://books.gdlink.net.cn/search?sw=",
         "ynlib(社会科学报刊文章)"      : "http://rdbk1.ynlib.cn:6251/qw?s0=0&s1=",
         "SheHui(社会学研究)"           : "http://shxyj.ajcass.org/Magazine/?Year=&Issue=&JChannelID=&Title=",
         "rural(乡村研究数据库)"        : "https://www.ruralchina.cn/xcyj/XCRetrievalResult/view?&sub=&field=All&search=1&SiteID=18&resourceType=all&query="
@@ -93,7 +96,8 @@
         "YunKeTang(云课堂)" : "https://study.163.com/courses-search?keyword=",
         "GongKaiKe(公开课)" : "https://open.163.com/newview/search/",
         "DongMan(动漫花园)" : "http://share.dmhy.org/topics/list?keyword=",
-        "ChaBeiHu(茶杯狐)"  : "https://www.cupfox.com/search?key="
+        "ChaBeiHu(茶杯狐)"  : "https://www.cupfox.com/search?key=",
+        "DouYin(抖音)"      : "https://www.douyin.com/search/"
     },
     "Shop" : {
         "Taobao(淘宝)"      : "https://s.taobao.com/search?q=",
@@ -111,6 +115,9 @@
     "Web" : {
         "ChromeExtensions" : "https://chrome.google.com/webstore/search/",
         "Greasyfork"       : "https://greasyfork.org/zh-CN/scripts?q="
+    },
+    "Recruit" : {
+        "Boss直聘" : "https://www.zhipin.com/web/geek/job?query="
     },
     "Other" : {
         "YaoZhi(药智数据)"   : "https://db.yaozh.com/Search?typeid=8446&content=",

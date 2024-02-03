@@ -25,10 +25,9 @@ if [ ! -f ~/.pip/pip.conf ]; then
     if [ ! -d ~/.pip ]; then
         mkdir ~/.pip
     fi
-    aliyun="[global]\n
-    trusted-host=mirrors.aliyun.com\n
-    index-url=https://mirrors.aliyun.com/pypi/simple/"
-    echo -e $aliyun > ~/.pip/pip.conf
+
+    baidu="[global]\ntrusted-host=mirrors.baidu.com\nindex-url=https://mirror.baidu.com/pypi/simple/"
+    echo -e $baidu > ~/.pip/pip.conf
 fi
 }
 
@@ -44,7 +43,9 @@ npmsource() {
 
 yumsource(){
     echo " Replacing yum aliyun source..."
+    # 获取版本号。7、8
     release=$(awk '{ print $4 }' /etc/redhat-release | cut -c1)
+
     dir=/etc/yum.repos.d
     backup=/etc/yum.repos.d.bak
 
@@ -53,6 +54,10 @@ yumsource(){
         mv $dir $backup
         mkdir $dir
         cd $dir
+
+        # 下载阿里云的源
+        # curl -LO https://mirrors.aliyun.com/repo/Centos-7.repo
+        # curl -LO https://mirrors.aliyun.com/repo/Centos-8.repo
         curl -LO https://mirrors.aliyun.com/repo/Centos-$release.repo
     fi
 
@@ -60,14 +65,16 @@ yumsource(){
     yum install -y epel-release
 
     echo " Replacing epel aliyun source..."
-    cp $dir/epel.repo $backup/epel.repo.bak
-    cp $dir/epel-testing.repo $backup/epel-testing.repo.bak
+    mv $dir/epel.repo $backup/epel.repo.bak
+    mv $dir/epel-testing.repo $backup/epel-testing.repo.bak
 
     if [ "$release" == "8" ];then
         sed -i 's|^#baseurl=https://download.fedoraproject.org/pub|baseurl=https://mirrors.aliyun.com|' /etc/yum.repos.d/epel*
         sed -i 's|^metalink|#metalink|' /etc/yum.repos.d/epel*
     else
-        wget -O /etc/yum.repos.d/epel.repo http://mirrors.aliyun.com/repo/epel-$release.repo
+        yum install -y wget
+        curl -LO http://mirrors.aliyun.com/repo/epel-$release.repo
+        mv /etc/yum.repos.d/epel-$release.repo /etc/yum.repos.d/epel.repo
     fi
 
     yum clean all

@@ -263,6 +263,7 @@ make install
 
 grub(){
     echo "installing grub"
+    $install grub efibootmgr
     $install os-prober
 
 cat >> /etc/default/grub << "EOF"
@@ -271,8 +272,15 @@ cat >> /etc/default/grub << "EOF"
 GRUB_DISABLE_OS_PROBER="false"
 EOF
 
-    grub-mkconfig -o /boot/grub/grub.cfg
+    # 挂载efi分区
+    mkdir /boot/efi
+    mount /dev/sda1 /boot/efi
+    # 生成/etc/fstab文件
+    genfstab / > /etc/fstab
+
+    # 安装grub
     grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=GRUB
+    grub-mkconfig -o /boot/grub/grub.cfg
 }
 
 st(){
@@ -308,9 +316,8 @@ sshclient(){
 
     # 生成密钥
     ssh-keygen -t rsa
-    # 追加公钥
-    ssh $serverip 'mkdir -p .ssh && cat >> .ssh/authorized_keys' < ~/.ssh/id_rsa.pub
-    # ssh-copy-id $serverip
+    # 将公钥复制到远程服务器
+    ssh-copy-id $serverip
 }
 
 other(){
