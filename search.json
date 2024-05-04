@@ -26,6 +26,7 @@
     "Search" : {
         "Google"       : "https://www.google.com/search?q=",
         "Baidu"        : "https://www.baidu.com/s?wd=",
+        "ChinaSo"      : "https://www.chinaso.com/newssearch/all/allResults?q=",
         "Kuake"        : "https://quark.sm.cn/s?q=",
         "Bing"         : "https://cn.bing.com/search?q=",
         "Wiby"         : "https://www.wiby.me/?q=",
@@ -37,7 +38,8 @@
         "kagi（总结）"  : "https://labs.kagi.com/ai/sum?url=",
         "WangPan(网盘)" : "https://www.alipansou.com/search?k=",
         "TieBa(贴吧)"  : "https://tieba.baidu.com/f?ie=utf-8&kw=",
-        "Qwant"        : "https://www.qwant.com/?locale=en_US&q="
+        "Qwant"        : "https://www.qwant.com/?locale=en_US&q=",
+        "searchforjohn": "https://www.searchforjohn.com/search?q="
     },
     "Wiki" : {
         "Wiki"        : "https://en.wikipedia.org/wiki/",

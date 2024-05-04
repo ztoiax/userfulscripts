@@ -34,6 +34,10 @@ arch(){
     pacman -Sy zsh fish git wget bash-completion go base-devel python-pip the_silver_searcher inetutils expac ranger arch-install-scripts
     # 如果是笔记本，查看电量需要安装acpi。通过acpi -b可以查看电量
     pacman -S acpi acpid
+    # 如果是笔记本。需要安装触控板、触控板手势、xdotool
+    pacman -S libinput libinput-gestures xdotool wmctrl
+    # 如果是笔记本。需要安装亮度控制
+    brightnessctl
     passwd
 
     # 新建用户。-m自动创建/home/tz目录

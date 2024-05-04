@@ -53,6 +53,9 @@ zram-temp(){
     mkswap --label zram0 /dev/zram0
     swapon --priority 100 /dev/zram0
 
+    # 查看zram状态
+    zramctl
+
     # disable zram
     # swapoff /dev/zram0
     # rmmod zram
