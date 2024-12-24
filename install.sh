@@ -134,6 +134,13 @@ https://raw.githubusercontent.com/tonsky/FiraCode/master/distr/ttf/FiraCode-Reti
 https://github.com/microsoft/cascadia-code
 #source-code Font
 https://github.com/adobe-fonts/source-code-pro
+# han san
+pacman -S adobe-source-han-sans-otc-fonts
+pacman -S adobe-source-han-serif-otc-fonts
+
+# 查看安装的字体，以及字体的配置名
+fc-list
+
 #网易云音乐
 https://music.163.com/
 #Motrix下载软件

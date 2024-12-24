@@ -233,6 +233,13 @@ nnn(){
     $install lsix
 }
 
+yazi(){
+    $install glow mdcat
+    $install ouch
+    $install transmission-cli
+    $install rich-cli
+}
+
 ranger(){
 $install ranger-git
 $install ffmpegthumbnailer ueberzug
@@ -439,7 +446,58 @@ rpm -ivh iozone-3-490.src.rpm && rm iozone-3-490.src.rpm
 fi
 }
 
+# 指纹fprint
 
+fprint (){
+  paru -S usbutils fprintd
+  paru -S fprint-grosshack
+  paru -S fingerprint-gui
+}
+
+ollama (){
+  paru -S ollama
+  paru -S open-webui-git
+}
+
+hyprland(){
+    # https://www.bilibili.com/read/cv22707313/
+
+    sudo pacman -S xorg-xwayland qt5-wayland qt6-wayland glfw-wayland
+    paru -S nwg-look-bin qt5ct qt6ct kvantum gnome-tweals # gtk qt gui
+    sudo pacman -S xorg-xlsclients # 查看哪些客户端是使用 xorg 的
+    paru -S hyprland hyprland-qtutils
+
+    paru -S polkit-kde-agent # 身份验证
+    paru -S hyprswitch # 切换窗口
+    paru -S hyprshade # 相当于redshift
+    paru -S hyprcursor rose-pine-hyprcursor # 光标
+    paru -S hyprdim # 切换窗口有阴影
+    paru -S hyprpicker # 颜色选择器
+    paru -S python-pywal # 根据壁纸颜色，修改颜色
+    paru -S clipman # 剪切板管理器
+    paru -S wlogout
+    paru -S hypridle
+    paru -S hyprlock
+    paru -S swaylock
+    paru -S xdg-desktop-portal-hyprland xdg-desktop-portal-kde xdg-desktop-portal-lxqt xdg-desktop-portal-gtk xdg-desktop-portal-gnome xdg-desktop-portal-dde xdg-desktop-portal-wlr
+    paru -S aylurs-gtk-shell # widgets
+    paru -S hyprpaper waypaper waypaper-engine
+    paru -S hyprnotify # 通知栏
+    paru -S rofi-lbonn-wayland-only-git
+    paru -S waybar # 顶部栏
+    paru -S aylurs-gtk-shell # ags 顶部栏
+    paru -S swaybg
+    paru -S swaylock
+    paru -S blueman
+    paru -S grim slurp swappy # 截图相关
+    paru -S wl-screenrec wf-recorder # 录屏相关
+    paru -S udiskie
+    paru -S cliphist wl-clipboard
+
+    # 插件
+    hyprpm add https://github.com/KZDKM/Hyprspace
+    hyprpm enable Hyprspace
+}
 
 ########## main ##########
 

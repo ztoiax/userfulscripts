@@ -1,7 +1,7 @@
 #!/bin/bash
 preparation(){
     # 1.磁盘分区，并挂载到/mnt 和/mnt/boot
-    # 2.连接wifi
+    # 2.连接wifi。gui版iwgtk
     iwctl station 设备名 connect "wifi名字"
     # 3.换源
     # 4.安装
@@ -116,6 +116,12 @@ nvidia(){
     pacman -S nvidia nvidia-settings
     #Once installed, confirm that the nouveau module is blacklisted.
     cat /usr/lib/modprobe.d/nvidia.conf
+}
+
+# 笔记本的电池管理
+tlp(){
+    paru -S tlp
+    systemctl enable tlp
 }
 
 proxy(){
