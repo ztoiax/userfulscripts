@@ -1,6 +1,10 @@
 #!/bin/bash
 # save pip,pkgs,npm number of package managers and agedu
 
+# 打开.dat文件：
+# agedu -w --address 127.0.0.1:10020 -f ~/.logs/2025-02-15:15:10:28-agedu.dat
+# agedu -w --address 127.0.0.1:10021 -f ~/.logs/2024-10-04:19:43:12-agedu.dat
+
 notify-send 'logs.sh is running!' 'This is an record number of package managers.'
 
 date=$(date +"%Y-%m-%d:%H:%M:%S")

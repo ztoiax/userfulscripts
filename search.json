@@ -1,6 +1,7 @@
 {
     "Linux" : {
         "Github"        : "https://github.com/search?q=",
+        "ollama"      : "https://ollama.com/search?q=",
         "Github code"   : "https://grep.app/search?q=",
         "Gitee"         : "https://search.gitee.com/?q=",
         "Gitbook"       : "https://www.google.com/search?q=site:gitbook.com%20",
@@ -25,6 +26,7 @@
     },
     "Search" : {
         "Google"       : "https://www.google.com/search?q=",
+        "MiTaAI"       : "https://metaso.cn/?q=",
         "Baidu"        : "https://www.baidu.com/s?wd=",
         "ChinaSo"      : "https://www.chinaso.com/newssearch/all/allResults?q=",
         "Kuake"        : "https://quark.sm.cn/s?q=",

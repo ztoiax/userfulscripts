@@ -250,6 +250,11 @@ yazi(){
     $install ouch
     $install transmission-cli
     $install rich-cli
+    $install readelf
+    $install perl-image-exiftool
+    $install mediainfo
+    $install transmission-cli
+    $install resvg
 }
 
 ranger(){
@@ -492,10 +497,16 @@ font(){
   paru -S ttf-sourcecodepro-nerd
   paru -S adobe-source-code-pro-fonts
 
+  # 创建相关配置文件，并写入相关字体配置，具体看https://wiki.archlinuxcn.org/wiki/%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87%E6%9C%AC%E5%9C%B0%E5%8C%96
+  touch ~/.fonts.conf
+  touch ~/.config/fontconfig/conf.d/64-language-selector-prefer.conf
+
   # 查看安装的字体，以及字体的配置名
   fc-list
   # 更新字体缓存
   fc-cache -vf
+  # 出现SourceHanSans.ttc: "Source Han Sans SC" "Regular"
+  fc-match -s | grep 'Source Han Sans'
 }
 
 # wayland只支持gtk3之后的版本，以前的版本只能使用Xwayland
@@ -503,15 +514,18 @@ hyprland(){
     # https://www.bilibili.com/read/cv22707313/
 
     sudo pacman -S xorg-xwayland qt5-wayland qt6-wayland glfw-wayland
-    paru -S nwg-look-bin qt5ct qt6ct kvantum gnome-tweals # gtk qt gui
-    paru -S adw-gtk-theme breeze-gtk # gtk 主题
+    paru -S nwg-look-bin  refine qt5ct qt6ct kvantum gnome-tweals lxappearance # gtk qt gui
+    paru -S adw-gtk-theme adwaita-icon-theme adwaita-cursors breeze-gtk bibata-cursor-theme # gtk 主题
     sudo pacman -S xorg-xlsclients # 查看哪些客户端是使用 xorg 的
-    paru -S hyprland hyprland-qtutils
-
+    paru -S hyprland hyprland-qtutils hyprland-protocols
+    paru -S sunshine pipewire xdg-desktop-portal-wlr # 屏幕共享
+    paru -S nwg-displays # 显示器、分辨率调整
+    paru -S nwg-dock-hyprland # 底部栏
     paru -S polkit-kde-agent # 身份验证
     paru -S hyprswitch # 切换窗口
-    paru -S hyprshade # 相当于redshift
+    paru -S hyprshade # 护眼模式，相当于redshift
     paru -S wluma # 自动亮度
+    paru -S yin-yang # 自动黑夜模式
     paru -S battery-notify # 低电量通知
     paru -S hyprcursor rose-pine-hyprcursor # 光标
     paru -S hyprdim # 切换窗口有阴影
@@ -522,24 +536,57 @@ hyprland(){
     paru -S hypridle
     paru -S hyprlock
     paru -S swaylock
+    paru -S hyprwatch # 统计每个应用的使用时间
     paru -S xdg-desktop-portal-hyprland xdg-desktop-portal-kde xdg-desktop-portal-lxqt xdg-desktop-portal-gtk xdg-desktop-portal-gnome xdg-desktop-portal-dde xdg-desktop-portal-wlr
     paru -S aylurs-gtk-shell # widgets
     paru -S hyprpaper waypaper waypaper-engine
     paru -S hyprnotify # 通知栏
-    paru -S rofi-lbonn-wayland-only-git
+    sudo pacman -S swaync # 通知栏
+    paru -S swayosd # 调整声音、亮度、大小写会显示通知
+    paru -S avizo # 调整声音、亮度会显示通知
+    paru -S rofi rofi-lbonn-wayland-only-git rofi-wifi-menu rofi-bluetooth-git
     paru -S waybar # 顶部栏
     paru -S aylurs-gtk-shell # ags 顶部栏
     paru -S swaybg
+    paru -S wpaperd # 壁纸
     paru -S swaylock
     paru -S blueman
+    paru -S easyeffects # 调整声音gui
     paru -S grim slurp swappy # 截图相关
-    paru -S wl-screenrec wf-recorder # 录屏相关
+    paru -S wl-screenrec kooha hyprshot wayfarer wf-recorder wf-recorder-gui # 录屏相关
+    paru -S bibata-cursor-theme-bin # 光标icon
     paru -S udiskie
     paru -S cliphist wl-clipboard
 
-    # 插件
-    hyprpm add https://github.com/KZDKM/Hyprspace
-    hyprpm enable Hyprspace
+    # 更新
+    update-mime-database ~/.local/share/mime
+    update-desktop-database ~/.local/share/applications
+    update-mime-database /usr/share/mime
+    gtk-update-icon-cache
+
+    # 第三方插件
+    # focus animation
+    hyprpm add https://github.com/pyt0xic/hyprfocus
+    hyprpm enable hyprfocus
+    hyprpm reload -n
+
+    # PaperWM and Niri layout
+    hyprpm add https://github.com/dawsers/hyprscroller
+
+    # 动态光标
+    hyprpm add https://github.com/virtcode/hypr-dynamic-cursors
+    hyprpm enable dynamic-cursors
+    hyprpm reload -n
+
+    # 移动管理所有workspace
+    hyprpm add https://github.com/raybbian/hyprtasking
+    hyprpm enable hyprtasking
+    hyprpm reload -n
+
+    # 毛玻璃
+    hyprpm add https://github.com/alexhulbert/Hyprchroma
+    hyprpm enable hyprchroma
+    hyprpm reload -n
 }
 
 ########## main ##########

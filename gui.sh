@@ -71,7 +71,7 @@ chmod a+x ./install.sh
 }
 
 fcitx5(){
-yay -S fcitx5 fcitx5-chinese-addons fcitx5-configtool fcitx5-qt fcitx5-gtk
+yay -S fcitx5 fcitx5-chinese-addons fcitx5-table-extra fcitx5-configtool fcitx5-qt fcitx5-gtk gnome-shell-extension-kimpanel-git
 # spell
 sudo pacman -Sy hunspell
 # 萌娘百科，中文维基百科词库 成语词库
@@ -79,6 +79,7 @@ yay -S fcitx5-pinyin-moegirl-rime fcitx5-pinyin-zhwiki fcitx5-pinyin-chinese-idi
 # 皮肤
 yay -S fcitx5-material-color
 yay -S fcitx5-gruvbox-dark-theme-git
+paru -S fcitx5-skin-fluentlight-git
 
 # kde
 yay -S kcm-fcitx5-git

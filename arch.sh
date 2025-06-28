@@ -27,6 +27,7 @@ arch(){
     pacman -Sy dhcpcd
     pacman -Sy networkmanager
     pacman -Sy pacman-contrib #paccache
+    pacman -Sy pamac # pacman包管理器的gui
     systemctl enable dhcpcd
     systemctl enable NetworkManager
     pacman -S firewalld # 动态防火墙
@@ -118,10 +119,25 @@ nvidia(){
     cat /usr/lib/modprobe.d/nvidia.conf
 }
 
-# 笔记本的电池管理
-tlp(){
+# 笔记本的电源、电池管理
+battery(){
+    # 电池管理tlp https://linrunner.de/tlp/introduction.html
     paru -S tlp
     systemctl enable tlp
+    systemctl start tlp
+    # 一些tlp gui
+    paru -S tlpui slimbookbattery
+
+    # 电池管理power-profiles-daemon
+    paru -S power-profiles-daemon
+
+    # 防止电池过热
+    paru -S thermald
+    systemctl enable thermald
+    systemctl start thermald
+
+    # 电池测量
+    paru -S powerstat
 }
 
 proxy(){
